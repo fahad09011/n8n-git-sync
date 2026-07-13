@@ -1,0 +1,78 @@
+{
+  "updatedAt": "2026-06-30T22:15:02.611Z",
+  "createdAt": "2026-06-16T14:57:02.910Z",
+  "id": "pjoTWB4UXKfqbgBF",
+  "name": "My workflow 2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6574560e-814a-414e-afea-213b3efbdc2f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "152f5bc0-cdba-4e39-92ad-331c34dc5338",
+      "name": "Send a message",
+      "webhookId": "80329fc5-8ea4-43ea-8be1-a99dc77455ed",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QV3UcajD75i2QUhz",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "771570b7-764a-4973-b85d-9d46f35227eb",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-06-16T14:57:02.916Z",
+      "createdAt": "2026-06-16T14:57:02.916Z",
+      "role": "workflow:owner",
+      "workflowId": "pjoTWB4UXKfqbgBF",
+      "projectId": "Lb300ztv9feaAJz6"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
