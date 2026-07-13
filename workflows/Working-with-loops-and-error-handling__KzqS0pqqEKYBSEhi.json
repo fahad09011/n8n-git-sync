@@ -1,0 +1,783 @@
+{
+  "updatedAt": "2026-07-01T17:23:25.736Z",
+  "createdAt": "2026-06-17T22:05:43.271Z",
+  "id": "KzqS0pqqEKYBSEhi",
+  "name": "Working with loops and error  handling",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "q": "has:attachment"
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        16,
+        96
+      ],
+      "id": "88dbe182-85e1-455e-8fc6-2530d19fb225",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QV3UcajD75i2QUhz",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "af7de311-2b10-4cbb-8dc0-1d3d444d09b0",
+              "leftValue": "={{ $('Gmail Trigger').item }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        464,
+        96
+      ],
+      "id": "15fe52d8-797c-4bb4-b3a1-dee101103e7d",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ $json.id }}",
+        "simple": false,
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        240,
+        96
+      ],
+      "id": "f664184c-5842-4944-9604-7bfd8c0042d8",
+      "name": "Get a message",
+      "webhookId": "fd5b151e-1ad1-4ac8-8970-b128941a94c9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QV3UcajD75i2QUhz",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "$binary",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        688,
+        96
+      ],
+      "id": "57b6d2e7-ca94-4416-b3e0-6902722ecf64",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        912,
+        96
+      ],
+      "id": "e250d64a-0f0b-4a87-beee-cd7f25e3a837",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "={{ Object.keys($binary)[89] }}",
+        "name": "={{ $binary[Object.keys($binary)[0]].fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1huGNtL37wTlcDhJHXTuZgZtA59YWCLgb",
+          "mode": "list",
+          "cachedResultName": "n8n attachments",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1huGNtL37wTlcDhJHXTuZgZtA59YWCLgb"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1136,
+        -128
+      ],
+      "id": "9211e99c-d952-4bc6-a331-c6036b512ad6",
+      "name": "Upload file",
+      "retryOnFail": false,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "M38vXu8b5UYZJ6ig",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "37ea1349-30a1-80f2-aa9f-f06192776b0b",
+          "mode": "list",
+          "cachedResultName": "Tasks Tracker",
+          "cachedResultUrl": "https://app.notion.com/p/37ea134930a180f2aa9ff06192776b0b"
+        },
+        "title": "New Lead",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Attachment|url",
+              "urlValue": "={{ $json.webViewLinkp}}\n"
+            },
+            {
+              "key": "Description|rich_text",
+              "textContent": "={{ $('Get a message').item.json.text }}"
+            },
+            {
+              "key": "Priority|select",
+              "selectValue": "Medium"
+            }
+          ]
+        },
+        "blockUi": {
+          "blockValues": [
+            {
+              "type": "image",
+              "url": "={{ $json.name.endsWith('jpeg') &&  $json.webViewLink}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1360,
+        -128
+      ],
+      "id": "f7542e68-5fc8-41b7-a181-143be0a15390",
+      "name": "Create a database page",
+      "retryOnFail": true,
+      "credentials": {
+        "notionApi": {
+          "id": "w8GiIMBUr39iizmi",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1584,
+        144
+      ],
+      "id": "28225689-3f69-4b62-b739-54396a38f180",
+      "name": "Wait",
+      "webhookId": "bd840db3-b2ac-4255-908e-f8be28a9e0b9"
+    },
+    {
+      "parameters": {
+        "sendTo": "fahad.testing119@gmail.com",
+        "subject": "Bad Request Error in Workflow",
+        "emailType": "text",
+        "message": "={{ $json.error }} occurs in workflow due to given Attachment file:\nName: {{ $json.name }}\nURL: {{ $json.webViewLinkyiu }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1584,
+        -48
+      ],
+      "id": "067d4182-26c5-4160-b178-c563f6ed7ad5",
+      "name": "Send a message",
+      "webhookId": "01fc68c8-cdfa-46eb-8f3d-6b912ebaaedf",
+      "retryOnFail": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QV3UcajD75i2QUhz",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "to use error workflow make some chnages in notion node and put some randome words in drive node in expression"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        816,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "459a8974-1c27-4827-9832-25f2ebe75ed1",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a message": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Create a database page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a database page": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "aue2mu3q4fW1hMIE",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": {
+    "node:Gmail Trigger": {
+      "Gmail Trigger": {
+        "lastTimeChecked": 1783899844,
+        "possibleDuplicates": [
+          "19f58b79f1a8b9f7"
+        ]
+      }
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "ed70f966-4c7c-46b3-9dcf-03df4fe34db8",
+  "activeVersionId": "ed70f966-4c7c-46b3-9dcf-03df4fe34db8",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-06-17T22:05:43.286Z",
+      "createdAt": "2026-06-17T22:05:43.286Z",
+      "role": "workflow:owner",
+      "workflowId": "KzqS0pqqEKYBSEhi",
+      "projectId": "Lb300ztv9feaAJz6"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-07-01T17:34:55.000Z",
+    "createdAt": "2026-07-01T17:23:25.737Z",
+    "versionId": "ed70f966-4c7c-46b3-9dcf-03df4fe34db8",
+    "workflowId": "KzqS0pqqEKYBSEhi",
+    "nodes": [
+      {
+        "parameters": {
+          "pollTimes": {
+            "item": [
+              {
+                "mode": "everyMinute"
+              }
+            ]
+          },
+          "filters": {
+            "q": "has:attachment"
+          }
+        },
+        "type": "n8n-nodes-base.gmailTrigger",
+        "typeVersion": 1.4,
+        "position": [
+          16,
+          96
+        ],
+        "id": "88dbe182-85e1-455e-8fc6-2530d19fb225",
+        "name": "Gmail Trigger",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "QV3UcajD75i2QUhz",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "af7de311-2b10-4cbb-8dc0-1d3d444d09b0",
+                "leftValue": "={{ $('Gmail Trigger').item }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "object",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.3,
+        "position": [
+          464,
+          96
+        ],
+        "id": "15fe52d8-797c-4bb4-b3a1-dee101103e7d",
+        "name": "Filter"
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "messageId": "={{ $json.id }}",
+          "simple": false,
+          "options": {
+            "downloadAttachments": true
+          }
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.2,
+        "position": [
+          240,
+          96
+        ],
+        "id": "f664184c-5842-4944-9604-7bfd8c0042d8",
+        "name": "Get a message",
+        "webhookId": "fd5b151e-1ad1-4ac8-8970-b128941a94c9",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "QV3UcajD75i2QUhz",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "$binary",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          688,
+          96
+        ],
+        "id": "57b6d2e7-ca94-4416-b3e0-6902722ecf64",
+        "name": "Split Out"
+      },
+      {
+        "parameters": {
+          "options": {
+            "reset": false
+          }
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          912,
+          96
+        ],
+        "id": "e250d64a-0f0b-4a87-beee-cd7f25e3a837",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {
+          "inputDataFieldName": "={{ Object.keys($binary)[89] }}",
+          "name": "={{ $binary[Object.keys($binary)[0]].fileName }}",
+          "driveId": {
+            "__rl": true,
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "1huGNtL37wTlcDhJHXTuZgZtA59YWCLgb",
+            "mode": "list",
+            "cachedResultName": "n8n attachments",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1huGNtL37wTlcDhJHXTuZgZtA59YWCLgb"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleDrive",
+        "typeVersion": 3,
+        "position": [
+          1136,
+          -128
+        ],
+        "id": "9211e99c-d952-4bc6-a331-c6036b512ad6",
+        "name": "Upload file",
+        "retryOnFail": false,
+        "credentials": {
+          "googleDriveOAuth2Api": {
+            "id": "M38vXu8b5UYZJ6ig",
+            "name": "Google Drive account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "databasePage",
+          "databaseId": {
+            "__rl": true,
+            "value": "37ea1349-30a1-80f2-aa9f-f06192776b0b",
+            "mode": "list",
+            "cachedResultName": "Tasks Tracker",
+            "cachedResultUrl": "https://app.notion.com/p/37ea134930a180f2aa9ff06192776b0b"
+          },
+          "title": "New Lead",
+          "propertiesUi": {
+            "propertyValues": [
+              {
+                "key": "Attachment|url",
+                "urlValue": "={{ $json.webViewLinkp}}\n"
+              },
+              {
+                "key": "Description|rich_text",
+                "textContent": "={{ $('Get a message').item.json.text }}"
+              },
+              {
+                "key": "Priority|select",
+                "selectValue": "Medium"
+              }
+            ]
+          },
+          "blockUi": {
+            "blockValues": [
+              {
+                "type": "image",
+                "url": "={{ $json.name.endsWith('jpeg') &&  $json.webViewLink}}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.notion",
+        "typeVersion": 2.2,
+        "position": [
+          1360,
+          -128
+        ],
+        "id": "f7542e68-5fc8-41b7-a181-143be0a15390",
+        "name": "Create a database page",
+        "retryOnFail": true,
+        "credentials": {
+          "notionApi": {
+            "id": "w8GiIMBUr39iizmi",
+            "name": "Notion account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "amount": 2
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1584,
+          144
+        ],
+        "id": "28225689-3f69-4b62-b739-54396a38f180",
+        "name": "Wait",
+        "webhookId": "bd840db3-b2ac-4255-908e-f8be28a9e0b9"
+      },
+      {
+        "parameters": {
+          "sendTo": "fahad.testing119@gmail.com",
+          "subject": "Bad Request Error in Workflow",
+          "emailType": "text",
+          "message": "={{ $json.error }} occurs in workflow due to given Attachment file:\nName: {{ $json.name }}\nURL: {{ $json.webViewLinkyiu }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.2,
+        "position": [
+          1584,
+          -48
+        ],
+        "id": "067d4182-26c5-4160-b178-c563f6ed7ad5",
+        "name": "Send a message",
+        "webhookId": "01fc68c8-cdfa-46eb-8f3d-6b912ebaaedf",
+        "retryOnFail": true,
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "QV3UcajD75i2QUhz",
+            "name": "Gmail account"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "content": "to use error workflow make some chnages in notion node and put some randome words in drive node in expression"
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          816,
+          -96
+        ],
+        "typeVersion": 1,
+        "id": "459a8974-1c27-4827-9832-25f2ebe75ed1",
+        "name": "Sticky Note"
+      }
+    ],
+    "connections": {
+      "Gmail Trigger": {
+        "main": [
+          [
+            {
+              "node": "Get a message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get a message": {
+        "main": [
+          [
+            {
+              "node": "Filter",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter": {
+        "main": [
+          [
+            {
+              "node": "Split Out",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Split Out": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Upload file",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Upload file": {
+        "main": [
+          [
+            {
+              "node": "Create a database page",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create a database page": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          []
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send a message": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodeGroups": [],
+    "authors": "Muhammad fahad.webdev119@gmail.com",
+    "name": "Version ed70f966",
+    "description": "",
+    "autosaved": true
+  },
+  "tags": [
+    {
+      "updatedAt": "2026-06-16T14:55:31.622Z",
+      "createdAt": "2026-06-16T14:55:31.622Z",
+      "id": "YF7kRaLLoZERdRud",
+      "name": "learning"
+    }
+  ]
+}
