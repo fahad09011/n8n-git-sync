@@ -11,7 +11,7 @@
       "typeVersion": 1,
       "position": [
         0,
-        -64
+        64
       ],
       "id": "78c09c56-fb2d-4d55-ab0b-c29351538797",
       "name": "When clicking ‘Execute workflow’"
@@ -52,7 +52,7 @@
       "typeVersion": 3.4,
       "position": [
         224,
-        -64
+        64
       ],
       "id": "05d26f19-7bf2-4da1-9cb6-b7b533815cf7",
       "name": "Configuration"
@@ -66,7 +66,7 @@
       "typeVersion": 1,
       "position": [
         448,
-        -64
+        64
       ],
       "id": "ac8fb1dd-694b-4a2a-91b0-5b61112b73a3",
       "name": "Get many workflows",
@@ -85,7 +85,7 @@
       "typeVersion": 2,
       "position": [
         672,
-        -64
+        176
       ],
       "id": "f024c2f4-11cb-4b7a-9028-b14e56b47f9e",
       "name": "Code in JavaScript"
@@ -110,14 +110,14 @@
           "cachedResultUrl": "https://github.com/fahad09011/n8n-git-sync"
         },
         "filePath": "={{ \"workflows/\" + $('Get many workflows').item.json.name .replace(/[<>:\"/\\\\|?*]/g, \"\") .replace(/\\s+/g,\"-\") .replace(/-+/g,\"-\") + \"__\" + $('Get many workflows').item.json.id + \".json\" }}",
-        "fileContent": "={{ JSON.stringify($json.work, null, 2) }}",
+        "fileContent": "={{ JSON.stringify($json.workflow, null, 2) }}",
         "commitMessage": "={{\"chore(sync): update \" + $('Get many workflows').item.json.name}}"
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1344,
-        -160
+        1776,
+        96
       ],
       "id": "9990fa2f-8545-43d2-ab56-e0f4a367eff5",
       "name": "Edit a file",
@@ -154,8 +154,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1344,
-        32
+        1120,
+        288
       ],
       "id": "a740f9d4-aadd-4d09-8f4d-2b37239a17a6",
       "name": "Create a file1",
@@ -165,7 +165,8 @@
           "id": "4PJ5LFfzZgNqTF8f",
           "name": "GitHub account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -194,7 +195,7 @@
       "typeVersion": 1.1,
       "position": [
         896,
-        -64
+        176
       ],
       "id": "e7e2059b-74af-4886-b01a-a5e79d3c6cd3",
       "name": "Get a file",
@@ -212,26 +213,63 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
+        "jsCode": "const results = [];\n\nfor (const item of $input.all()) {\n  // Decode Base64 safely using native Node.js Buffers\n  const decodedText = Buffer.from(item.json.content, 'base64').toString('utf-8');\n  \n  // Parse the decoded text string into a JSON object\n  const githubWorkflow = JSON.parse(decodedText);\n\n  // Remove fields that should not trigger a Git commit\n  delete githubWorkflow.updatedAt;\n  delete githubWorkflow.versionId;\n  delete githubWorkflow.meta;\n  delete githubWorkflow.pinData;\n\n  // Push the cleaned workflow along with its unique GitHub SHA\n  results.push({\n    json: {\n      githubWorkflow,\n      sha: item.json.sha,\n    }\n  });\n}\n\nreturn results;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        96
+      ],
+      "id": "7f244a13-d5d5-4d9b-98ca-cd497fbbe8b4",
+      "name": "decode"
+    },
+    {
+      "parameters": {
+        "jsCode": "const results = [];\n\nconst currentItems = $('Code in JavaScript').all(); // Your cleaned n8n workflows\nconst githubItems = $input.all();                   // Output from Decode\n\nfor (let i = 0; i < currentItems.length; i++) {\n\n  const currentWorkflow = currentItems[i].json.workflow;\n  const githubWorkflow = githubItems[i].json.githubWorkflow;\n\n  const changed =\n    JSON.stringify(currentWorkflow) !== JSON.stringify(githubWorkflow);\n\n  results.push({\n    json: {\n      workflow: currentWorkflow,\n      githubWorkflow,\n      sha: githubItems[i].json.sha,\n      changed\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1328,
+        96
+      ],
+      "id": "b20740c6-c7f5-4451-91b3-446a520d0788",
+      "name": "compare"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
             {
-              "id": "29e927cc-69d2-4c5f-8670-2f27c90a4e7d",
-              "name": "content",
-              "value": "={{ $json.content.base64Decode() }}",
-              "type": "string"
+              "id": "40482ce9-b0df-4fe4-8cc9-7ccdd725d790",
+              "leftValue": "={{ $json.changed }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
             }
-          ]
+          ],
+          "combinator": "and"
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
       "position": [
-        1104,
-        -144
+        1456,
+        288
       ],
-      "id": "b3732aa1-770c-4e8d-9293-f136fe46a391",
-      "name": "Edit Fields"
+      "id": "04d6f3ca-2c3e-434a-b564-9865003dbeb4",
+      "name": "If"
     }
   ],
   "connections": {
@@ -283,7 +321,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "decode",
             "type": "main",
             "index": 0
           }
@@ -297,7 +335,29 @@
         ]
       ]
     },
-    "Edit Fields": {
+    "decode": {
+      "main": [
+        [
+          {
+            "node": "compare",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "compare": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
       "main": [
         [
           {
