@@ -1,0 +1,123 @@
+{
+  "workflow": {
+    "createdAt": "2026-06-27T12:54:18.230Z",
+    "id": "JtnkV881ZerY7MXW",
+    "name": "http ndoe",
+    "active": false,
+    "isArchived": false,
+    "nodes": [
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "782affd7-32b2-448a-8e2a-0fbc0c448dad",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "url": "https://api.openweathermap.org/data/2.5/weather?",
+          "authentication": "genericCredentialType",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "lat",
+                "value": "52.5008"
+              },
+              {
+                "name": "lon",
+                "value": "-6.5578"
+              },
+              {
+                "name": "appid",
+                "value": "7bc0c25860df2de4cf84f847581b2f24"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          208,
+          0
+        ],
+        "id": "a7b58871-cf23-4f93-aa47-06f110a7d15d",
+        "name": "openWeather API"
+      },
+      {
+        "parameters": {
+          "url": "https://en.wikipedia.org/api/rest_v1/page/summary/Pakistan",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "User-Agent",
+                "value": "n8n-My-workflow-3/1.0 (contact: fahad.testing119@gmail.com)"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          224,
+          208
+        ],
+        "id": "826f3685-0d1d-4df8-9abd-8fe1aeacd130",
+        "name": "wikiPedia API"
+      }
+    ],
+    "connections": {
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "wikiPedia API",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "openWeather API": {
+        "main": [
+          []
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false
+    },
+    "staticData": null,
+    "activeVersionId": null,
+    "triggerCount": 0,
+    "shared": [
+      {
+        "updatedAt": "2026-06-27T12:54:18.298Z",
+        "createdAt": "2026-06-27T12:54:18.298Z",
+        "role": "workflow:owner",
+        "workflowId": "JtnkV881ZerY7MXW",
+        "projectId": "Lb300ztv9feaAJz6"
+      }
+    ],
+    "activeVersion": null,
+    "tags": [
+      {
+        "updatedAt": "2026-06-16T14:55:31.622Z",
+        "createdAt": "2026-06-16T14:55:31.622Z",
+        "id": "YF7kRaLLoZERdRud",
+        "name": "learning"
+      }
+    ]
+  },
+  "workflowId": "JtnkV881ZerY7MXW",
+  "workflowName": "http ndoe"
+}
