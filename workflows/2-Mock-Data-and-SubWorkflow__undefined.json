@@ -1,0 +1,152 @@
+{
+  "workflow": {
+    "createdAt": "2026-06-29T22:25:05.965Z",
+    "id": "yB87FFwytUOGEFXQ",
+    "name": "2 Mock Data and SubWorkflow",
+    "active": false,
+    "isArchived": false,
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "userEmail"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          0,
+          0
+        ],
+        "id": "a33647b5-dab1-4589-8c77-412ea972ec33",
+        "name": "trigger by parent/main workflow"
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1uRZHxHdhBQzuZvO0XmP-r_qjO4JUCMYdlYQCSKMUXCM",
+            "mode": "list",
+            "cachedResultName": "mock_customer_ratings_regions",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uRZHxHdhBQzuZvO0XmP-r_qjO4JUCMYdlYQCSKMUXCM/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 352318381,
+            "mode": "list",
+            "cachedResultName": "Customers",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uRZHxHdhBQzuZvO0XmP-r_qjO4JUCMYdlYQCSKMUXCM/edit#gid=352318381"
+          },
+          "filtersUI": {
+            "values": [
+              {
+                "lookupColumn": "Email",
+                "lookupValue": "={{ $json.userEmail }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          208,
+          16
+        ],
+        "id": "b36b42ec-ad0c-437b-9084-ba84d68ef3f8",
+        "name": "get customer data from google sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "0WHa8kFysFFXtgzo",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "f247b897-7a84-46ad-b0b4-bd4161f66b93",
+                "name": "vip_status",
+                "value": "={{ ($json.Rating >= 3.7 && $json.TotalOrders >= 11 )? \"true\" : \"false\" }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          416,
+          16
+        ],
+        "id": "571dd8ac-083c-4584-977c-0fc3d79f3942",
+        "name": "add VIP status field"
+      }
+    ],
+    "connections": {
+      "trigger by parent/main workflow": {
+        "main": [
+          [
+            {
+              "node": "get customer data from google sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "get customer data from google sheet": {
+        "main": [
+          [
+            {
+              "node": "add VIP status field",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "add VIP status field": {
+        "main": [
+          []
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false
+    },
+    "staticData": null,
+    "activeVersionId": null,
+    "triggerCount": 0,
+    "shared": [
+      {
+        "updatedAt": "2026-06-29T22:25:05.973Z",
+        "createdAt": "2026-06-29T22:25:05.973Z",
+        "role": "workflow:owner",
+        "workflowId": "yB87FFwytUOGEFXQ",
+        "projectId": "Lb300ztv9feaAJz6"
+      }
+    ],
+    "activeVersion": null,
+    "tags": [
+      {
+        "updatedAt": "2026-06-16T14:55:31.622Z",
+        "createdAt": "2026-06-16T14:55:31.622Z",
+        "id": "YF7kRaLLoZERdRud",
+        "name": "learning"
+      }
+    ]
+  },
+  "workflowId": "yB87FFwytUOGEFXQ",
+  "workflowName": "2 Mock Data and SubWorkflow"
+}
