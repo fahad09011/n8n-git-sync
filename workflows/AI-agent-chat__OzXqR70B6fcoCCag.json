@@ -1,147 +1,53 @@
 {
-  "workflow": {
-    "createdAt": "2026-06-30T21:47:42.191Z",
-    "id": "OzXqR70B6fcoCCag",
-    "name": "AI agent chat",
-    "active": false,
-    "isArchived": false,
-    "nodes": [
-      {
-        "parameters": {
-          "options": {}
-        },
-        "id": "ef4c6982-f746-4d48-944b-449f8bdbb69f",
-        "name": "When chat message received",
-        "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-        "position": [
-          368,
-          240
-        ],
-        "webhookId": "53c136fe-3e77-4709-a143-fe82746dd8b6",
-        "typeVersion": 1.1
-      },
-      {
-        "parameters": {},
-        "id": "e6183978-5077-4252-9718-6b36b6a7cd74",
-        "name": "Simple Memory",
-        "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-        "position": [
-          720,
-          464
-        ],
-        "typeVersion": 1.3
-      },
-      {
-        "parameters": {
-          "model": {
-            "__rl": true,
-            "mode": "list",
-            "value": ""
-          },
-          "options": {}
-        },
-        "id": "1719e956-f9c8-48f5-9744-ee62345a9f7d",
-        "name": "OpenAI Chat Model",
-        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-        "position": [
-          576,
-          464
-        ],
-        "typeVersion": 1.2
-      },
-      {
-        "parameters": {
-          "options": {}
-        },
-        "id": "f0815af7-da61-4863-9cfa-b35be836b59c",
-        "name": "SerpAPI",
-        "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
-        "position": [
-          848,
-          464
-        ],
-        "typeVersion": 1
-      },
-      {
-        "parameters": {
-          "options": {}
-        },
-        "id": "2d3b4012-bd5f-46d5-be6d-af1ede6c155b",
-        "name": "AI Agent",
-        "type": "@n8n/n8n-nodes-langchain.agent",
-        "position": [
-          608,
-          240
-        ],
-        "typeVersion": 1.8
-      }
-    ],
-    "connections": {
-      "SerpAPI": {
-        "ai_tool": [
-          [
-            {
-              "node": "AI Agent",
-              "type": "ai_tool",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Simple Memory": {
-        "ai_memory": [
-          [
-            {
-              "node": "AI Agent",
-              "type": "ai_memory",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "OpenAI Chat Model": {
-        "ai_languageModel": [
-          [
-            {
-              "node": "AI Agent",
-              "type": "ai_languageModel",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "When chat message received": {
-        "main": [
-          [
-            {
-              "node": "AI Agent",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      }
-    },
-    "settings": {
-      "executionOrder": "v1",
-      "binaryMode": "separate",
-      "availableInMCP": false
-    },
-    "staticData": null,
-    "activeVersionId": null,
-    "triggerCount": 0,
-    "shared": [
-      {
-        "updatedAt": "2026-06-30T21:47:42.206Z",
-        "createdAt": "2026-06-30T21:47:42.206Z",
-        "role": "workflow:owner",
-        "workflowId": "OzXqR70B6fcoCCag",
-        "projectId": "Lb300ztv9feaAJz6"
-      }
-    ],
-    "activeVersion": null,
-    "tags": []
+  "content": {
+    "name": "AI-agent-chat__OzXqR70B6fcoCCag.json",
+    "path": "workflows/AI-agent-chat__OzXqR70B6fcoCCag.json",
+    "sha": "c81326a3c85dc9854401ff8b92e4ca38ad2d1efc",
+    "size": 3329,
+    "url": "https://api.github.com/repos/fahad09011/n8n-git-sync/contents/workflows/AI-agent-chat__OzXqR70B6fcoCCag.json?ref=main",
+    "html_url": "https://github.com/fahad09011/n8n-git-sync/blob/main/workflows/AI-agent-chat__OzXqR70B6fcoCCag.json",
+    "git_url": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/blobs/c81326a3c85dc9854401ff8b92e4ca38ad2d1efc",
+    "download_url": "https://raw.githubusercontent.com/fahad09011/n8n-git-sync/main/workflows/AI-agent-chat__OzXqR70B6fcoCCag.json",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/fahad09011/n8n-git-sync/contents/workflows/AI-agent-chat__OzXqR70B6fcoCCag.json?ref=main",
+      "git": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/blobs/c81326a3c85dc9854401ff8b92e4ca38ad2d1efc",
+      "html": "https://github.com/fahad09011/n8n-git-sync/blob/main/workflows/AI-agent-chat__OzXqR70B6fcoCCag.json"
+    }
   },
-  "workflowId": "OzXqR70B6fcoCCag",
-  "workflowName": "AI agent chat"
+  "commit": {
+    "sha": "4de1c2964bd3dfe11215b5d43ddc6e0cfc5ad5f7",
+    "node_id": "C_kwDOTXeEr9oAKDRkZTFjMjk2NGJkM2RmZTExMjE1YjVkNDNkZGM2ZTBjZmM1YWQ1Zjc",
+    "url": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/commits/4de1c2964bd3dfe11215b5d43ddc6e0cfc5ad5f7",
+    "html_url": "https://github.com/fahad09011/n8n-git-sync/commit/4de1c2964bd3dfe11215b5d43ddc6e0cfc5ad5f7",
+    "author": {
+      "name": "Muhamad Fahad",
+      "email": "fahad.webdev119@gmail.com",
+      "date": "2026-07-14T00:10:57Z"
+    },
+    "committer": {
+      "name": "Muhamad Fahad",
+      "email": "fahad.webdev119@gmail.com",
+      "date": "2026-07-14T00:10:57Z"
+    },
+    "tree": {
+      "sha": "35f88a2c18e7ec1d8c653a367f24eaa8bd535b22",
+      "url": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/trees/35f88a2c18e7ec1d8c653a367f24eaa8bd535b22"
+    },
+    "message": "chore(sync): add AI agent chat",
+    "parents": [
+      {
+        "sha": "faacf0d4b2a1ea8d63ab1653f9c7c181ad144a42",
+        "url": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/commits/faacf0d4b2a1ea8d63ab1653f9c7c181ad144a42",
+        "html_url": "https://github.com/fahad09011/n8n-git-sync/commit/faacf0d4b2a1ea8d63ab1653f9c7c181ad144a42"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null,
+      "verified_at": null
+    }
+  }
 }
