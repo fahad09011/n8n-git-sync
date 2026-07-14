@@ -1,123 +1,53 @@
 {
-  "workflow": {
-    "createdAt": "2026-06-27T12:54:18.230Z",
-    "id": "JtnkV881ZerY7MXW",
-    "name": "http ndoe",
-    "active": false,
-    "isArchived": false,
-    "nodes": [
-      {
-        "parameters": {},
-        "type": "n8n-nodes-base.manualTrigger",
-        "typeVersion": 1,
-        "position": [
-          0,
-          0
-        ],
-        "id": "782affd7-32b2-448a-8e2a-0fbc0c448dad",
-        "name": "When clicking ‘Execute workflow’"
-      },
-      {
-        "parameters": {
-          "url": "https://api.openweathermap.org/data/2.5/weather?",
-          "authentication": "genericCredentialType",
-          "sendQuery": true,
-          "queryParameters": {
-            "parameters": [
-              {
-                "name": "lat",
-                "value": "52.5008"
-              },
-              {
-                "name": "lon",
-                "value": "-6.5578"
-              },
-              {
-                "name": "appid",
-                "value": "7bc0c25860df2de4cf84f847581b2f24"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.httpRequest",
-        "typeVersion": 4.4,
-        "position": [
-          208,
-          0
-        ],
-        "id": "a7b58871-cf23-4f93-aa47-06f110a7d15d",
-        "name": "openWeather API"
-      },
-      {
-        "parameters": {
-          "url": "https://en.wikipedia.org/api/rest_v1/page/summary/Pakistan",
-          "sendHeaders": true,
-          "headerParameters": {
-            "parameters": [
-              {
-                "name": "User-Agent",
-                "value": "n8n-My-workflow-3/1.0 (contact: fahad.testing119@gmail.com)"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.httpRequest",
-        "typeVersion": 4.4,
-        "position": [
-          224,
-          208
-        ],
-        "id": "826f3685-0d1d-4df8-9abd-8fe1aeacd130",
-        "name": "wikiPedia API"
-      }
-    ],
-    "connections": {
-      "When clicking ‘Execute workflow’": {
-        "main": [
-          [
-            {
-              "node": "wikiPedia API",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "openWeather API": {
-        "main": [
-          []
-        ]
-      }
-    },
-    "settings": {
-      "executionOrder": "v1",
-      "binaryMode": "separate",
-      "availableInMCP": false
-    },
-    "staticData": null,
-    "activeVersionId": null,
-    "triggerCount": 0,
-    "shared": [
-      {
-        "updatedAt": "2026-06-27T12:54:18.298Z",
-        "createdAt": "2026-06-27T12:54:18.298Z",
-        "role": "workflow:owner",
-        "workflowId": "JtnkV881ZerY7MXW",
-        "projectId": "Lb300ztv9feaAJz6"
-      }
-    ],
-    "activeVersion": null,
-    "tags": [
-      {
-        "updatedAt": "2026-06-16T14:55:31.622Z",
-        "createdAt": "2026-06-16T14:55:31.622Z",
-        "id": "YF7kRaLLoZERdRud",
-        "name": "learning"
-      }
-    ]
+  "content": {
+    "name": "http-ndoe__JtnkV881ZerY7MXW.json",
+    "path": "workflows/http-ndoe__JtnkV881ZerY7MXW.json",
+    "sha": "bd4afd879ee9dba2b854240538659bf92bc9cd8a",
+    "size": 3054,
+    "url": "https://api.github.com/repos/fahad09011/n8n-git-sync/contents/workflows/http-ndoe__JtnkV881ZerY7MXW.json?ref=main",
+    "html_url": "https://github.com/fahad09011/n8n-git-sync/blob/main/workflows/http-ndoe__JtnkV881ZerY7MXW.json",
+    "git_url": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/blobs/bd4afd879ee9dba2b854240538659bf92bc9cd8a",
+    "download_url": "https://raw.githubusercontent.com/fahad09011/n8n-git-sync/main/workflows/http-ndoe__JtnkV881ZerY7MXW.json",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/fahad09011/n8n-git-sync/contents/workflows/http-ndoe__JtnkV881ZerY7MXW.json?ref=main",
+      "git": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/blobs/bd4afd879ee9dba2b854240538659bf92bc9cd8a",
+      "html": "https://github.com/fahad09011/n8n-git-sync/blob/main/workflows/http-ndoe__JtnkV881ZerY7MXW.json"
+    }
   },
-  "workflowId": "JtnkV881ZerY7MXW",
-  "workflowName": "http ndoe"
+  "commit": {
+    "sha": "669222669eca394bf20e7c413f64684ed3dfe5d6",
+    "node_id": "C_kwDOTXeEr9oAKDY2OTIyMjY2OWVjYTM5NGJmMjBlN2M0MTNmNjQ2ODRlZDNkZmU1ZDY",
+    "url": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/commits/669222669eca394bf20e7c413f64684ed3dfe5d6",
+    "html_url": "https://github.com/fahad09011/n8n-git-sync/commit/669222669eca394bf20e7c413f64684ed3dfe5d6",
+    "author": {
+      "name": "Muhamad Fahad",
+      "email": "fahad.webdev119@gmail.com",
+      "date": "2026-07-14T00:10:55Z"
+    },
+    "committer": {
+      "name": "Muhamad Fahad",
+      "email": "fahad.webdev119@gmail.com",
+      "date": "2026-07-14T00:10:55Z"
+    },
+    "tree": {
+      "sha": "ef363f08b2fbd814f30644ed5fd42e71efbff948",
+      "url": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/trees/ef363f08b2fbd814f30644ed5fd42e71efbff948"
+    },
+    "message": "chore(sync): add http ndoe",
+    "parents": [
+      {
+        "sha": "da8d91a18b2fe58ce71ca01d2e52ff358a7f73da",
+        "url": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/commits/da8d91a18b2fe58ce71ca01d2e52ff358a7f73da",
+        "html_url": "https://github.com/fahad09011/n8n-git-sync/commit/da8d91a18b2fe58ce71ca01d2e52ff358a7f73da"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null,
+      "verified_at": null
+    }
+  }
 }
