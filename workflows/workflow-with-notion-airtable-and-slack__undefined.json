@@ -1,0 +1,776 @@
+{
+  "workflow": {
+    "createdAt": "2026-06-17T00:42:02.311Z",
+    "id": "JATFz9p2tdG3VDGE",
+    "name": "workflow with notion airtable and slack",
+    "active": true,
+    "isArchived": false,
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "9647578b-5172-4e23-a192-6a49d585fcca",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "034e34bb-9848-4373-8c8e-dbf596af40c4",
+        "name": "Webhook",
+        "webhookId": "7fa61294-e264-473c-a528-324b3ee869d7"
+      },
+      {
+        "parameters": {
+          "operation": "append",
+          "documentId": {
+            "__rl": true,
+            "value": "12D-F9mRzmYArZZkXMn4nEAZsRV2SE1sM_M9uWGFf5PE",
+            "mode": "list",
+            "cachedResultName": "customer lead",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12D-F9mRzmYArZZkXMn4nEAZsRV2SE1sM_M9uWGFf5PE/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Sheet1",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12D-F9mRzmYArZZkXMn4nEAZsRV2SE1sM_M9uWGFf5PE/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Name": "={{ $json.body.Name }}",
+              "Email": "={{ $json.body.Email }}",
+              "Phone Number": "={{ $json.body['Phone Number'] }}",
+              "Company": "={{ $json.body.Company}}",
+              "Role": "={{ $json.body.Role}}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Name",
+                "displayName": "Name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Email",
+                "displayName": "Email",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Phone Number",
+                "displayName": "Phone Number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Company",
+                "displayName": "Company",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "Role",
+                "displayName": "Role",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          224,
+          0
+        ],
+        "id": "4a306292-075f-461d-8305-22e0c1197aeb",
+        "name": "Append row in sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "0WHa8kFysFFXtgzo",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "dea5bcad-b9d1-4e77-85b1-512d9336beec",
+                "leftValue": "={{ $json.Company }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          432,
+          0
+        ],
+        "id": "d4b8f2c3-3670-40b0-8390-777a602b1d00",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "select": "channel",
+          "channelId": {
+            "__rl": true,
+            "value": "C0B8UHPPRB8",
+            "mode": "list",
+            "cachedResultName": "order-finance-depratment"
+          },
+          "text": "=New Lead Coming !!\nName: {{ $json.Name }}\nEmail: {{ $json.Email }}\nPhone Number: {{ $json['Phone Number'] }}\nCompany: {{ $json.Company }}\nRole: {{ $json.Role }}\n\nNote: Contact with lead as soon as possible.\nThank You",
+          "otherOptions": {}
+        },
+        "type": "n8n-nodes-base.slack",
+        "typeVersion": 2.5,
+        "position": [
+          640,
+          -64
+        ],
+        "id": "649966cb-549f-4ef8-b672-574de525495c",
+        "name": "Send a message",
+        "webhookId": "2d60f470-d205-4742-a2b4-7cc114afb238",
+        "credentials": {
+          "slackApi": {
+            "id": "HTlCTSjIFJENPdO6",
+            "name": "Slack account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "databasePage",
+          "databaseId": {
+            "__rl": true,
+            "value": "37ea1349-30a1-80f2-aa9f-f06192776b0b",
+            "mode": "list",
+            "cachedResultName": "Tasks Tracker",
+            "cachedResultUrl": "https://app.notion.com/p/37ea134930a180f2aa9ff06192776b0b"
+          },
+          "title": "=Name:  {{ $('If').item.json.Name }}",
+          "options": {}
+        },
+        "id": "71847d8e-838f-4412-a743-b46b82fc5bd9",
+        "name": "Append Lead to Notion",
+        "type": "n8n-nodes-base.notion",
+        "typeVersion": 2.2,
+        "position": [
+          896,
+          0
+        ],
+        "credentials": {
+          "notionApi": {
+            "id": "w8GiIMBUr39iizmi",
+            "name": "Notion account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "create",
+          "base": {
+            "__rl": true,
+            "value": "appiaMO48O8ymNn0k",
+            "mode": "list",
+            "cachedResultName": "CRM Lead",
+            "cachedResultUrl": "https://airtable.com/appiaMO48O8ymNn0k"
+          },
+          "table": {
+            "__rl": true,
+            "value": "tblV57XPHk9ZUNGuN",
+            "mode": "list",
+            "cachedResultName": "Table 1",
+            "cachedResultUrl": "https://airtable.com/appiaMO48O8ymNn0k/tblV57XPHk9ZUNGuN"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Name": "={{ $('If').item.json.Name }}",
+              "Email": "={{ $('If').item.json.Email }}",
+              "Phone Number": "={{ $('If').item.json['Phone Number'] }}",
+              "Role": "={{ $('If').item.json.Role }}",
+              "Company": "={{ $('If').item.json.Company }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "Name",
+                "displayName": "Name",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Email",
+                "displayName": "Email",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Phone Number",
+                "displayName": "Phone Number",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Role",
+                "displayName": "Role",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "Company",
+                "displayName": "Company",
+                "required": false,
+                "defaultMatch": false,
+                "canBeUsedToMatch": true,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2.2,
+        "position": [
+          1104,
+          0
+        ],
+        "id": "1201b5f2-5865-4148-8928-7b35f2add595",
+        "name": "Create a record",
+        "credentials": {
+          "airtableTokenApi": {
+            "id": "8UJKZeYYabeNEdhg",
+            "name": "Airtable Personal Access Token account 2"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Append row in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Append row in sheet": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Send a message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send a message": {
+        "main": [
+          [
+            {
+              "node": "Append Lead to Notion",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Append Lead to Notion": {
+        "main": [
+          [
+            {
+              "node": "Create a record",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false,
+      "timeSavedMode": "fixed",
+      "errorWorkflow": "aue2mu3q4fW1hMIE",
+      "callerPolicy": "workflowsFromSameOwner"
+    },
+    "staticData": null,
+    "activeVersionId": "1c69e29e-c3ac-4371-a2ab-af875be391b8",
+    "triggerCount": 1,
+    "shared": [
+      {
+        "updatedAt": "2026-06-17T00:42:02.341Z",
+        "createdAt": "2026-06-17T00:42:02.341Z",
+        "role": "workflow:owner",
+        "workflowId": "JATFz9p2tdG3VDGE",
+        "projectId": "Lb300ztv9feaAJz6"
+      }
+    ],
+    "activeVersion": {
+      "updatedAt": "2026-07-01T18:27:02.000Z",
+      "createdAt": "2026-07-01T18:04:36.733Z",
+      "versionId": "1c69e29e-c3ac-4371-a2ab-af875be391b8",
+      "workflowId": "JATFz9p2tdG3VDGE",
+      "nodes": [
+        {
+          "parameters": {
+            "httpMethod": "POST",
+            "path": "9647578b-5172-4e23-a192-6a49d585fcca",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.webhook",
+          "typeVersion": 2.1,
+          "position": [
+            0,
+            0
+          ],
+          "id": "034e34bb-9848-4373-8c8e-dbf596af40c4",
+          "name": "Webhook",
+          "webhookId": "7fa61294-e264-473c-a528-324b3ee869d7"
+        },
+        {
+          "parameters": {
+            "operation": "append",
+            "documentId": {
+              "__rl": true,
+              "value": "12D-F9mRzmYArZZkXMn4nEAZsRV2SE1sM_M9uWGFf5PE",
+              "mode": "list",
+              "cachedResultName": "customer lead",
+              "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12D-F9mRzmYArZZkXMn4nEAZsRV2SE1sM_M9uWGFf5PE/edit?usp=drivesdk"
+            },
+            "sheetName": {
+              "__rl": true,
+              "value": "gid=0",
+              "mode": "list",
+              "cachedResultName": "Sheet1",
+              "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12D-F9mRzmYArZZkXMn4nEAZsRV2SE1sM_M9uWGFf5PE/edit#gid=0"
+            },
+            "columns": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "Name": "={{ $json.body.Name }}",
+                "Email": "={{ $json.body.Email }}",
+                "Phone Number": "={{ $json.body['Phone Number'] }}",
+                "Company": "={{ $json.body.Company}}",
+                "Role": "={{ $json.body.Role}}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "Name",
+                  "displayName": "Name",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "type": "string",
+                  "canBeUsedToMatch": true
+                },
+                {
+                  "id": "Email",
+                  "displayName": "Email",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "type": "string",
+                  "canBeUsedToMatch": true
+                },
+                {
+                  "id": "Phone Number",
+                  "displayName": "Phone Number",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "type": "string",
+                  "canBeUsedToMatch": true
+                },
+                {
+                  "id": "Company",
+                  "displayName": "Company",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "type": "string",
+                  "canBeUsedToMatch": true
+                },
+                {
+                  "id": "Role",
+                  "displayName": "Role",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "type": "string",
+                  "canBeUsedToMatch": true
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": false
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.googleSheets",
+          "typeVersion": 4.7,
+          "position": [
+            224,
+            0
+          ],
+          "id": "4a306292-075f-461d-8305-22e0c1197aeb",
+          "name": "Append row in sheet",
+          "credentials": {
+            "googleSheetsOAuth2Api": {
+              "id": "0WHa8kFysFFXtgzo",
+              "name": "Google Sheets account"
+            }
+          }
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "dea5bcad-b9d1-4e77-85b1-512d9336beec",
+                  "leftValue": "={{ $json.Company }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "string",
+                    "operation": "notEmpty",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            432,
+            0
+          ],
+          "id": "d4b8f2c3-3670-40b0-8390-777a602b1d00",
+          "name": "If"
+        },
+        {
+          "parameters": {
+            "select": "channel",
+            "channelId": {
+              "__rl": true,
+              "value": "C0B8UHPPRB8",
+              "mode": "list",
+              "cachedResultName": "order-finance-depratment"
+            },
+            "text": "=New Lead Coming !!\nName: {{ $json.Name }}\nEmail: {{ $json.Email }}\nPhone Number: {{ $json['Phone Number'] }}\nCompany: {{ $json.Company }}\nRole: {{ $json.Role }}\n\nNote: Contact with lead as soon as possible.\nThank You",
+            "otherOptions": {}
+          },
+          "type": "n8n-nodes-base.slack",
+          "typeVersion": 2.5,
+          "position": [
+            640,
+            -64
+          ],
+          "id": "649966cb-549f-4ef8-b672-574de525495c",
+          "name": "Send a message",
+          "webhookId": "2d60f470-d205-4742-a2b4-7cc114afb238",
+          "credentials": {
+            "slackApi": {
+              "id": "HTlCTSjIFJENPdO6",
+              "name": "Slack account 2"
+            }
+          }
+        },
+        {
+          "parameters": {
+            "resource": "databasePage",
+            "databaseId": {
+              "__rl": true,
+              "value": "37ea1349-30a1-80f2-aa9f-f06192776b0b",
+              "mode": "list",
+              "cachedResultName": "Tasks Tracker",
+              "cachedResultUrl": "https://app.notion.com/p/37ea134930a180f2aa9ff06192776b0b"
+            },
+            "title": "=Name:  {{ $('If').item.json.Name }}",
+            "options": {}
+          },
+          "id": "71847d8e-838f-4412-a743-b46b82fc5bd9",
+          "name": "Append Lead to Notion",
+          "type": "n8n-nodes-base.notion",
+          "typeVersion": 2.2,
+          "position": [
+            896,
+            0
+          ],
+          "credentials": {
+            "notionApi": {
+              "id": "w8GiIMBUr39iizmi",
+              "name": "Notion account 2"
+            }
+          }
+        },
+        {
+          "parameters": {
+            "operation": "create",
+            "base": {
+              "__rl": true,
+              "value": "appiaMO48O8ymNn0k",
+              "mode": "list",
+              "cachedResultName": "CRM Lead",
+              "cachedResultUrl": "https://airtable.com/appiaMO48O8ymNn0k"
+            },
+            "table": {
+              "__rl": true,
+              "value": "tblV57XPHk9ZUNGuN",
+              "mode": "list",
+              "cachedResultName": "Table 1",
+              "cachedResultUrl": "https://airtable.com/appiaMO48O8ymNn0k/tblV57XPHk9ZUNGuN"
+            },
+            "columns": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "Name": "={{ $('If').item.json.Name }}",
+                "Email": "={{ $('If').item.json.Email }}",
+                "Phone Number": "={{ $('If').item.json['Phone Number'] }}",
+                "Role": "={{ $('If').item.json.Role }}",
+                "Company": "={{ $('If').item.json.Company }}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "Name",
+                  "displayName": "Name",
+                  "required": false,
+                  "defaultMatch": false,
+                  "canBeUsedToMatch": true,
+                  "display": true,
+                  "type": "string",
+                  "readOnly": false,
+                  "removed": false
+                },
+                {
+                  "id": "Email",
+                  "displayName": "Email",
+                  "required": false,
+                  "defaultMatch": false,
+                  "canBeUsedToMatch": true,
+                  "display": true,
+                  "type": "string",
+                  "readOnly": false,
+                  "removed": false
+                },
+                {
+                  "id": "Phone Number",
+                  "displayName": "Phone Number",
+                  "required": false,
+                  "defaultMatch": false,
+                  "canBeUsedToMatch": true,
+                  "display": true,
+                  "type": "string",
+                  "readOnly": false,
+                  "removed": false
+                },
+                {
+                  "id": "Role",
+                  "displayName": "Role",
+                  "required": false,
+                  "defaultMatch": false,
+                  "canBeUsedToMatch": true,
+                  "display": true,
+                  "type": "string",
+                  "readOnly": false,
+                  "removed": false
+                },
+                {
+                  "id": "Company",
+                  "displayName": "Company",
+                  "required": false,
+                  "defaultMatch": false,
+                  "canBeUsedToMatch": true,
+                  "display": true,
+                  "type": "string",
+                  "readOnly": false,
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": false
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.airtable",
+          "typeVersion": 2.2,
+          "position": [
+            1104,
+            0
+          ],
+          "id": "1201b5f2-5865-4148-8928-7b35f2add595",
+          "name": "Create a record",
+          "credentials": {
+            "airtableTokenApi": {
+              "id": "8UJKZeYYabeNEdhg",
+              "name": "Airtable Personal Access Token account 2"
+            }
+          }
+        }
+      ],
+      "connections": {
+        "Webhook": {
+          "main": [
+            [
+              {
+                "node": "Append row in sheet",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Append row in sheet": {
+          "main": [
+            [
+              {
+                "node": "If",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If": {
+          "main": [
+            [
+              {
+                "node": "Send a message",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Send a message": {
+          "main": [
+            [
+              {
+                "node": "Append Lead to Notion",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Append Lead to Notion": {
+          "main": [
+            [
+              {
+                "node": "Create a record",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      },
+      "nodeGroups": [],
+      "authors": "Muhammad fahad.webdev119@gmail.com",
+      "name": "Version 1c69e29e",
+      "description": "",
+      "autosaved": true
+    },
+    "tags": [
+      {
+        "updatedAt": "2026-06-16T14:55:31.622Z",
+        "createdAt": "2026-06-16T14:55:31.622Z",
+        "id": "YF7kRaLLoZERdRud",
+        "name": "learning"
+      }
+    ]
+  },
+  "workflowId": "JATFz9p2tdG3VDGE",
+  "workflowName": "workflow with notion airtable and slack"
+}
