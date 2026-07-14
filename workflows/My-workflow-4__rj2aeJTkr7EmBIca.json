@@ -78,6 +78,17 @@
       }
     },
     {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1664,
+        384
+      ],
+      "id": "2e3c893a-756f-4c5d-b9f9-c6e0e8505296",
+      "name": "No Operation, do nothing"
+    },
+    {
       "parameters": {
         "jsCode": "// 1. Get all incoming items at once as a plain array\nconst items = $input.all();\n\n// 2. Map over every item to clean and transform the data\nconst processedItems = items.map(item => {\n  // Use the spread operator to strip unwanted keys from the JSON object\n  const { updatedAt, versionId, meta, pinData, ...workflow } = item.json;\n\n  return {\n    json: {\n      workflow,\n      workflowId: workflow.id,\n      workflowName: workflow.name\n    }\n  };\n});\n\n// 3. Return the entire array so n8n outputs them all together\nreturn processedItems;\n"
       },
@@ -88,85 +99,7 @@
         176
       ],
       "id": "f024c2f4-11cb-4b7a-9028-b14e56b47f9e",
-      "name": "Code in JavaScript"
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "resource": "file",
-        "operation": "edit",
-        "owner": {
-          "__rl": true,
-          "value": "fahad09011",
-          "mode": "list",
-          "cachedResultName": "fahad09011",
-          "cachedResultUrl": "https://github.com/fahad09011"
-        },
-        "repository": {
-          "__rl": true,
-          "value": "n8n-git-sync",
-          "mode": "list",
-          "cachedResultName": "n8n-git-sync",
-          "cachedResultUrl": "https://github.com/fahad09011/n8n-git-sync"
-        },
-        "filePath": "={{ \"workflows/\" + $('Get many workflows').item.json.name .replace(/[<>:\"/\\\\|?*]/g, \"\") .replace(/\\s+/g,\"-\") .replace(/-+/g,\"-\") + \"__\" + $('Get many workflows').item.json.id + \".json\" }}",
-        "fileContent": "={{ JSON.stringify($json.workflow, null, 2) }}",
-        "commitMessage": "={{\"chore(sync): update \" + $('Get many workflows').item.json.name}}"
-      },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1.1,
-      "position": [
-        1776,
-        96
-      ],
-      "id": "9990fa2f-8545-43d2-ab56-e0f4a367eff5",
-      "name": "Edit a file",
-      "webhookId": "e0902c12-6ed9-4113-8496-86251e655f1e",
-      "credentials": {
-        "githubOAuth2Api": {
-          "id": "4PJ5LFfzZgNqTF8f",
-          "name": "GitHub account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "resource": "file",
-        "owner": {
-          "__rl": true,
-          "value": "fahad09011",
-          "mode": "list",
-          "cachedResultName": "fahad09011",
-          "cachedResultUrl": "https://github.com/fahad09011"
-        },
-        "repository": {
-          "__rl": true,
-          "value": "n8n-git-sync",
-          "mode": "list",
-          "cachedResultName": "n8n-git-sync",
-          "cachedResultUrl": "https://github.com/fahad09011/n8n-git-sync"
-        },
-        "filePath": "={{\n\"workflows/\" +\n$('Get many workflows').item.json.name\n.replace(/[<>:\"/\\\\|?*]/g, \"\")\n.replace(/\\s+/g,\"-\")\n.replace(/-+/g,\"-\") +\n\"__\" +\n$('Get many workflows').item.json.id +\n\".json\"\n}}",
-        "fileContent": "={{ JSON.stringify($json.workflow, null, 2) }}",
-        "commitMessage": "={{\"chore(sync): add \" + $('Get many workflows').item.json.name}}"
-      },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1.1,
-      "position": [
-        1120,
-        288
-      ],
-      "id": "a740f9d4-aadd-4d09-8f4d-2b37239a17a6",
-      "name": "Create a file1",
-      "webhookId": "921bdb66-d28d-4d38-8f47-ed00b6f1e532",
-      "credentials": {
-        "githubOAuth2Api": {
-          "id": "4PJ5LFfzZgNqTF8f",
-          "name": "GitHub account"
-        }
-      },
-      "disabled": true
+      "name": "transform workflow JSON"
     },
     {
       "parameters": {
@@ -198,7 +131,7 @@
         176
       ],
       "id": "e7e2059b-74af-4886-b01a-a5e79d3c6cd3",
-      "name": "Get a file",
+      "name": "get repositories",
       "webhookId": "921bdb66-d28d-4d38-8f47-ed00b6f1e532",
       "retryOnFail": true,
       "waitBetweenTries": 100,
@@ -213,6 +146,44 @@
     },
     {
       "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "fahad09011",
+          "mode": "list",
+          "cachedResultName": "fahad09011",
+          "cachedResultUrl": "https://github.com/fahad09011"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n-git-sync",
+          "mode": "list",
+          "cachedResultName": "n8n-git-sync",
+          "cachedResultUrl": "https://github.com/fahad09011/n8n-git-sync"
+        },
+        "filePath": "={{\n\"workflows/\" +\n$('Get many workflows').item.json.name\n.replace(/[<>:\"/\\\\|?*]/g, \"\")\n.replace(/\\s+/g,\"-\")\n.replace(/-+/g,\"-\") +\n\"__\" +\n$('Get many workflows').item.json.id +\n\".json\"\n}}",
+        "fileContent": "={{ JSON.stringify($json.workflow, null, 2) }}",
+        "commitMessage": "={{\"chore(sync): add \" + $('Get many workflows').item.json.name}}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        288
+      ],
+      "id": "a740f9d4-aadd-4d09-8f4d-2b37239a17a6",
+      "name": "create repository of workflow",
+      "webhookId": "921bdb66-d28d-4d38-8f47-ed00b6f1e532",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "4PJ5LFfzZgNqTF8f",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "jsCode": "const results = [];\n\nfor (const item of $input.all()) {\n  // Decode Base64 safely using native Node.js Buffers\n  const decodedText = Buffer.from(item.json.content, 'base64').toString('utf-8');\n  \n  // Parse the decoded text string into a JSON object\n  const githubWorkflow = JSON.parse(decodedText);\n\n  // Remove fields that should not trigger a Git commit\n  delete githubWorkflow.updatedAt;\n  delete githubWorkflow.versionId;\n  delete githubWorkflow.meta;\n  delete githubWorkflow.pinData;\n\n  // Push the cleaned workflow along with its unique GitHub SHA\n  results.push({\n    json: {\n      githubWorkflow,\n      sha: item.json.sha,\n    }\n  });\n}\n\nreturn results;\n"
       },
       "type": "n8n-nodes-base.code",
@@ -222,11 +193,11 @@
         96
       ],
       "id": "7f244a13-d5d5-4d9b-98ca-cd497fbbe8b4",
-      "name": "decode"
+      "name": "decode github content from base64"
     },
     {
       "parameters": {
-        "jsCode": "const results = [];\n\nconst currentItems = $('Code in JavaScript').all(); // Your cleaned n8n workflows\nconst githubItems = $input.all();                   // Output from Decode\n\nfor (let i = 0; i < currentItems.length; i++) {\n\n  const currentWorkflow = currentItems[i].json.workflow;\n  const githubWorkflow = githubItems[i].json.githubWorkflow;\n\n  const changed =\n    JSON.stringify(currentWorkflow) !== JSON.stringify(githubWorkflow);\n\n  results.push({\n    json: {\n      workflow: currentWorkflow,\n      githubWorkflow,\n      sha: githubItems[i].json.sha,\n      changed\n    }\n  });\n}\n\nreturn results;"
+        "jsCode": "const results = [];\n\nconst currentItems = $('transform workflow JSON').all(); // Your cleaned n8n workflows\nconst githubItems = $input.all();                   // Output from Decode\n\nfor (let i = 0; i < currentItems.length; i++) {\n\n  const currentWorkflow = currentItems[i].json.workflow;\n  const githubWorkflow = githubItems[i].json.githubWorkflow;\n\n  const changed =\n    JSON.stringify(currentWorkflow) !== JSON.stringify(githubWorkflow);\n\n  results.push({\n    json: {\n      workflow: currentWorkflow,\n      githubWorkflow,\n      sha: githubItems[i].json.sha,\n      changed\n    }\n  });\n}\n\nreturn results;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -235,7 +206,7 @@
         96
       ],
       "id": "b20740c6-c7f5-4451-91b3-446a520d0788",
-      "name": "compare"
+      "name": "compare workflow JSON and Github repository"
     },
     {
       "parameters": {
@@ -269,7 +240,46 @@
         288
       ],
       "id": "04d6f3ca-2c3e-434a-b564-9865003dbeb4",
-      "name": "If"
+      "name": "check if there is any update in workflow file"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "fahad09011",
+          "mode": "list",
+          "cachedResultName": "fahad09011",
+          "cachedResultUrl": "https://github.com/fahad09011"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n-git-sync",
+          "mode": "list",
+          "cachedResultName": "n8n-git-sync",
+          "cachedResultUrl": "https://github.com/fahad09011/n8n-git-sync"
+        },
+        "filePath": "={{ \"workflows/\" + $('Get many workflows').item.json.name .replace(/[<>:\"/\\\\|?*]/g, \"\") .replace(/\\s+/g,\"-\") .replace(/-+/g,\"-\") + \"__\" + $('Get many workflows').item.json.id + \".json\" }}",
+        "fileContent": "={{ JSON.stringify($json.workflow, null, 2) }}",
+        "commitMessage": "={{\"chore(sync): update \" + $('Get many workflows').item.json.name}}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        1776,
+        96
+      ],
+      "id": "9990fa2f-8545-43d2-ab56-e0f4a367eff5",
+      "name": "update workflow file/repository",
+      "webhookId": "e0902c12-6ed9-4113-8496-86251e655f1e",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "4PJ5LFfzZgNqTF8f",
+          "name": "GitHub account"
+        }
+      }
     }
   ],
   "connections": {
@@ -299,69 +309,76 @@
       "main": [
         [
           {
-            "node": "Code in JavaScript",
+            "node": "transform workflow JSON",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Code in JavaScript": {
+    "transform workflow JSON": {
       "main": [
         [
           {
-            "node": "Get a file",
+            "node": "get repositories",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Get a file": {
+    "get repositories": {
       "main": [
         [
           {
-            "node": "decode",
+            "node": "decode github content from base64",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Create a file1",
+            "node": "create repository of workflow",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "decode": {
+    "decode github content from base64": {
       "main": [
         [
           {
-            "node": "compare",
+            "node": "compare workflow JSON and Github repository",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "compare": {
+    "compare workflow JSON and Github repository": {
       "main": [
         [
           {
-            "node": "If",
+            "node": "check if there is any update in workflow file",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "If": {
+    "check if there is any update in workflow file": {
       "main": [
         [
           {
-            "node": "Edit a file",
+            "node": "update workflow file/repository",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
             "type": "main",
             "index": 0
           }
