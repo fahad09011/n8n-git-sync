@@ -1,0 +1,120 @@
+{
+  "workflow": {
+    "createdAt": "2026-07-08T12:27:00.312Z",
+    "id": "HfUBoK3A2SiHN0am",
+    "name": "AI",
+    "active": false,
+    "isArchived": false,
+    "nodes": [
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "models/gemini-2.5-flash",
+            "mode": "list",
+            "cachedResultName": "models/gemini-2.5-flash"
+          },
+          "messages": {
+            "values": [
+              {
+                "content": "summarize this mail, and take decision, should need reply or not",
+                "role": "model"
+              },
+              {
+                "content": "={{ $json.html }}"
+              }
+            ]
+          },
+          "jsonOutput": true,
+          "builtInTools": {},
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.googleGemini",
+        "typeVersion": 1.2,
+        "position": [
+          320,
+          48
+        ],
+        "id": "679bd6f6-f64f-4119-afbb-aad5196b0b4f",
+        "name": "Message a model",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "zl328ab0prIopPjj",
+            "name": "Google Gemini(PaLM) Api account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "pollTimes": {
+            "item": [
+              {
+                "mode": "everyMinute"
+              }
+            ]
+          },
+          "simple": false,
+          "filters": {
+            "includeSpamTrash": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.gmailTrigger",
+        "typeVersion": 1.4,
+        "position": [
+          112,
+          48
+        ],
+        "id": "5ba6ebb1-5c32-45fd-9b2d-9cf23b15ab17",
+        "name": "Gmail Trigger",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "QV3UcajD75i2QUhz",
+            "name": "Gmail account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Gmail Trigger": {
+        "main": [
+          [
+            {
+              "node": "Message a model",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false
+    },
+    "staticData": null,
+    "activeVersionId": null,
+    "triggerCount": 0,
+    "shared": [
+      {
+        "updatedAt": "2026-07-08T12:27:00.319Z",
+        "createdAt": "2026-07-08T12:27:00.319Z",
+        "role": "workflow:owner",
+        "workflowId": "HfUBoK3A2SiHN0am",
+        "projectId": "Lb300ztv9feaAJz6"
+      }
+    ],
+    "activeVersion": null,
+    "tags": [
+      {
+        "updatedAt": "2026-06-16T14:55:31.622Z",
+        "createdAt": "2026-06-16T14:55:31.622Z",
+        "id": "YF7kRaLLoZERdRud",
+        "name": "learning"
+      }
+    ]
+  },
+  "workflowId": "HfUBoK3A2SiHN0am",
+  "workflowName": "AI"
+}
