@@ -1,76 +1,53 @@
 {
-  "workflow": {
-    "createdAt": "2026-06-16T14:57:02.910Z",
-    "id": "pjoTWB4UXKfqbgBF",
-    "name": "My workflow 2",
-    "active": false,
-    "isArchived": false,
-    "nodes": [
-      {
-        "parameters": {},
-        "type": "n8n-nodes-base.manualTrigger",
-        "typeVersion": 1,
-        "position": [
-          0,
-          0
-        ],
-        "id": "6574560e-814a-414e-afea-213b3efbdc2f",
-        "name": "When clicking ‘Execute workflow’"
-      },
-      {
-        "parameters": {
-          "options": {}
-        },
-        "type": "n8n-nodes-base.gmail",
-        "typeVersion": 2.2,
-        "position": [
-          208,
-          0
-        ],
-        "id": "152f5bc0-cdba-4e39-92ad-331c34dc5338",
-        "name": "Send a message",
-        "webhookId": "80329fc5-8ea4-43ea-8be1-a99dc77455ed",
-        "credentials": {
-          "gmailOAuth2": {
-            "id": "QV3UcajD75i2QUhz",
-            "name": "Gmail account"
-          }
-        }
-      }
-    ],
-    "connections": {
-      "When clicking ‘Execute workflow’": {
-        "main": [
-          [
-            {
-              "node": "Send a message",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      }
-    },
-    "settings": {
-      "executionOrder": "v1",
-      "binaryMode": "separate",
-      "availableInMCP": false
-    },
-    "staticData": null,
-    "activeVersionId": null,
-    "triggerCount": 0,
-    "shared": [
-      {
-        "updatedAt": "2026-06-16T14:57:02.916Z",
-        "createdAt": "2026-06-16T14:57:02.916Z",
-        "role": "workflow:owner",
-        "workflowId": "pjoTWB4UXKfqbgBF",
-        "projectId": "Lb300ztv9feaAJz6"
-      }
-    ],
-    "activeVersion": null,
-    "tags": []
+  "content": {
+    "name": "My-workflow-2__pjoTWB4UXKfqbgBF.json",
+    "path": "workflows/My-workflow-2__pjoTWB4UXKfqbgBF.json",
+    "sha": "484b60ad8714a2c9a643a6da2f3191c58bbe1749",
+    "size": 1797,
+    "url": "https://api.github.com/repos/fahad09011/n8n-git-sync/contents/workflows/My-workflow-2__pjoTWB4UXKfqbgBF.json?ref=main",
+    "html_url": "https://github.com/fahad09011/n8n-git-sync/blob/main/workflows/My-workflow-2__pjoTWB4UXKfqbgBF.json",
+    "git_url": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/blobs/484b60ad8714a2c9a643a6da2f3191c58bbe1749",
+    "download_url": "https://raw.githubusercontent.com/fahad09011/n8n-git-sync/main/workflows/My-workflow-2__pjoTWB4UXKfqbgBF.json",
+    "type": "file",
+    "_links": {
+      "self": "https://api.github.com/repos/fahad09011/n8n-git-sync/contents/workflows/My-workflow-2__pjoTWB4UXKfqbgBF.json?ref=main",
+      "git": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/blobs/484b60ad8714a2c9a643a6da2f3191c58bbe1749",
+      "html": "https://github.com/fahad09011/n8n-git-sync/blob/main/workflows/My-workflow-2__pjoTWB4UXKfqbgBF.json"
+    }
   },
-  "workflowId": "pjoTWB4UXKfqbgBF",
-  "workflowName": "My workflow 2"
+  "commit": {
+    "sha": "9e2c60034776cb1f0ae70ad553e5a96b8d001ead",
+    "node_id": "C_kwDOTXeEr9oAKDllMmM2MDAzNDc3NmNiMWYwYWU3MGFkNTUzZTVhOTZiOGQwMDFlYWQ",
+    "url": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/commits/9e2c60034776cb1f0ae70ad553e5a96b8d001ead",
+    "html_url": "https://github.com/fahad09011/n8n-git-sync/commit/9e2c60034776cb1f0ae70ad553e5a96b8d001ead",
+    "author": {
+      "name": "Muhamad Fahad",
+      "email": "fahad.webdev119@gmail.com",
+      "date": "2026-07-14T00:11:01Z"
+    },
+    "committer": {
+      "name": "Muhamad Fahad",
+      "email": "fahad.webdev119@gmail.com",
+      "date": "2026-07-14T00:11:01Z"
+    },
+    "tree": {
+      "sha": "d4febaa05a6c071ecea8f4836d3d53ccfe4b41c3",
+      "url": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/trees/d4febaa05a6c071ecea8f4836d3d53ccfe4b41c3"
+    },
+    "message": "chore(sync): add My workflow 2",
+    "parents": [
+      {
+        "sha": "2e139ad59d31b96f2a23003e9a1016390dc35e79",
+        "url": "https://api.github.com/repos/fahad09011/n8n-git-sync/git/commits/2e139ad59d31b96f2a23003e9a1016390dc35e79",
+        "html_url": "https://github.com/fahad09011/n8n-git-sync/commit/2e139ad59d31b96f2a23003e9a1016390dc35e79"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null,
+      "verified_at": null
+    }
+  }
 }
