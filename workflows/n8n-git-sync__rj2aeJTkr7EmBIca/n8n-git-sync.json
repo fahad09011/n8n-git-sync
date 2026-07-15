@@ -11,7 +11,7 @@
       "typeVersion": 1,
       "position": [
         0,
-        -32
+        -208
       ],
       "id": "78c09c56-fb2d-4d55-ab0b-c29351538797",
       "name": "When clicking ‘Execute workflow’"
@@ -26,7 +26,7 @@
       "typeVersion": 3.4,
       "position": [
         224,
-        -32
+        -208
       ],
       "id": "05d26f19-7bf2-4da1-9cb6-b7b533815cf7",
       "name": "Configuration"
@@ -40,7 +40,7 @@
       "typeVersion": 1,
       "position": [
         448,
-        -32
+        -208
       ],
       "id": "ac8fb1dd-694b-4a2a-91b0-5b61112b73a3",
       "name": "Get many workflows",
@@ -56,8 +56,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1920,
-        -32
+        1792,
+        -208
       ],
       "id": "2e3c893a-756f-4c5d-b9f9-c6e0e8505296",
       "name": "No Operation, do nothing"
@@ -90,8 +90,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1632,
-        -128
+        1568,
+        -304
       ],
       "id": "04d6f3ca-2c3e-434a-b564-9865003dbeb4",
       "name": "check if there is any update in workflow file"
@@ -104,7 +104,7 @@
       "typeVersion": 2,
       "position": [
         672,
-        -32
+        -208
       ],
       "id": "f024c2f4-11cb-4b7a-9028-b14e56b47f9e",
       "name": "Prepare Workflow"
@@ -136,7 +136,7 @@
       "typeVersion": 1.1,
       "position": [
         896,
-        -32
+        -208
       ],
       "id": "e7e2059b-74af-4886-b01a-a5e79d3c6cd3",
       "name": "Get Workflow File from GitHub",
@@ -160,7 +160,7 @@
       "typeVersion": 2,
       "position": [
         1120,
-        -128
+        -304
       ],
       "id": "7f244a13-d5d5-4d9b-98ca-cd497fbbe8b4",
       "name": "Decode GitHub Content"
@@ -173,7 +173,7 @@
       "typeVersion": 2,
       "position": [
         1344,
-        -128
+        -304
       ],
       "id": "b20740c6-c7f5-4451-91b3-446a520d0788",
       "name": "Compare Workflow"
@@ -204,8 +204,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1920,
-        -224
+        1792,
+        -400
       ],
       "id": "9990fa2f-8545-43d2-ab56-e0f4a367eff5",
       "name": "Update Workflow File",
@@ -242,8 +242,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1120,
-        160
+        1568,
+        -16
       ],
       "id": "a740f9d4-aadd-4d09-8f4d-2b37239a17a6",
       "name": "Create Workflow File",
@@ -283,8 +283,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1344,
-        160
+        1792,
+        -16
       ],
       "id": "279fe83a-e7a9-471e-ae26-1f769039b6dd",
       "name": "Generate README.md ?"
@@ -310,8 +310,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1920,
-        160
+        2368,
+        -16
       ],
       "id": "18c45f99-9ac2-4911-abe6-8b07a8e6d8e1",
       "name": "Create a README.md",
@@ -351,8 +351,8 @@
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1.2,
       "position": [
-        1568,
-        160
+        2016,
+        -16
       ],
       "id": "df213d2d-7b4b-4794-b014-d9ab1c381172",
       "name": "Generate README",
@@ -391,8 +391,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2144,
-        -224
+        2080,
+        -400
       ],
       "id": "786e59fc-13d3-4f80-8ffc-a8dfc4ccf48b",
       "name": "If"
@@ -412,15 +412,15 @@
           "mode": "list",
           "value": "n8n-git-sync"
         },
-        "filePath": "={{ $('Get Workflow File from GitHub').item.json.folder + \"/\" + $('Get Workflow File from GitHub').item.json.workflowFolder + \"/README.md\" }}",
+        "filePath": "={{ $('Compare Workflow').item.json.folder }}/{{ $('Compare Workflow').item.json.workflowFolder }}/README.md",
         "fileContent": "={{ $json.content.parts[0].text }}",
-        "commitMessage": "=docs: add README for {{ $('Get Workflow File from GitHub').item.json.workflowName }}"
+        "commitMessage": "=docs: Update README for {{ $('Compare Workflow').item.json.workflowName }}"
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        2368,
-        -224
+        2816,
+        -208
       ],
       "id": "af7278ac-3a19-4ccd-9066-5c019ec571c8",
       "name": "Update README.md",
@@ -431,6 +431,63 @@
           "name": "GitHub account"
         }
       }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "fahad09011",
+          "mode": "list",
+          "cachedResultName": "fahad09011",
+          "cachedResultUrl": "https://github.com/fahad09011"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n-git-sync",
+          "mode": "list",
+          "cachedResultName": "n8n-git-sync",
+          "cachedResultUrl": "https://github.com/fahad09011/n8n-git-sync"
+        },
+        "filePath": "={{ $('Compare Workflow').item.json.folder }}/{{ $('Compare Workflow').item.json.workflowFolder }}/README.md",
+        "asBinaryProperty": false,
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        2368,
+        -400
+      ],
+      "id": "10f443cf-0b11-493e-955d-e9bf94e6392a",
+      "name": "Get README File from GitHub",
+      "webhookId": "921bdb66-d28d-4d38-8f47-ed00b6f1e532",
+      "retryOnFail": true,
+      "waitBetweenTries": 100,
+      "maxTries": 2,
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "4PJ5LFfzZgNqTF8f",
+          "name": "GitHub account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2592,
+        -208
+      ],
+      "id": "e5b89865-f066-4f6b-9b20-df27e4f03585",
+      "name": "Merge"
     }
   ],
   "connections": {
@@ -582,10 +639,43 @@
     },
     "Create a README.md": {
       "main": [
-        []
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
       ]
     },
     "If": {
+      "main": [
+        [
+          {
+            "node": "Get README File from GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update README.md": {
+      "main": [
+        []
+      ]
+    },
+    "Get README File from GitHub": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
       "main": [
         [
           {
