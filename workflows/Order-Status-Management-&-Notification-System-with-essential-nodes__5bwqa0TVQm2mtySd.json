@@ -729,29 +729,6 @@
           "name": "Slack account 2"
         }
       }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "626e7899-6745-465f-85aa-5d531f7265bb",
-              "name": "row_number",
-              "value": "={{ $('orders sheet').item.json.row_number }}",
-              "type": "number"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        208,
-        0
-      ],
-      "id": "863ed18e-d4ee-48aa-899d-e60f56c9f2f2",
-      "name": "Edit Fields"
     }
   ],
   "connections": {
@@ -999,13 +976,7 @@
     },
     "Sent process to customer": {
       "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     }
   },
