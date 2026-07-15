@@ -11,7 +11,7 @@
       "typeVersion": 1,
       "position": [
         0,
-        -208
+        -112
       ],
       "id": "78c09c56-fb2d-4d55-ab0b-c29351538797",
       "name": "When clicking ‘Execute workflow’"
@@ -26,7 +26,7 @@
       "typeVersion": 3.4,
       "position": [
         224,
-        -208
+        -112
       ],
       "id": "05d26f19-7bf2-4da1-9cb6-b7b533815cf7",
       "name": "Configuration"
@@ -40,7 +40,7 @@
       "typeVersion": 1,
       "position": [
         448,
-        -208
+        -112
       ],
       "id": "ac8fb1dd-694b-4a2a-91b0-5b61112b73a3",
       "name": "Get many workflows",
@@ -56,8 +56,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1792,
-        -208
+        1920,
+        -112
       ],
       "id": "2e3c893a-756f-4c5d-b9f9-c6e0e8505296",
       "name": "No Operation, do nothing"
@@ -90,8 +90,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1568,
-        -304
+        1632,
+        -208
       ],
       "id": "04d6f3ca-2c3e-434a-b564-9865003dbeb4",
       "name": "check if there is any update in workflow file"
@@ -104,7 +104,7 @@
       "typeVersion": 2,
       "position": [
         672,
-        -208
+        -112
       ],
       "id": "f024c2f4-11cb-4b7a-9028-b14e56b47f9e",
       "name": "Prepare Workflow"
@@ -136,7 +136,7 @@
       "typeVersion": 1.1,
       "position": [
         896,
-        -208
+        -112
       ],
       "id": "e7e2059b-74af-4886-b01a-a5e79d3c6cd3",
       "name": "Get Workflow File from GitHub",
@@ -160,7 +160,7 @@
       "typeVersion": 2,
       "position": [
         1120,
-        -304
+        -208
       ],
       "id": "7f244a13-d5d5-4d9b-98ca-cd497fbbe8b4",
       "name": "Decode GitHub Content"
@@ -173,7 +173,7 @@
       "typeVersion": 2,
       "position": [
         1344,
-        -304
+        -208
       ],
       "id": "b20740c6-c7f5-4451-91b3-446a520d0788",
       "name": "Compare Workflow"
@@ -204,8 +204,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1792,
-        -400
+        1920,
+        -304
       ],
       "id": "9990fa2f-8545-43d2-ab56-e0f4a367eff5",
       "name": "Update Workflow File",
@@ -242,8 +242,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1568,
-        -16
+        1120,
+        80
       ],
       "id": "a740f9d4-aadd-4d09-8f4d-2b37239a17a6",
       "name": "Create Workflow File",
@@ -283,8 +283,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1792,
-        -16
+        1344,
+        80
       ],
       "id": "279fe83a-e7a9-471e-ae26-1f769039b6dd",
       "name": "Generate README.md ?"
@@ -310,8 +310,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        2368,
-        -16
+        1920,
+        80
       ],
       "id": "18c45f99-9ac2-4911-abe6-8b07a8e6d8e1",
       "name": "Create a README.md",
@@ -338,7 +338,7 @@
               "role": "model"
             },
             {
-              "content": "={{ $('Configuration').item.json.ai.userPrompt }}"
+              "content": "={{ $('Configuration').item.json.ai.userPrompt }}\nWorkflow JSON {{ JSON.stringify($('Prepare Workflow').item.json.workflow, null, 2) }}"
             }
           ]
         },
@@ -351,8 +351,8 @@
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1.2,
       "position": [
-        2016,
-        -16
+        1568,
+        80
       ],
       "id": "df213d2d-7b4b-4794-b014-d9ab1c381172",
       "name": "Generate README",
@@ -391,7 +391,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2080,
+        2208,
         -400
       ],
       "id": "786e59fc-13d3-4f80-8ffc-a8dfc4ccf48b",
@@ -419,8 +419,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        2816,
-        -208
+        2720,
+        -400
       ],
       "id": "af7278ac-3a19-4ccd-9066-5c019ec571c8",
       "name": "Update README.md",
@@ -458,7 +458,7 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        2368,
+        2496,
         -400
       ],
       "id": "10f443cf-0b11-493e-955d-e9bf94e6392a",
@@ -474,6 +474,47 @@
         }
       },
       "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a senior n8n developer.\n\nYour task is to determine whether a workflow change requires updating its README documentation.\n\nRules:\n\n- Return ONLY valid JSON.\n- Do not include markdown.\n- Do not explain your reasoning.\n- Do not include any text outside the JSON.\n\nA README should be updated only if the workflow behaviour has changed.\n\nExamples of changes that REQUIRE a README update:\n\n- Trigger changed\n- New integration added\n- Integration removed\n- Business logic changed\n- New workflow branch added\n- Outputs changed\n- Inputs changed\n- Credentials required changed\n- Workflow purpose changed\n\nExamples that DO NOT require a README update:\n\n- Node position changes\n- Node color changes\n- Notes\n- Metadata\n- Internal helper nodes\n- Variable renaming\n- Cosmetic changes\n- Formatting changes\n\nReturn exactly:\n\n{\n  \"updateReadme\": true,\n  \"reason\": \"...\"\n}\n\nor\n\n{\n  \"updateReadme\": false,\n  \"reason\": \"...\"\n}",
+              "role": "model"
+            },
+            {
+              "content": "=Old workflow (GitHub)\n{{  JSON.stringify($('Decode GitHub Content').item.json.githubWorkflow )}}\n\nNew workflow (n8n)\n{{  JSON.stringify($('Prepare Workflow').item.json.workflow) }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "builtInTools": {},
+        "options": {
+          "maxOutputTokens": 9000,
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        2144,
+        -208
+      ],
+      "id": "37beecab-4074-4a1f-a5aa-14d5f62a1e8c",
+      "name": "Should Update README ?",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "zl328ab0prIopPjj",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
     }
   ],
   "connections": {
@@ -581,7 +622,18 @@
     },
     "Update Workflow File": {
       "main": [
-        []
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Should Update README ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Create Workflow File": {
