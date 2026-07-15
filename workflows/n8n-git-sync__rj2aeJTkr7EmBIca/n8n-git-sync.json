@@ -396,6 +396,41 @@
       ],
       "id": "786e59fc-13d3-4f80-8ffc-a8dfc4ccf48b",
       "name": "If"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "mode": "list",
+          "value": "fahad09011"
+        },
+        "repository": {
+          "__rl": true,
+          "mode": "list",
+          "value": "n8n-git-sync"
+        },
+        "filePath": "={{ $('Get Workflow File from GitHub').item.json.folder + \"/\" + $('Get Workflow File from GitHub').item.json.workflowFolder + \"/README.md\" }}",
+        "fileContent": "={{ $json.content.parts[0].text }}",
+        "commitMessage": "=docs: add README for {{ $('Get Workflow File from GitHub').item.json.workflowName }}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        2368,
+        -224
+      ],
+      "id": "af7278ac-3a19-4ccd-9066-5c019ec571c8",
+      "name": "Update README.md",
+      "webhookId": "b65fcdc2-3c9a-4fb2-b2c3-10958189168c",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "4PJ5LFfzZgNqTF8f",
+          "name": "GitHub account"
+        }
+      }
     }
   ],
   "connections": {
@@ -548,6 +583,17 @@
     "Create a README.md": {
       "main": [
         []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Update README.md",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
