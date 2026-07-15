@@ -1,60 +1,100 @@
 {
-  "createdAt": "2026-06-28T19:57:49.218Z",
-  "id": "kSHSJp15BslEZQYx",
-  "name": "AutoSave Gmail Attachments to Google Drive",
+  "createdAt": "2026-06-29T21:14:39.282Z",
+  "id": "hWWL3zuKl8sL1lRb",
+  "name": "1 Mock Data and SubWorkflow",
   "active": false,
   "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "pollTimes": {
-          "item": [
-            {
-              "mode": "everyMinute"
-            }
-          ]
-        },
-        "filters": {}
+        "content": "Customer email with Ticket message\n1. use mock data in trigger\n2. get customer data from google sheet\n3. check if their rating is above 3.8 and totalOrder more then 11 hen mark as VIP\n4. send message to slack team \n5. if not VIP make record on ticket spreadsheet then the team will contact them as soon as can",
+        "height": 320
       },
-      "type": "n8n-nodes-base.gmailTrigger",
-      "typeVersion": 1.4,
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -320,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "5d7df928-d217-4bf2-bd9c-0d54ff3f1dca",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
       "position": [
         0,
-        -128
+        160
       ],
-      "id": "b01169d6-5014-4df9-b95a-36ae362e3595",
-      "name": "Gmail Trigger",
-      "credentials": {
-        "gmailOAuth2": {
-          "id": "QV3UcajD75i2QUhz",
-          "name": "Gmail account"
-        }
-      }
+      "id": "42937997-28d7-4667-8173-7236d7f9fae7",
+      "name": "Click to execute workflow"
     },
     {
       "parameters": {
-        "operation": "get",
-        "messageId": "={{ $json.id }}",
-        "simple": false,
-        "options": {
-          "downloadAttachments": true
-        }
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "Email",
+              "field2": "userEmail"
+            }
+          ]
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.gmail",
-      "typeVersion": 2.2,
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        448,
+        160
+      ],
+      "id": "854415f9-2867-4119-8af3-f2b6fe4aa12c",
+      "name": "merge ticket message data and customer data"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "yB87FFwytUOGEFXQ",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/yB87FFwytUOGEFXQ",
+          "cachedResultName": "2 Mock Data and SubWorkflow"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [
+            "customerEmail"
+          ],
+          "schema": [
+            {
+              "id": "userEmail",
+              "displayName": "userEmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
       "position": [
         224,
-        -128
+        96
       ],
-      "id": "224500d8-7e8c-48c5-b68b-ac8e652cb5ab",
-      "name": "get attachments from mail",
-      "webhookId": "f1d44c75-686d-4391-b952-f9f3974c78fc",
-      "credentials": {
-        "gmailOAuth2": {
-          "id": "QV3UcajD75i2QUhz",
-          "name": "Gmail account"
-        }
-      }
+      "id": "a4a3e084-2138-4a12-bd78-5e41db55fb0e",
+      "name": "Call '2 Mock Data and SubWorkflow'",
+      "alwaysOutputData": false
     },
     {
       "parameters": {
@@ -62,188 +102,307 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "loose",
+            "typeValidation": "strict",
             "version": 3
           },
           "conditions": [
             {
-              "id": "5ad5d068-1420-4a0d-9f9e-d438bce28d57",
-              "leftValue": "={{ $('get attachments from mail').item }}",
-              "rightValue": "",
+              "id": "c364cd7f-751b-4fe8-83e3-1a43558fae3a",
+              "leftValue": "={{ $json.vip_status }}",
+              "rightValue": "true",
               "operator": {
                 "type": "string",
-                "operation": "exists",
-                "singleValue": true
+                "operation": "equals"
               }
             }
           ],
           "combinator": "and"
         },
-        "looseTypeValidation": true,
         "options": {}
       },
-      "type": "n8n-nodes-base.filter",
+      "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        448,
-        -128
-      ],
-      "id": "37ab4c47-09c1-4113-b05a-4ce0453de8ba",
-      "name": "attachments filter"
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "$binary",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
         672,
-        -128
+        160
       ],
-      "id": "9253bb25-8ced-474a-b096-19a954594264",
-      "name": "split attachments"
+      "id": "f11b7c9f-ba3a-42ae-91b2-93353011bca7",
+      "name": "verify VIP status"
     },
     {
       "parameters": {
-        "inputDataFieldName": "={{ Object.keys($binary)[0] }}",
-        "name": "={{ $binary[Object.keys($binary)[0]].fileName }}",
-        "driveId": {
+        "select": "channel",
+        "channelId": {
           "__rl": true,
+          "value": "C0B9809N0QZ",
           "mode": "list",
-          "value": "My Drive"
+          "cachedResultName": "operations-dept"
         },
-        "folderId": {
-          "__rl": true,
-          "value": "1huGNtL37wTlcDhJHXTuZgZtA59YWCLgb",
-          "mode": "list",
-          "cachedResultName": "n8n attachments",
-          "cachedResultUrl": "https://drive.google.com/drive/folders/1huGNtL37wTlcDhJHXTuZgZtA59YWCLgb"
-        },
-        "options": {}
+        "text": "=Hey Team,\nPlease check out these ticket messages from customer and make contact with them as soon as possible\n\nCustomer details: \n{{ $json.FullName }},\n{{ $json.Email}}\n",
+        "otherOptions": {}
       },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
       "position": [
         896,
-        -128
+        64
       ],
-      "id": "6690d916-0162-4347-a236-4af2a5a3006b",
-      "name": "Upload attachments in N8N drive folder",
+      "id": "106ac850-4a9f-438e-b6b7-fc6a4c0f5f47",
+      "name": "alert team about VIP ticket",
+      "webhookId": "f16ad3c3-9345-47ba-a6fe-f2f9eb452d5b",
       "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "M38vXu8b5UYZJ6ig",
-          "name": "Google Drive account"
+        "slackApi": {
+          "id": "HTlCTSjIFJENPdO6",
+          "name": "Slack account 2"
         }
-      },
-      "onError": "continueErrorOutput"
+      }
     },
     {
       "parameters": {
-        "fieldsToAggregate": {
-          "fieldToAggregate": [
+        "rules": {
+          "values": [
             {
-              "fieldToAggregate": "name",
-              "renameField": true
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Region }}",
+                    "rightValue": "North America",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "9559319c-73a9-4957-91fa-14cf14698056"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "American Campaign"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "120e8cdf-8c25-431b-a981-adddff979dbc",
+                    "leftValue": "={{ $json.Region }}",
+                    "rightValue": "Middle East",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Middle East"
             }
           ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
       "position": [
-        1120,
-        -128
+        896,
+        256
       ],
-      "id": "3830b643-b07e-479e-bb51-31a352a751e2",
-      "name": "merge uploaded message into 1"
+      "id": "fb99841a-e89a-4eb4-a320-a30a40517fff",
+      "name": "check regions"
     },
     {
       "parameters": {
-        "authentication": "webhook",
-        "content": "=Following Attachments are Successfully uploaded to google Drive.\n {{ $json.name.join('\\n') }}\nPlease check N8N folder for confirmation.\nThank You",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1gNRzrR6mzYtzAkHZJLFE0AzMNS436W4uXzVsvWkD6-Y",
+          "mode": "list",
+          "cachedResultName": "customer ticker assign to team",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gNRzrR6mzYtzAkHZJLFE0AzMNS436W4uXzVsvWkD6-Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gNRzrR6mzYtzAkHZJLFE0AzMNS436W4uXzVsvWkD6-Y/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ticketId": "={{ $json.Email.hash()}}",
+            "name": "={{ $json.FullName }}",
+            "email": "={{ $json.Email }}",
+            "country": "={{ $json.Region }}",
+            "team": "={{ $json.Region === 'North America' ? 'North America team' : 'Others team' }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ticketId",
+              "displayName": "ticketId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "country",
+              "displayName": "country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "team",
+              "displayName": "team",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
         "options": {}
       },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
       "position": [
-        1344,
-        -128
+        1120,
+        256
       ],
-      "id": "7220b686-5395-40df-8c09-986ed1d35049",
-      "name": "send",
-      "webhookId": "2b651bce-52fc-470d-8657-820ef9b64543",
+      "id": "c145e7b4-a86c-46ce-b345-62fa4fcaf765",
+      "name": "make entry of other region in ticket sheet for team to be connected",
+      "notesInFlow": false,
       "credentials": {
-        "discordWebhookApi": {
-          "id": "FJweyQP8hFnNf2fd",
-          "name": "Discord Webhook account"
+        "googleSheetsOAuth2Api": {
+          "id": "0WHa8kFysFFXtgzo",
+          "name": "Google Sheets account"
         }
       }
+    },
+    {
+      "parameters": {
+        "path": "6f2f7682-4b4a-4282-98ba-93b4d74b22c9",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        256,
+        208
+      ],
+      "id": "eaefb7b1-b815-4093-be3d-c7203a8c5d59",
+      "name": "Webhook",
+      "webhookId": "6f2f7682-4b4a-4282-98ba-93b4d74b22c9"
     }
   ],
   "connections": {
-    "Gmail Trigger": {
+    "Click to execute workflow": {
       "main": [
         [
           {
-            "node": "get attachments from mail",
+            "node": "merge ticket message data and customer data",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Call '2 Mock Data and SubWorkflow'",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "get attachments from mail": {
+    "merge ticket message data and customer data": {
       "main": [
         [
           {
-            "node": "attachments filter",
+            "node": "verify VIP status",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "attachments filter": {
+    "Call '2 Mock Data and SubWorkflow'": {
       "main": [
         [
           {
-            "node": "split attachments",
+            "node": "merge ticket message data and customer data",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "split attachments": {
+    "verify VIP status": {
       "main": [
         [
           {
-            "node": "Upload attachments in N8N drive folder",
+            "node": "alert team about VIP ticket",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "check regions",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Upload attachments in N8N drive folder": {
+    "check regions": {
       "main": [
         [
           {
-            "node": "merge uploaded message into 1",
+            "node": "make entry of other region in ticket sheet for team to be connected",
             "type": "main",
             "index": 0
           }
-        ]
-      ]
-    },
-    "merge uploaded message into 1": {
-      "main": [
+        ],
         [
           {
-            "node": "send",
+            "node": "make entry of other region in ticket sheet for team to be connected",
             "type": "main",
             "index": 0
           }
@@ -254,30 +413,17 @@
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
-    "availableInMCP": false,
-    "timeSavedMode": "fixed",
-    "errorWorkflow": "aue2mu3q4fW1hMIE",
-    "callerPolicy": "workflowsFromSameOwner"
+    "availableInMCP": false
   },
-  "staticData": {
-    "node:Gmail Trigger": {
-      "Gmail Trigger": {
-        "lastTimeChecked": 1782906120,
-        "possibleDuplicates": [
-          "19f1d7c6998ab0eb",
-          "19f1d7acb7c98d75"
-        ]
-      }
-    }
-  },
+  "staticData": null,
   "activeVersionId": null,
-  "triggerCount": 1,
+  "triggerCount": 0,
   "shared": [
     {
-      "updatedAt": "2026-06-28T19:57:49.228Z",
-      "createdAt": "2026-06-28T19:57:49.228Z",
+      "updatedAt": "2026-06-29T21:14:39.291Z",
+      "createdAt": "2026-06-29T21:14:39.291Z",
       "role": "workflow:owner",
-      "workflowId": "kSHSJp15BslEZQYx",
+      "workflowId": "hWWL3zuKl8sL1lRb",
       "projectId": "Lb300ztv9feaAJz6"
     }
   ],
