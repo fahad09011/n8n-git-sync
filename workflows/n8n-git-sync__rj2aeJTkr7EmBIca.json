@@ -280,6 +280,100 @@
           "name": "GitHub account"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1D0VNQCvkPwv3DZQTZCSlmyyHOmpJYMyzVqEuc064NrM",
+          "mode": "list",
+          "cachedResultName": "n8n_practice_sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1D0VNQCvkPwv3DZQTZCSlmyyHOmpJYMyzVqEuc064NrM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1664312685,
+          "mode": "list",
+          "cachedResultName": "Sales Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1D0VNQCvkPwv3DZQTZCSlmyyHOmpJYMyzVqEuc064NrM/edit#gid=1664312685"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "n",
+            "Product": "n",
+            "Quantity": "n",
+            "Price": "n",
+            "Total": "n"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quantity",
+              "displayName": "Quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Price",
+              "displayName": "Price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total",
+              "displayName": "Total",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1984,
+        96
+      ],
+      "id": "f463e2d2-0094-431e-97d2-035ab41d07e8",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0WHa8kFysFFXtgzo",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "connections": {
@@ -379,6 +473,17 @@
         [
           {
             "node": "check if there is any update in workflow file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Workflow File": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
             "type": "main",
             "index": 0
           }
