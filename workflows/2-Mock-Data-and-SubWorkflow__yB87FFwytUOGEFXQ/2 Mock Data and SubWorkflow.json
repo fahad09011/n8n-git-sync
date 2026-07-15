@@ -64,6 +64,29 @@
           "name": "Google Sheets account"
         }
       }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec300c45-639d-4fcb-8ecd-17059ced070f",
+              "name": "vip_status",
+              "value": "={{  ($json.Rating >= 3.7 && $json.TotalOrders>= 11) ? \"true\" : \"false\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        16
+      ],
+      "id": "3443f71d-ee9b-4d30-8d8e-c304337d8285",
+      "name": "Edit Fields"
     }
   ],
   "connections": {
@@ -80,7 +103,13 @@
     },
     "get customer data from google sheet": {
       "main": [
-        []
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
