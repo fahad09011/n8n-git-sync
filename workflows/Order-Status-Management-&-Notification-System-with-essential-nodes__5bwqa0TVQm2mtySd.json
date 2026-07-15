@@ -1,0 +1,1009 @@
+{
+  "createdAt": "2026-06-16T14:55:34.615Z",
+  "id": "5bwqa0TVQm2mtySd",
+  "name": "Order Status Management & Notification System with essential nodes",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1120,
+        672
+      ],
+      "id": "5ca004ef-5af7-4075-8c32-9b0b9576d13e",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "content": "## Order Status Management & Notification System\n\nPurpose:\nSame as ## Order Status Management & Notification System workflow but with some additions\n1. merge order and order details data using merge ndoe\n\nCreated By:\nMuhammad Fahad",
+        "height": 496
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1376,
+        48
+      ],
+      "typeVersion": 1,
+      "id": "d381b00f-b8dc-4d66-9f79-a536c3d215d4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['Order Status'] }}",
+                    "rightValue": "=Processing",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "cc598fb6-c805-496a-b9db-8661a70936cf"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Processing Order"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "524c950b-cfd0-4761-a97c-3e73f1143960",
+                    "leftValue": "={{ $json[\"Order Status\"] }}",
+                    "rightValue": "Cancelled",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cancelled Order"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c94cc2c4-125f-4fa7-9476-1510aa6ba3ca",
+                    "leftValue": "={{ $json[\"Order Status\"] }}",
+                    "rightValue": "Delivered",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Delivered Order"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "77485a29-f2b9-43eb-be47-610f536b6530",
+                    "leftValue": "={{ $json[\"Order Status\"] }}",
+                    "rightValue": "Pending",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Pending Order"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fa02656f-636e-4881-bd63-3e23a303107c",
+                    "leftValue": "={{ $json[\"Order Status\"] }}",
+                    "rightValue": "Shipped",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": "={{ true }}",
+              "outputKey": "Shipped Order"
+            }
+          ]
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -224,
+        624
+      ],
+      "id": "b589dbd9-1ec3-4b3d-b7d7-685371ccfda6",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-i3rlU3a5T1WdCBs2-FMJ2Ce46phJwCUh5_zAsdvINA",
+          "mode": "list",
+          "cachedResultName": "Order_Data_60_Records",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-i3rlU3a5T1WdCBs2-FMJ2Ce46phJwCUh5_zAsdvINA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 316013683,
+          "mode": "list",
+          "cachedResultName": "Orders",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-i3rlU3a5T1WdCBs2-FMJ2Ce46phJwCUh5_zAsdvINA/edit#gid=316013683"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -896,
+        576
+      ],
+      "id": "c983e1cb-f3a4-4a7d-992f-5fc92cfc1640",
+      "name": "orders sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0WHa8kFysFFXtgzo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1IPpilLhGt9T6W9RmYYE8gFobp_xYwLUCreCc9SZR61c",
+          "mode": "list",
+          "cachedResultName": "Order_Product_Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IPpilLhGt9T6W9RmYYE8gFobp_xYwLUCreCc9SZR61c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1133415460,
+          "mode": "list",
+          "cachedResultName": "Order_Product_Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IPpilLhGt9T6W9RmYYE8gFobp_xYwLUCreCc9SZR61c/edit#gid=1133415460"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -896,
+        768
+      ],
+      "id": "438a4c28-53d7-4709-8601-21567b649918",
+      "name": "order details with product sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0WHa8kFysFFXtgzo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "Your Order Has Been Received",
+        "message": "=<h2>Your Order Has Been Under Process</h2>\n\n<p>Dear {{$json['Customer Name']}},</p>\n\n<p>\nThank you for your order.\n</p>\n\n<p>\nWe have successfully received your order and it is currently processing.\n</p>\n\n<h3>Order Details</h3>\n\n<ul>\n  <li><strong>Order Number: {{ $json['Order Number'] }}</strong></li>\n  <li><strong>Order ID: {{ $json['Order ID'] }}</strong></li>\n</ul>\n\n<p>\nWe will begin processing your order shortly and keep you updated on its progress.\n</p>\n\n<p>\nThank you for choosing us.\n</p>\n\n<p>\nBest Regards,<br>\nCustomer Support Team\n</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6e9736c3-4568-4b64-9564-7f0d0442d5bc",
+      "name": "Sent process to customer",
+      "webhookId": "9247a65c-56fb-4d5d-83e4-cb25e0c612e8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QV3UcajD75i2QUhz",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "Your Order Has Been Cancelled",
+        "message": "=<p>Dear {{ $json['Customer Name'] }},</p>\n\n<p>\nWe regret to inform you that your order has been cancelled.\n</p>\n\n<h3>Order Details</h3>\n\n<ul>\n  <li><strong>Order Number: {{ $json['Order Number'] }}</strong></li>\n  <li><strong>Order ID: {{ $json['Order ID'] }}</strong></li>\n</ul>\n\n<p>\nIf you believe this cancellation was made in error or require additional information, please contact our support team.\n</p>\n\n<p>\nWe apologize for any inconvenience caused.\n</p>\n\n<p>\nBest Regards,<br>\nCustomer Support Team\n</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        384
+      ],
+      "id": "148618dc-f97a-41c0-acb1-181c33268d2b",
+      "name": "Sent cancel mail to customer",
+      "webhookId": "4f0b2541-574c-48ca-a032-88cd3316a333",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QV3UcajD75i2QUhz",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "Your Order Has Been Delivered",
+        "message": "=<h2>Order Delivered Successfully ✅</h2>\n\n<p>Dear {{ $json['Customer Name'] }},</p>\n\n<p>\nWe are pleased to inform you that your order has been successfully delivered.\n</p>\n\n<h3>Order Details</h3>\n\n<ul>\n  <li><strong>Order Number: {{ $json['Order Number'] }}</strong></li>\n  <li><strong>Order ID: {{ $json['Order ID'] }}</strong></li>\n</ul>\n\n<p>\nWe hope your order arrived safely and meets your expectations.\n</p>\n\n<p>\nThank you for choosing our services. We truly appreciate your trust and support.\n</p>\n\n<p>\nWe look forward to serving you again in the future.\n</p>\n\n<p>\nBest Regards,<br>\nCustomer Support Team\n</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        768
+      ],
+      "id": "3811fc35-dbab-4a9c-bdf8-1e82f28383cf",
+      "name": "Sent deliver  mail to customer",
+      "webhookId": "93e06ae9-38ea-4100-a767-e1ec77f60afd",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QV3UcajD75i2QUhz",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "Your Order Has Been Shipped",
+        "message": "=<p>Dear {{ $json['Customer Name'] }},</p>\n\n<p>\nYour order has been shipped and is on its way to you.\n</p>\n\n<h3>Order Details</h3>\n\n<ul>\n  <li><strong>Order Number: {{ $json['Order Number'] }}</strong></li>\n  <li><strong>Order ID: {{ $json['Order ID'] }}</strong></li>\n</ul>\n\n<p>\nYou can expect delivery soon. We hope you enjoy your purchase.\n</p>\n\n<p>\nThank you for shopping with us.\n</p>\n\n<p>\nBest Regards,<br>\nCustomer Support Team\n</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        1152
+      ],
+      "id": "195cd014-05ac-4393-b37e-45ca047a7784",
+      "name": "Sent shipped mail to customer",
+      "webhookId": "6d74d83c-a66b-4e02-afa0-5d43c0bcdec3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QV3UcajD75i2QUhz",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "56627dc1-3279-4309-92a3-0dd5c15acbd5",
+              "leftValue": "={{ $json.Priority }}",
+              "rightValue": "High",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        192
+      ],
+      "id": "71d70747-ca0e-4342-a10b-a5bff87f5330",
+      "name": "checking order priority"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "56627dc1-3279-4309-92a3-0dd5c15acbd5",
+              "leftValue": "={{ $json.Priority }}",
+              "rightValue": "High",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        960
+      ],
+      "id": "3008e5a4-274a-4c70-9883-19b6c673a07c",
+      "name": "checking order priority1"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "Order ID",
+              "renameField": true,
+              "outputFieldName": "Processing Orders"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        448,
+        192
+      ],
+      "id": "6ba71e1a-13f6-4433-8a0e-131271e951de",
+      "name": "make list of orders with order id"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "Order ID",
+              "renameField": true,
+              "outputFieldName": "Cancel Orders"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        224,
+        576
+      ],
+      "id": "b46e35f9-1b88-4a85-a448-1e80c7902226",
+      "name": "make list of orders with order id1"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "Order ID",
+              "renameField": true,
+              "outputFieldName": "Pending Orders"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        448,
+        864
+      ],
+      "id": "c2ef6082-32b9-4649-b7fa-ad1f332779e7",
+      "name": "make list of orders with order id2"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "Order ID",
+              "renameField": true,
+              "outputFieldName": "Pending Orders"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        448,
+        1056
+      ],
+      "id": "32826886-a4cd-439d-9674-6491cd5bcd5d",
+      "name": "make list of orders with order id3"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "Order ID",
+              "renameField": true,
+              "outputFieldName": "Shipped Orders"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        224,
+        1344
+      ],
+      "id": "535ea66e-fd10-493e-8d68-ee224a25d04a",
+      "name": "make list of orders with order id4"
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "[\"Order ID\"]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        0,
+        1344
+      ],
+      "id": "54136ae4-bc98-41fb-9ec8-dc1d015abe88",
+      "name": "Remove Duplicate Entries"
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "[\"Order ID\"]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        0,
+        192
+      ],
+      "id": "94335c3a-83e3-4f7f-9965-41f37dd5ebf7",
+      "name": "Remove Duplicate Entries1"
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "[\"Order ID\"]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        0,
+        576
+      ],
+      "id": "39d5b5ff-0b6c-451a-940f-1cf16209dcb3",
+      "name": "Remove Duplicate Entries3"
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "[\"Order ID\"]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        0,
+        960
+      ],
+      "id": "01a4e710-4de1-4f09-ab93-8382e1c075e6",
+      "name": "Remove Duplicate Entries4"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "Order ID",
+              "field2": "Order ID"
+            }
+          ]
+        },
+        "joinMode": "enrichInput1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -672,
+        672
+      ],
+      "id": "52123271-88a7-4714-9eee-bd8f42465eff",
+      "name": "merge data from two files"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c58a04b1-e5fc-41a7-9a47-fdb9a8842fa9",
+              "name": "=Priority",
+              "value": "={{ \n\n ( $json['Order Status'] === 'Pending' || \n$json['Order Status'] === 'Processing' )\n&&\n ( $now.diffTo($json['Order Date'], 'days') )\n> 45 \n? 'High' \n: 'Standard' \n}}",
+              "type": "string"
+            },
+            {
+              "id": "aea1043e-7b56-4764-919b-2bf7e516a81f",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -448,
+        672
+      ],
+      "id": "56fda1ad-dcbc-47f7-9b41-671dbf2ddd57",
+      "name": "add priority entity in order with condition"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0B9809N0QZ",
+          "mode": "list",
+          "cachedResultName": "operations-dept"
+        },
+        "text": "=📦 Orders Ready For Fulfillment\n\nHey Team,\n\nThe following orders with high priorities are currently in Processing status and are ready for fulfillment:\n{{$json[\"Processing Orders\"].join('\\n')  }}\n\nTotal Orders: {{ $json['Processing Orders'].length }}\n\nPlease review these orders and prepare the shipments accordingly.\n",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        672,
+        192
+      ],
+      "id": "f09813fb-43d9-4d75-bdb4-ae5fb0061593",
+      "name": "sent process message to team",
+      "webhookId": "a2e4f957-9b93-4a44-b617-28a258be3748",
+      "credentials": {
+        "slackApi": {
+          "id": "HTlCTSjIFJENPdO6",
+          "name": "Slack account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0BA0DF2QSC",
+          "mode": "list",
+          "cachedResultName": "finance-dept"
+        },
+        "text": "=⚠️ Cancelled Orders Summary\n\nHey Team,\n\nThe following orders have been cancelled and may require review or customer follow-up:\n\nOrders: {{ $json['Cancel Orders'].join('\\n') }}\n\nTotal Cancelled Orders: {{ $json['Cancel Orders'].length }}\n\nPlease verify whether any refunds, payment reversals, or customer communications are required.\n",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        448,
+        576
+      ],
+      "id": "ef7bc55a-4fc0-488b-b88e-cbb0d061b01f",
+      "name": "sent cancel message to team",
+      "webhookId": "fb948fb1-d8a0-4801-9378-b1ccce83303e",
+      "credentials": {
+        "slackApi": {
+          "id": "HTlCTSjIFJENPdO6",
+          "name": "Slack account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0B9809N0QZ",
+          "mode": "list",
+          "cachedResultName": "operations-dept"
+        },
+        "text": "=📋 Pending Orders Summary\n\nHey Team,\n\nThe following orders are currently pending review and require attention:\n\nOrders:\n{{ $json['Pending Orders'].join('\\n') }}\n\nTotal Pending Orders: {{ $json['Pending Orders'].length }}\n\nPlease review these orders and begin processing as soon as possible.\n",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        672,
+        960
+      ],
+      "id": "6359df5e-5aba-46b4-bb88-b67bbba31bcf",
+      "name": "sent pending message to team",
+      "webhookId": "9a2f5bdc-d144-4b92-909b-5fb5eb62a717",
+      "credentials": {
+        "slackApi": {
+          "id": "HTlCTSjIFJENPdO6",
+          "name": "Slack account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0B9809N0QZ",
+          "mode": "list",
+          "cachedResultName": "operations-dept"
+        },
+        "text": "=🚚 Shipped Orders Summary\n\nHey Team,\n\nThe following orders have been successfully shipped and are currently in transit:\n\nOrders:\n{{ $json['Shipped Orders'].join('\\n') }}\n\nTotal Shipped Orders: {{ $json['Shipped Orders'].length }}\n\nCustomers have been notified of the shipment. Please continue monitoring delivery progress and update the order status once delivery is confirmed.\n",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        448,
+        1344
+      ],
+      "id": "1186086e-ea0d-4dc3-982c-50e5ad1dfaf3",
+      "name": "sent shipped message to team",
+      "webhookId": "a308df4a-4b87-4379-95b6-e53d5c2f3a0c",
+      "credentials": {
+        "slackApi": {
+          "id": "HTlCTSjIFJENPdO6",
+          "name": "Slack account 2"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "orders sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "order details with product sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Sent process to customer",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Remove Duplicate Entries1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sent cancel mail to customer",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Remove Duplicate Entries3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sent deliver  mail to customer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Remove Duplicate Entries4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sent shipped mail to customer",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Remove Duplicate Entries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "orders sheet": {
+      "main": [
+        [
+          {
+            "node": "merge data from two files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "order details with product sheet": {
+      "main": [
+        [
+          {
+            "node": "merge data from two files",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "checking order priority": {
+      "main": [
+        [
+          {
+            "node": "make list of orders with order id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "checking order priority1": {
+      "main": [
+        [
+          {
+            "node": "make list of orders with order id2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "make list of orders with order id3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "make list of orders with order id": {
+      "main": [
+        [
+          {
+            "node": "sent process message to team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "make list of orders with order id1": {
+      "main": [
+        [
+          {
+            "node": "sent cancel message to team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "make list of orders with order id2": {
+      "main": [
+        [
+          {
+            "node": "sent pending message to team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "make list of orders with order id3": {
+      "main": [
+        [
+          {
+            "node": "sent pending message to team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "make list of orders with order id4": {
+      "main": [
+        [
+          {
+            "node": "sent shipped message to team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicate Entries": {
+      "main": [
+        [
+          {
+            "node": "make list of orders with order id4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicate Entries1": {
+      "main": [
+        [
+          {
+            "node": "checking order priority",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicate Entries3": {
+      "main": [
+        [
+          {
+            "node": "make list of orders with order id1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicate Entries4": {
+      "main": [
+        [
+          {
+            "node": "checking order priority1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "merge data from two files": {
+      "main": [
+        [
+          {
+            "node": "add priority entity in order with condition",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "add priority entity in order with condition": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sent process to customer": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-06-16T14:55:34.644Z",
+      "createdAt": "2026-06-16T14:55:34.644Z",
+      "role": "workflow:owner",
+      "workflowId": "5bwqa0TVQm2mtySd",
+      "projectId": "Lb300ztv9feaAJz6"
+    }
+  ],
+  "activeVersion": null,
+  "tags": [
+    {
+      "updatedAt": "2026-06-16T14:55:31.622Z",
+      "createdAt": "2026-06-16T14:55:31.622Z",
+      "id": "YF7kRaLLoZERdRud",
+      "name": "learning"
+    }
+  ]
+}
