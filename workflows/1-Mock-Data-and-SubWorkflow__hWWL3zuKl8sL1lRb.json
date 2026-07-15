@@ -1,316 +1,79 @@
 {
-  "createdAt": "2026-06-29T21:14:39.282Z",
-  "id": "hWWL3zuKl8sL1lRb",
-  "name": "1 Mock Data and SubWorkflow",
-  "active": false,
+  "createdAt": "2026-07-01T11:11:12.033Z",
+  "id": "aue2mu3q4fW1hMIE",
+  "name": "error workflow",
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
-      "parameters": {
-        "content": "Customer email with Ticket message\n1. use mock data in trigger\n2. get customer data from google sheet\n3. check if their rating is above 3.8 and totalOrder more then 11 hen mark as VIP\n4. send message to slack team \n5. if not VIP make record on ticket spreadsheet then the team will contact them as soon as can",
-        "height": 320
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        -320,
-        -144
-      ],
-      "typeVersion": 1,
-      "id": "5d7df928-d217-4bf2-bd9c-0d54ff3f1dca",
-      "name": "Sticky Note"
-    },
-    {
       "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
+      "type": "n8n-nodes-base.errorTrigger",
       "typeVersion": 1,
       "position": [
         0,
-        160
+        -48
       ],
-      "id": "42937997-28d7-4667-8173-7236d7f9fae7",
-      "name": "Click to execute workflow"
+      "id": "ac4ee891-f000-455f-a300-43dbfb3c9374",
+      "name": "Error Trigger"
     },
     {
       "parameters": {
-        "mode": "combine",
-        "advanced": true,
-        "mergeByFields": {
-          "values": [
-            {
-              "field1": "Email",
-              "field2": "userEmail"
-            }
-          ]
-        },
+        "sendTo": "={{ $json[\"Owner Email\"] }}",
+        "subject": "=Error occured in WorkFlow: {{ $json.workflow.name }}",
+        "message": "=<h2>🚨 n8n Workflow Failure Alert</h2>\n<p>A workflow has failed and requires attention.</p>\n\n<hr>\n\n<h3>Workflow Details</h3>\n\n<ul>\n  <li><strong>Workflow:</strong> {{ $json.workflow.name }}</li>\n  <li><strong>Execution ID:</strong> {{ $json.execution.id }}</li>\n  <li><strong>Failed Node:{{ $json.execution.lastNodeExecuted }}</strong> </li>\n  <li><strong>Time:</strong> {{ $now }}</li>\n</ul>\n\n<h3>Error Details</h3>\n\n<p><strong>Message:{{ $json.execution.error.message }}</strong></p>\n\n<pre></pre>\n\n<p><strong>Stack Trace:</strong></p>\n\n<pre>{{ $json.execution.error.stack }}</pre>\n\n<hr>\n\n<p>\nPlease review the workflow execution in n8n and resolve the issue.\n<a href=\"{{ $json.execution.url }}\">Debug here!</a>\n\n</p>",
         "options": {}
       },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
       "position": [
         448,
-        160
+        -144
       ],
-      "id": "854415f9-2867-4119-8af3-f2b6fe4aa12c",
-      "name": "merge ticket message data and customer data"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "yB87FFwytUOGEFXQ",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/yB87FFwytUOGEFXQ",
-          "cachedResultName": "2 Mock Data and SubWorkflow"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {},
-          "matchingColumns": [
-            "customerEmail"
-          ],
-          "schema": [
-            {
-              "id": "userEmail",
-              "displayName": "userEmail",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        224,
-        96
-      ],
-      "id": "a4a3e084-2138-4a12-bd78-5e41db55fb0e",
-      "name": "Call '2 Mock Data and SubWorkflow'",
-      "alwaysOutputData": false
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "c364cd7f-751b-4fe8-83e3-1a43558fae3a",
-              "leftValue": "={{ $json.vip_status }}",
-              "rightValue": "true",
-              "operator": {
-                "type": "string",
-                "operation": "equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        672,
-        160
-      ],
-      "id": "f11b7c9f-ba3a-42ae-91b2-93353011bca7",
-      "name": "verify VIP status"
-    },
-    {
-      "parameters": {
-        "select": "channel",
-        "channelId": {
-          "__rl": true,
-          "value": "C0B9809N0QZ",
-          "mode": "list",
-          "cachedResultName": "operations-dept"
-        },
-        "text": "=Hey Team,\nPlease check out these ticket messages from customer and make contact with them as soon as possible\n\nCustomer details: \n{{ $json.FullName }},\n{{ $json.Email}}\n",
-        "otherOptions": {}
-      },
-      "type": "n8n-nodes-base.slack",
-      "typeVersion": 2.5,
-      "position": [
-        896,
-        64
-      ],
-      "id": "106ac850-4a9f-438e-b6b7-fc6a4c0f5f47",
-      "name": "alert team about VIP ticket",
-      "webhookId": "f16ad3c3-9345-47ba-a6fe-f2f9eb452d5b",
+      "id": "5a60ec5b-7db4-4cf7-b455-7ea14be21848",
+      "name": "Send a message",
+      "webhookId": "5cff05ad-eba2-400d-a4c6-83c400aa85f8",
       "credentials": {
-        "slackApi": {
-          "id": "HTlCTSjIFJENPdO6",
-          "name": "Slack account 2"
+        "gmailOAuth2": {
+          "id": "QV3UcajD75i2QUhz",
+          "name": "Gmail account"
         }
       }
     },
     {
       "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.Region }}",
-                    "rightValue": "North America",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    },
-                    "id": "9559319c-73a9-4957-91fa-14cf14698056"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "American Campaign"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "120e8cdf-8c25-431b-a981-adddff979dbc",
-                    "leftValue": "={{ $json.Region }}",
-                    "rightValue": "Middle East",
-                    "operator": {
-                      "type": "string",
-                      "operation": "notEquals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Middle East"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        896,
-        256
-      ],
-      "id": "fb99841a-e89a-4eb4-a320-a30a40517fff",
-      "name": "check regions"
-    },
-    {
-      "parameters": {
-        "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "1gNRzrR6mzYtzAkHZJLFE0AzMNS436W4uXzVsvWkD6-Y",
+          "value": "1XmcrjmohqnFD7FUg8YdCbfh7Y6aGVSq0T983fgF4hok",
           "mode": "list",
-          "cachedResultName": "customer ticker assign to team",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gNRzrR6mzYtzAkHZJLFE0AzMNS436W4uXzVsvWkD6-Y/edit?usp=drivesdk"
+          "cachedResultName": "workflow_owner_directory",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XmcrjmohqnFD7FUg8YdCbfh7Y6aGVSq0T983fgF4hok/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
-          "value": "gid=0",
+          "value": 923239332,
           "mode": "list",
-          "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gNRzrR6mzYtzAkHZJLFE0AzMNS436W4uXzVsvWkD6-Y/edit#gid=0"
+          "cachedResultName": "Workflow Owners",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XmcrjmohqnFD7FUg8YdCbfh7Y6aGVSq0T983fgF4hok/edit#gid=923239332"
         },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "ticketId": "={{ $json.Email.hash()}}",
-            "name": "={{ $json.FullName }}",
-            "email": "={{ $json.Email }}",
-            "country": "={{ $json.Region }}",
-            "team": "={{ $json.Region === 'North America' ? 'North America team' : 'Others team' }}"
-          },
-          "matchingColumns": [],
-          "schema": [
+        "filtersUI": {
+          "values": [
             {
-              "id": "ticketId",
-              "displayName": "ticketId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "name",
-              "displayName": "name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "email",
-              "displayName": "email",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "country",
-              "displayName": "country",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "team",
-              "displayName": "team",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
+              "lookupColumn": "Workflow Name",
+              "lookupValue": "={{ $json.workflow.name }}"
             }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
+          ]
         },
         "options": {}
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        1120,
-        256
+        224,
+        -48
       ],
-      "id": "c145e7b4-a86c-46ce-b345-62fa4fcaf765",
-      "name": "make entry of other region in ticket sheet for team to be connected",
-      "notesInFlow": false,
+      "id": "5935aa0b-5625-4624-a7fc-c7d13ebae220",
+      "name": "Get row(s) in sheet",
+      "alwaysOutputData": false,
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "0WHa8kFysFFXtgzo",
@@ -320,89 +83,62 @@
     },
     {
       "parameters": {
-        "path": "6f2f7682-4b4a-4282-98ba-93b4d74b22c9",
-        "options": {}
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0BENEGH1FE",
+          "mode": "list",
+          "cachedResultName": "failed-workflows"
+        },
+        "messageType": "block",
+        "blocksUi": "={\n  \"blocks\": [\n    {\n      \"type\": \"header\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": \"🚨 Workflow Failed\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"fields\": [\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Workflow:*\\n{{ $json.workflow.name }}\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Execution ID:*\\n{{ $json.execution.id }}\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Failed Node:*\\n{{ $json.execution.lastNodeExecuted }}\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Time:*\\n{{ $now }}\"\n        }\n      ]\n    },\n    {\n      \"type\": \"divider\"\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Error Message*\\n```{{ $json.execution.error.message }}```\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Workflow URL*\\n<{{ $json.execution.url }}|Open Failed Execution>\"\n      }\n    },\n    {\n      \"type\": \"divider\"\n    },\n    {\n      \"type\": \"context\",\n      \"elements\": [\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"Generated automatically by your n8n Error Workflow.\"\n        }\n      ]\n    }\n  ]\n}",
+        "text": "check",
+        "otherOptions": {}
       },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
       "position": [
-        256,
-        208
+        448,
+        48
       ],
-      "id": "eaefb7b1-b815-4093-be3d-c7203a8c5d59",
-      "name": "Webhook",
-      "webhookId": "6f2f7682-4b4a-4282-98ba-93b4d74b22c9"
+      "id": "013647dd-c1d9-412a-a0e5-81e25f21e360",
+      "name": "Send a message1",
+      "webhookId": "548fbda3-8e91-4ac1-bac1-e45d3f5ffe41",
+      "credentials": {
+        "slackApi": {
+          "id": "HTlCTSjIFJENPdO6",
+          "name": "Slack account 2"
+        }
+      }
     }
   ],
   "connections": {
-    "Click to execute workflow": {
+    "Error Trigger": {
       "main": [
         [
           {
-            "node": "merge ticket message data and customer data",
+            "node": "Get row(s) in sheet",
             "type": "main",
-            "index": 1
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
           },
           {
-            "node": "Call '2 Mock Data and SubWorkflow'",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "merge ticket message data and customer data": {
-      "main": [
-        [
-          {
-            "node": "verify VIP status",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Call '2 Mock Data and SubWorkflow'": {
-      "main": [
-        [
-          {
-            "node": "merge ticket message data and customer data",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "verify VIP status": {
-      "main": [
-        [
-          {
-            "node": "alert team about VIP ticket",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "check regions",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "check regions": {
-      "main": [
-        [
-          {
-            "node": "make entry of other region in ticket sheet for team to be connected",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "make entry of other region in ticket sheet for team to be connected",
+            "node": "Send a message1",
             "type": "main",
             "index": 0
           }
@@ -416,18 +152,142 @@
     "availableInMCP": false
   },
   "staticData": null,
-  "activeVersionId": null,
+  "activeVersionId": "a6435e6f-ed8b-4f87-96b4-0ec18cd3ee50",
   "triggerCount": 0,
   "shared": [
     {
-      "updatedAt": "2026-06-29T21:14:39.291Z",
-      "createdAt": "2026-06-29T21:14:39.291Z",
+      "updatedAt": "2026-07-01T11:11:12.038Z",
+      "createdAt": "2026-07-01T11:11:12.038Z",
       "role": "workflow:owner",
-      "workflowId": "hWWL3zuKl8sL1lRb",
+      "workflowId": "aue2mu3q4fW1hMIE",
       "projectId": "Lb300ztv9feaAJz6"
     }
   ],
-  "activeVersion": null,
+  "activeVersion": {
+    "updatedAt": "2026-07-01T17:58:33.000Z",
+    "createdAt": "2026-07-01T17:57:56.899Z",
+    "versionId": "a6435e6f-ed8b-4f87-96b4-0ec18cd3ee50",
+    "workflowId": "aue2mu3q4fW1hMIE",
+    "nodes": [
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.errorTrigger",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "ac4ee891-f000-455f-a300-43dbfb3c9374",
+        "name": "Error Trigger"
+      },
+      {
+        "parameters": {
+          "sendTo": "fahad.testing119@gmail.com",
+          "subject": "=Error occured in WorkFlow: {{ $json.workflow.name }}",
+          "message": "=<h2>🚨 n8n Workflow Failure Alert</h2>\n\n<p>A workflow has failed and requires attention.</p>\n\n<hr>\n\n<h3>Workflow Details</h3>\n\n<ul>\n  <li><strong>Workflow:</strong> {{ $json.workflow.name }}</li>\n  <li><strong>Execution ID:</strong> {{ $json.execution.id }}</li>\n  <li><strong>Failed Node:{{ $json.execution.lastNodeExecuted }}</strong> </li>\n  <li><strong>Time:</strong> {{ $now }}</li>\n</ul>\n\n<h3>Error Details</h3>\n\n<p><strong>Message:{{ $json.execution.error.message }}</strong></p>\n\n<pre></pre>\n\n<p><strong>Stack Trace:</strong></p>\n\n<pre>{{ $json.execution.error.stack }}</pre>\n\n<hr>\n\n<p>\nPlease review the workflow execution in n8n and resolve the issue.\n<a href=\"{{ $json.execution.url }}\">Debug here!</a>\n\n</p>",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.2,
+        "position": [
+          288,
+          -160
+        ],
+        "id": "5a60ec5b-7db4-4cf7-b455-7ea14be21848",
+        "name": "Send a message",
+        "webhookId": "5cff05ad-eba2-400d-a4c6-83c400aa85f8",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "QV3UcajD75i2QUhz",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1XmcrjmohqnFD7FUg8YdCbfh7Y6aGVSq0T983fgF4hok",
+            "mode": "list",
+            "cachedResultName": "workflow_owner_directory",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XmcrjmohqnFD7FUg8YdCbfh7Y6aGVSq0T983fgF4hok/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 923239332,
+            "mode": "list",
+            "cachedResultName": "Workflow Owners",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XmcrjmohqnFD7FUg8YdCbfh7Y6aGVSq0T983fgF4hok/edit#gid=923239332"
+          },
+          "filtersUI": {
+            "values": [
+              {
+                "lookupColumn": "Workflow Name",
+                "lookupValue": "={{ $json.workflow.name }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          272,
+          144
+        ],
+        "id": "5935aa0b-5625-4624-a7fc-c7d13ebae220",
+        "name": "Get row(s) in sheet",
+        "alwaysOutputData": false,
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "0WHa8kFysFFXtgzo",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "console.log($json);\nreturn $input.all();"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          496,
+          -16
+        ],
+        "id": "1295f202-a014-4e9c-b8d1-9d17070ed09a",
+        "name": "Code in JavaScript"
+      }
+    ],
+    "connections": {
+      "Error Trigger": {
+        "main": [
+          [
+            {
+              "node": "Send a message",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Get row(s) in sheet",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodeGroups": [],
+    "authors": "Muhammad fahad.webdev119@gmail.com",
+    "name": "Version a6435e6f",
+    "description": "",
+    "autosaved": false
+  },
   "tags": [
     {
       "updatedAt": "2026-06-16T14:55:31.622Z",
