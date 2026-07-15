@@ -154,7 +154,7 @@
           "cachedResultName": "n8n-git-sync",
           "cachedResultUrl": "https://github.com/fahad09011/n8n-git-sync"
         },
-        "filePath": "={{\n\"workflows/\" +\n$('Get many workflows').item.json.name\n.replace(/[<>:\"/\\\\|?*]/g, \"\")\n.replace(/\\s+/g,\"-\")\n.replace(/-+/g,\"-\") +\n\"__\" +\n$('Get many workflows').item.json.id +\n\".json\"\n}}",
+        "filePath": "={{ $json.folder + \"/\" + $json.workflowFolder + \"/\" + $json.workflowFile }}",
         "asBinaryProperty": false,
         "additionalParameters": {}
       },
@@ -223,7 +223,7 @@
           "cachedResultName": "n8n-git-sync",
           "cachedResultUrl": "https://github.com/fahad09011/n8n-git-sync"
         },
-        "filePath": "={{ \"workflows/\" + $('Get many workflows').item.json.name .replace(/[<>:\"/\\\\|?*]/g, \"\") .replace(/\\s+/g,\"-\") .replace(/-+/g,\"-\") + \"__\" + $('Get many workflows').item.json.id + \".json\" }}",
+        "filePath": "={{ $json.folder + \"/\" + $json.workflowFolder + \"/\" + $json.workflowFile }}",
         "fileContent": "={{ JSON.stringify($json.workflow, null, 2) }}",
         "commitMessage": "={{\"chore(sync): update \" + $('Get many workflows').item.json.name}}"
       },
@@ -261,7 +261,7 @@
           "cachedResultName": "n8n-git-sync",
           "cachedResultUrl": "https://github.com/fahad09011/n8n-git-sync"
         },
-        "filePath": "={{\n\"workflows/\" +\n$('Get many workflows').item.json.name\n.replace(/[<>:\"/\\\\|?*]/g, \"\")\n.replace(/\\s+/g,\"-\")\n.replace(/-+/g,\"-\") +\n\"__\" +\n$('Get many workflows').item.json.id +\n\".json\"\n}}",
+        "filePath": "={{ $json.folder + \"/\" + $json.workflowFolder + \"/\" + $json.workflowFile }}",
         "fileContent": "={{ JSON.stringify($json.workflow, null, 2) }}",
         "commitMessage": "={{\"chore(sync): add \" + $('Get many workflows').item.json.name}}"
       },
