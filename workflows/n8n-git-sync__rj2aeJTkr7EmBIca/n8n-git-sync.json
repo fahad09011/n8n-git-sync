@@ -303,7 +303,7 @@
           "mode": "list",
           "value": "n8n-git-sync"
         },
-        "filePath": "={{ $('Get Workflow File from GitHub').item.json.folder + \"/\" + $('Get Workflow File from GitHub').item.json.workflowFolder + \"/README.md\" }}",
+        "filePath": "={{ $('Get Workflow File from GitHub').item.json.folder + \"/\" + $('Get Workflow File from GitHub').item.json.workflowFolder + \"/README.md\" }}\n",
         "fileContent": "={{ $json.content.parts[0].text }}",
         "commitMessage": "=docs: add README for {{ $('Get Workflow File from GitHub').item.json.workflowName }}"
       },
