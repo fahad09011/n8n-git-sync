@@ -308,29 +308,6 @@
           "name": "Airtable Personal Access Token account 2"
         }
       }
-    },
-    {
-      "parameters": {
-        "sendTo": "fahad.webdev119@gmail.com",
-        "subject": "k",
-        "message": "d",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.gmail",
-      "typeVersion": 2.2,
-      "position": [
-        784,
-        -32
-      ],
-      "id": "b78b7afe-7a67-4255-a1b3-aa9e5146462a",
-      "name": "Send a message1",
-      "webhookId": "6133e93e-334a-4ef3-93b4-43f23b1f12fc",
-      "credentials": {
-        "gmailOAuth2": {
-          "id": "QV3UcajD75i2QUhz",
-          "name": "Gmail account"
-        }
-      }
     }
   ],
   "connections": {
@@ -372,11 +349,6 @@
         [
           {
             "node": "Append Lead to Notion",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Send a message1",
             "type": "main",
             "index": 0
           }
