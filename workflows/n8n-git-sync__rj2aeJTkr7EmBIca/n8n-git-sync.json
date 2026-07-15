@@ -11,7 +11,7 @@
       "typeVersion": 1,
       "position": [
         0,
-        -304
+        -112
       ],
       "id": "78c09c56-fb2d-4d55-ab0b-c29351538797",
       "name": "When clicking ‘Execute workflow’"
@@ -26,7 +26,7 @@
       "typeVersion": 3.4,
       "position": [
         224,
-        -304
+        -112
       ],
       "id": "05d26f19-7bf2-4da1-9cb6-b7b533815cf7",
       "name": "Configuration"
@@ -40,7 +40,7 @@
       "typeVersion": 1,
       "position": [
         448,
-        -304
+        -112
       ],
       "id": "ac8fb1dd-694b-4a2a-91b0-5b61112b73a3",
       "name": "Get many workflows",
@@ -57,7 +57,7 @@
       "typeVersion": 1,
       "position": [
         1920,
-        -304
+        -208
       ],
       "id": "2e3c893a-756f-4c5d-b9f9-c6e0e8505296",
       "name": "No Operation, do nothing"
@@ -91,7 +91,7 @@
       "typeVersion": 2.3,
       "position": [
         1632,
-        -400
+        -208
       ],
       "id": "04d6f3ca-2c3e-434a-b564-9865003dbeb4",
       "name": "check if there is any update in workflow file"
@@ -104,7 +104,7 @@
       "typeVersion": 2,
       "position": [
         672,
-        -304
+        -112
       ],
       "id": "f024c2f4-11cb-4b7a-9028-b14e56b47f9e",
       "name": "Prepare Workflow"
@@ -136,7 +136,7 @@
       "typeVersion": 1.1,
       "position": [
         896,
-        -304
+        -112
       ],
       "id": "e7e2059b-74af-4886-b01a-a5e79d3c6cd3",
       "name": "Get Workflow File from GitHub",
@@ -160,7 +160,7 @@
       "typeVersion": 2,
       "position": [
         1120,
-        -400
+        -208
       ],
       "id": "7f244a13-d5d5-4d9b-98ca-cd497fbbe8b4",
       "name": "Decode GitHub Content"
@@ -173,7 +173,7 @@
       "typeVersion": 2,
       "position": [
         1344,
-        -400
+        -208
       ],
       "id": "b20740c6-c7f5-4451-91b3-446a520d0788",
       "name": "Compare Workflow"
@@ -205,7 +205,7 @@
       "typeVersion": 1.1,
       "position": [
         1920,
-        -496
+        -400
       ],
       "id": "9990fa2f-8545-43d2-ab56-e0f4a367eff5",
       "name": "Update Workflow File",
@@ -243,7 +243,7 @@
       "typeVersion": 1.1,
       "position": [
         1120,
-        -112
+        -16
       ],
       "id": "a740f9d4-aadd-4d09-8f4d-2b37239a17a6",
       "name": "Create Workflow File",
@@ -284,7 +284,7 @@
       "typeVersion": 2.3,
       "position": [
         1344,
-        -112
+        -16
       ],
       "id": "279fe83a-e7a9-471e-ae26-1f769039b6dd",
       "name": "Generate README.md ?"
@@ -311,7 +311,7 @@
       "typeVersion": 1.1,
       "position": [
         1920,
-        -112
+        -16
       ],
       "id": "18c45f99-9ac2-4911-abe6-8b07a8e6d8e1",
       "name": "Create a README.md",
@@ -352,7 +352,7 @@
       "typeVersion": 1.2,
       "position": [
         1568,
-        -112
+        -16
       ],
       "id": "df213d2d-7b4b-4794-b014-d9ab1c381172",
       "name": "Generate README",
@@ -392,7 +392,7 @@
       "typeVersion": 2.3,
       "position": [
         2720,
-        -496
+        -400
       ],
       "id": "786e59fc-13d3-4f80-8ffc-a8dfc4ccf48b",
       "name": "If"
@@ -459,7 +459,7 @@
       "typeVersion": 1.1,
       "position": [
         2944,
-        -496
+        -400
       ],
       "id": "10f443cf-0b11-493e-955d-e9bf94e6392a",
       "name": "Get README File from GitHub",
@@ -479,9 +479,9 @@
       "parameters": {
         "modelId": {
           "__rl": true,
-          "value": "models/gemma-4-31b-it",
+          "value": "models/gemini-flash-latest",
           "mode": "list",
-          "cachedResultName": "models/gemma-4-31b-it"
+          "cachedResultName": "models/gemini-flash-latest"
         },
         "messages": {
           "values": [
@@ -505,7 +505,7 @@
       "typeVersion": 1.2,
       "position": [
         2144,
-        -496
+        -400
       ],
       "id": "37beecab-4074-4a1f-a5aa-14d5f62a1e8c",
       "name": "Should Update README ?",
@@ -518,16 +518,67 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  const response = JSON.parse(item.json.content.parts[1].text);\n\n  return {\n    json: response\n  };\n});"
+        "jsCode": "const items = $input.all();\n\nconst output = [];\n\nfor (const item of items) {\n  const response = JSON.parse(item.json.content.parts[0].text);\n\n  const binaryData = await this.helpers.prepareBinaryData(\n    Buffer.from(response.readme ?? \"\", \"utf8\"),\n    \"README.md\",\n    \"text/markdown\"\n  );\n\n  output.push({\n    json: response,\n    binary: {\n      data: binaryData,\n    },\n  });\n}\n\nreturn output;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
         2496,
-        -496
+        -400
       ],
       "id": "46bbbcf2-d86b-4793-b010-6d7371996de8",
       "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "chatId": "8513718634",
+        "message": "=🤖 n8n GitSync\n\n📝 README Update Suggested\n\nThe AI detected workflow changes that require updating the README.\n\n📂 Workflow: {{ $('Compare Workflow').item.json.workflow.name }}\n\n📋 Reason:\n{{ $('Code in JavaScript').item.json.reason }}\n\nReview:\n{{ $('Code in JavaScript').item.json.readme }}\n-------------------------------------\nWould you like to replace the existing README.md?\n\n✅ Approve\n❌ Reject",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3168,
+        -304
+      ],
+      "id": "5439e313-25cd-4781-99e6-ed355f1084dd",
+      "name": "Send message and wait for response",
+      "webhookId": "cb6743c1-13e4-4fd6-8cd8-e3716b60c115",
+      "credentials": {
+        "telegramApi": {
+          "id": "CtGTaFTJ4kNRgDCO",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendDocument",
+        "chatId": "8513718634",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3168,
+        -112
+      ],
+      "id": "b9408751-a24f-41a7-82e3-9fafb6004087",
+      "name": "Send a document",
+      "webhookId": "1512ff20-85cb-4f08-879a-665656e9c002",
+      "credentials": {
+        "telegramApi": {
+          "id": "CtGTaFTJ4kNRgDCO",
+          "name": "Telegram account"
+        }
+      }
     }
   ],
   "connections": {
@@ -703,6 +754,16 @@
         [
           {
             "node": "Update README.md",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send message and wait for response",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a document",
             "type": "main",
             "index": 0
           }
