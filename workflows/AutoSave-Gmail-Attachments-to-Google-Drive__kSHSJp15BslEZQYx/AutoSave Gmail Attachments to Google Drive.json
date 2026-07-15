@@ -181,6 +181,17 @@
           "name": "Discord Webhook account"
         }
       }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        16
+      ],
+      "id": "d6e5bd90-102f-4673-80eb-ffe8643d6df2",
+      "name": "No Operation, do nothing"
     }
   ],
   "connections": {
@@ -233,6 +244,13 @@
         [
           {
             "node": "merge uploaded message into 1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
             "type": "main",
             "index": 0
           }
