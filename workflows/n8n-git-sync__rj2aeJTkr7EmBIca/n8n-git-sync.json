@@ -2,20 +2,9 @@
   "createdAt": "2026-07-13T20:06:26.670Z",
   "id": "rj2aeJTkr7EmBIca",
   "name": "n8n-git-sync",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        0,
-        -208
-      ],
-      "id": "78c09c56-fb2d-4d55-ab0b-c29351538797",
-      "name": "When clicking ‘Execute workflow’"
-    },
     {
       "parameters": {
         "mode": "raw",
@@ -25,7 +14,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        224,
+        176,
         -208
       ],
       "id": "05d26f19-7bf2-4da1-9cb6-b7b533815cf7",
@@ -39,7 +28,7 @@
       "type": "n8n-nodes-base.n8n",
       "typeVersion": 1,
       "position": [
-        448,
+        400,
         -208
       ],
       "id": "ac8fb1dd-694b-4a2a-91b0-5b61112b73a3",
@@ -56,7 +45,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1920,
+        1872,
         -208
       ],
       "id": "2e3c893a-756f-4c5d-b9f9-c6e0e8505296",
@@ -90,7 +79,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1632,
+        1584,
         -304
       ],
       "id": "04d6f3ca-2c3e-434a-b564-9865003dbeb4",
@@ -103,7 +92,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        672,
+        624,
         -208
       ],
       "id": "f024c2f4-11cb-4b7a-9028-b14e56b47f9e",
@@ -135,7 +124,7 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        896,
+        848,
         -208
       ],
       "id": "e7e2059b-74af-4886-b01a-a5e79d3c6cd3",
@@ -159,7 +148,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1120,
+        1072,
         -304
       ],
       "id": "7f244a13-d5d5-4d9b-98ca-cd497fbbe8b4",
@@ -172,7 +161,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1344,
+        1296,
         -304
       ],
       "id": "b20740c6-c7f5-4451-91b3-446a520d0788",
@@ -193,9 +182,7 @@
         "repository": {
           "__rl": true,
           "value": "n8n-git-sync",
-          "mode": "list",
-          "cachedResultName": "n8n-git-sync",
-          "cachedResultUrl": "https://github.com/fahad09011/n8n-git-sync"
+          "mode": "list"
         },
         "filePath": "={{ $json.folder + \"/\" + $json.workflowFolder + \"/\" + $json.workflowFile }}",
         "fileContent": "={{ JSON.stringify($json.workflow, null, 2) }}",
@@ -204,7 +191,7 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1920,
+        1872,
         -400
       ],
       "id": "9990fa2f-8545-43d2-ab56-e0f4a367eff5",
@@ -242,7 +229,7 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1120,
+        1072,
         -16
       ],
       "id": "a740f9d4-aadd-4d09-8f4d-2b37239a17a6",
@@ -270,13 +257,13 @@
           "value": "n8n-git-sync"
         },
         "filePath": "={{ $('Get Workflow File from GitHub').item.json.folder + \"/\" + $('Get Workflow File from GitHub').item.json.workflowFolder + \"/README.md\" }}\n",
-        "fileContent": "={{ $json.content.parts[0].text }}",
+        "fileContent": "={{ $('Generate README').item.json.content.parts[0].text }}",
         "commitMessage": "=docs: add README for {{ $('Get Workflow File from GitHub').item.json.workflowName }}"
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        2496,
+        2448,
         -112
       ],
       "id": "18c45f99-9ac2-4911-abe6-8b07a8e6d8e1",
@@ -317,7 +304,7 @@
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1.2,
       "position": [
-        1568,
+        1520,
         -16
       ],
       "id": "df213d2d-7b4b-4794-b014-d9ab1c381172",
@@ -351,7 +338,7 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        3616,
+        3568,
         -496
       ],
       "id": "af7278ac-3a19-4ccd-9066-5c019ec571c8",
@@ -390,7 +377,7 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        2944,
+        2896,
         -400
       ],
       "id": "10f443cf-0b11-493e-955d-e9bf94e6392a",
@@ -436,7 +423,7 @@
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1.2,
       "position": [
-        2144,
+        2096,
         -400
       ],
       "id": "37beecab-4074-4a1f-a5aa-14d5f62a1e8c",
@@ -453,7 +440,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        3616,
+        3568,
         -304
       ],
       "id": "69730f68-d028-407f-b961-03b8e9842917",
@@ -475,7 +462,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        3168,
+        3120,
         -400
       ],
       "id": "690f5511-9d76-4845-bde2-faa965bca08c",
@@ -495,7 +482,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2496,
+        2448,
         -400
       ],
       "id": "46bbbcf2-d86b-4793-b010-6d7371996de8",
@@ -529,7 +516,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1344,
+        1296,
         -16
       ],
       "id": "279fe83a-e7a9-471e-ae26-1f769039b6dd",
@@ -563,7 +550,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2720,
+        2672,
         -400
       ],
       "id": "786e59fc-13d3-4f80-8ffc-a8dfc4ccf48b",
@@ -597,7 +584,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        3392,
+        3344,
         -400
       ],
       "id": "5e9ca190-1b62-44ce-b4bd-dfaf8545a64e",
@@ -607,8 +594,8 @@
       "parameters": {
         "operation": "sendAndWait",
         "sendTo": "fahad.testing119@gmail.com",
-        "subject": "=README Generation Approval Required - n8n GitSync {{ $json.path }}",
-        "message": "=Hi,\n\nGitSync detected a workflow change that may require updating the README.\n\nWorkflow:\n{{ $('Compare Workflow').item.json.workflow.name }}\n\nReason:\n{{ $('Clean README.md').item.json.reason }}\n\n----------------------------------------\nProposed README\n----------------------------------------\n\n{{ $('Clean README.md').item.json.readme }}\n\n----------------------------------------\n\nChoose an action:\n\n",
+        "subject": "=📄 README Creation Approval Required For{{ $('Get Workflow File from GitHub').item.json.workflowName }}",
+        "message": "=Hello,\n\nGitSync has generated a new README.md for the following workflow:\n\n📂 Workflow:\n{{ $('Get Workflow File from GitHub').item.json.workflowName }}\n\nReason:\nThis workflow is being synchronized to GitHub for the first time, and an AI-generated README has been created.\n\nPlease review the attached README.md file.\n\nProposed README\n----------------------------------------\n{{ $json.content.parts[0].text }}\n\n----------------------------------------\nDo you want GitSync to create this README in your GitHub repository?\n\n✅ Approve → The README.md file will be committed to GitHub.\n❌ Reject → The README.md file will not be created.\n\nThank you,\nGitSync for n8n\n",
         "approvalOptions": {
           "values": {
             "approvalType": "double"
@@ -619,7 +606,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        1920,
+        1872,
         -16
       ],
       "id": "bb04a7bb-e685-455f-86f1-04b6060190a7",
@@ -660,7 +647,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2208,
+        2160,
         -16
       ],
       "id": "07fe7ad5-8099-4458-9942-3447fef23cf2",
@@ -671,25 +658,45 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        2496,
+        2448,
         80
       ],
       "id": "647196b5-9438-402c-b5d1-404a96d0e6e3",
       "name": "No Operation, do nothing2"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -48,
+        -208
+      ],
+      "id": "86f5074d-ce52-43c7-8453-ea3e1bb5daf9",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.timeSaved",
+      "typeVersion": 1,
+      "position": [
+        3792,
+        -496
+      ],
+      "id": "b724fb64-a20b-49c1-bb8e-cb90fa4d9f75",
+      "name": "Time Saved"
     }
   ],
   "connections": {
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Configuration",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Configuration": {
       "main": [
         [
@@ -821,7 +828,13 @@
     },
     "Update README.md": {
       "main": [
-        []
+        [
+          {
+            "node": "Time Saved",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Get README File from GitHub": {
@@ -936,16 +949,36 @@
           }
         ]
       ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "aue2mu3q4fW1hMIE",
+    "callerPolicy": "workflowsFromSameOwner"
   },
-  "staticData": null,
-  "activeVersionId": null,
-  "triggerCount": 0,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": [
+        13
+      ]
+    }
+  },
+  "activeVersionId": "1f584e93-82b7-42f6-89b3-d6d8f6c373bf",
+  "triggerCount": 1,
   "shared": [
     {
       "updatedAt": "2026-07-13T20:06:26.676Z",
@@ -955,7 +988,975 @@
       "projectId": "Lb300ztv9feaAJz6"
     }
   ],
-  "activeVersion": null,
+  "activeVersion": {
+    "updatedAt": "2026-07-16T12:31:26.000Z",
+    "createdAt": "2026-07-16T12:31:20.640Z",
+    "versionId": "1f584e93-82b7-42f6-89b3-d6d8f6c373bf",
+    "workflowId": "rj2aeJTkr7EmBIca",
+    "nodes": [
+      {
+        "parameters": {
+          "mode": "raw",
+          "jsonOutput": "{\n  \"github\": {\n    \"owner\": \"fahad09011\",\n    \"repository\": \"n8n-git-sync\",\n    \"branch\": \"main\",\n    \"workflowFolder\": \"workflows\"\n  },\n  \"documentation\": {\n    \"enabled\": true,\n    \"provider\": \"gemini\",\n    \"approval\": \"none\"\n  },\n  \"ai\": {\n    \"modelPrompt\": \"You are a senior n8n developer and technical documentation writer.\\n\\nYour task is to generate professional README.md documentation for n8n workflows.\\n\\n## Objective\\n\\nCreate documentation that enables another developer to understand the workflow quickly without opening the workflow JSON.\\n\\nThe documentation should explain what the workflow does, why it exists, how it works at a high level, and what external services or credentials it depends on.\\n\\n## Rules\\n\\n- Return ONLY Markdown.\\n- Never wrap the output inside markdown code fences.\\n- Never explain your reasoning.\\n- Never mention that you are an AI.\\n- Never include placeholders.\\n- Never include instructional text.\\n- Never include examples.\\n- Never invent information.\\n- Only use information present in the provided workflow JSON.\\n- If something cannot be determined, write \\\"Not detected\\\".\\n- Keep the README concise, professional, and suitable for a public GitHub repository.\\n\\n## Documentation Philosophy\\n\\nDocument the workflow from the perspective of someone who wants to understand and use it.\\n\\nDo not document how the workflow is internally implemented.\\n\\nAvoid mentioning helper nodes, configuration nodes, comparison nodes, formatting nodes, or temporary implementation details unless they are essential to understanding the workflow.\\n\\nDescribe the workflow's behavior, not its implementation.\\n\\n## Writing Style\\n\\n- Prefer business-level explanations over implementation details.\\n- Focus on workflow behavior rather than individual nodes.\\n- Explain the purpose before the implementation.\\n- Use simple language.\\n- Avoid repetition.\\n- Avoid describing every node individually.\\n- Group related nodes into a single logical step whenever possible.\\n\\n## Workflow Summary\\n\\nRepresent the workflow as a simple high-level ASCII flow diagram.\\n\\nRequirements:\\n\\n- Use plain text only.\\n- Keep it concise.\\n- Show only the major execution stages.\\n- Group related operations together.\\n- Include important decision points when useful.\\n- Do not include every node.\\n- Do not include node IDs.\\n- Do not include credentials.\\n- Do not include expressions.\\n- Do not include retry logic.\\n- Prefer readability over technical completeness.\\n\\nDocumentation Scope\\n\\nDescribe WHAT the workflow does.\\n\\nDo not describe HOW helper nodes implement the workflow.\\n\\nAvoid mentioning:\\n\\n- Set nodes\\n- Edit Fields nodes\\n- Code nodes\\n- Compare Dataset nodes\\n- Merge nodes\\n- Internal helper nodes\\n\\nunless they represent a meaningful business function.\\n\\nSummarize technical implementation into business actions whenever possible.\\n\\nTerminology\\n\\nPrefer describing workflow behavior instead of internal implementation.\\n\\nAvoid referring to helper nodes by name.\\n\\nInstead of:\\n- \\\"Prepare Workflow Data\\\"\\n- \\\"Decode Workflow\\\"\\n\\nPrefer:\\n- \\\"Normalize workflow data\\\"\\n- \\\"Compare workflow versions\\\"\\n- \\\"Retrieve workflow definition\\\"\\n\\nUse official n8n terminology where applicable.\\n\\nExample style:\\n\\nManual Trigger\\n      │\\nRetrieve Workflows\\n      │\\nCheck GitHub\\n      │\\nWorkflow Exists?\\n├── Yes → Compare → Update if changed\\n└── No  → Create workflow → Generate README (optional)\\n\\n## Detection Rules\\n\\nAutomatically identify when possible:\\n\\n- Workflow trigger\\n- Workflow purpose\\n- External integrations\\n- Inputs\\n- Outputs\\n- Required credentials\\n- Tags\\n- Important implementation notes\\n\\nDo not invent any of these.\\n\\n## Notes Section\\n\\nOnly include information that would help another developer maintain or operate the workflow.\\n\\nDo not mention internal implementation details unless they affect workflow behavior.\\n\\n## Repository Files\\n\\nAlways include:\\n\\n- WorkflowName.json\\n- README.md\\n\\n## Footer\\n\\nAlways finish with the provided GitSync footer exactly as supplied in the user prompt.\",\n    \"userPrompt\": \"Generate a professional README.md using the following structure.\\n\\n# <Workflow Name>\\n\\n> <One sentence summary>\\n\\n---\\n\\n## 📌 Overview\\n\\nDescribe what the workflow automates.\\n\\nExplain the overall workflow in 2–4 concise paragraphs.\\n\\n---\\n\\n## 🎯 Purpose\\n\\nExplain the business purpose of the workflow.\\n\\n---\\n\\n## ⚡ Trigger\\n\\n| Type | Description |\\n|------|-------------|\\n| Trigger Type | Description |\\n\\n---\\n\\n## 🔄 Workflow Summary\\n\\nGenerate a simple high-level ASCII flow diagram.\\n\\nDo not describe every node.\\n\\nGroup related operations together.\\n\\n---\\n\\n## 🔌 Integrations\\n\\nList all detected external services.\\n\\nUse a table.\\n\\n| Service | Purpose |\\n|----------|----------|\\n\\n---\\n\\n## 📥 Inputs\\n\\nDescribe the detected workflow inputs.\\n\\nUse bullet points when appropriate.\\n\\n---\\n\\n## 📤 Outputs\\n\\nDescribe the detected workflow outputs.\\n\\nUse bullet points when appropriate.\\n\\n---\\n\\n## ⚙️ Requirements\\n\\nList detected credentials or required external services.\\n\\nDo not invent credentials.\\n\\n---\\n\\n## 🏷 Tags\\n\\nUse workflow tags if available.\\n\\nIf none exist, write:\\n\\nNot detected.\\n\\n---\\n\\n## 📝 Notes\\n\\nMention anything important another developer should know.\\n\\nIf nothing important is detected, write:\\n\\n> No special requirements detected.\\n\\n---\\n\\n## 📂 Repository Files\\n\\n| File | Description |\\n|------|-------------|\\n| <Workflow Name>.json | n8n workflow definition |\\n| README.md | Workflow documentation |\\n\\n---\\n\\n## 🤖 Generated by GitSync for n8n\\n\\nThis README was generated automatically by GitSync for n8n.\\n\\nYou are free to edit this file manually.\\n\\nFuture AI-generated updates require your approval before replacing this documentation.\\n\\n---\\n\\nWorkflow JSON\\n\\n{{ JSON.stringify($('Prepare Workflow').item.json.workflow, null, 2) }}\"\n  }\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          176,
+          -208
+        ],
+        "id": "05d26f19-7bf2-4da1-9cb6-b7b533815cf7",
+        "name": "Configuration"
+      },
+      {
+        "parameters": {
+          "filters": {},
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.n8n",
+        "typeVersion": 1,
+        "position": [
+          400,
+          -208
+        ],
+        "id": "ac8fb1dd-694b-4a2a-91b0-5b61112b73a3",
+        "name": "Get many workflows",
+        "credentials": {
+          "n8nApi": {
+            "id": "AmOXDOcx065siGYp",
+            "name": "n8n account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          1872,
+          -208
+        ],
+        "id": "2e3c893a-756f-4c5d-b9f9-c6e0e8505296",
+        "name": "No Operation, do nothing"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "40482ce9-b0df-4fe4-8cc9-7ccdd725d790",
+                "leftValue": "={{ $json.changed }}",
+                "rightValue": false,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1584,
+          -304
+        ],
+        "id": "04d6f3ca-2c3e-434a-b564-9865003dbeb4",
+        "name": "check if there is any update in workflow file"
+      },
+      {
+        "parameters": {
+          "jsCode": "const config = $('Configuration').first().json;\n\nconst github = config.github;\n\nreturn $input.all().map(item => {\n\n  const {\n    updatedAt,\n    versionId,\n    meta,\n    pinData,\n    ...workflow\n  } = item.json;\n\n  // Stable folder name (contains workflow ID)\n  const workflowFolder =\n    workflow.name\n      .replace(/[<>:\"/\\\\|?*]/g, '')\n      .replace(/\\s+/g, '-')\n      .replace(/-+/g, '-') +\n    '__' +\n    workflow.id;\n\n  // Human-readable JSON filename\n  const workflowFile =\n    workflow.name\n      .replace(/[<>:\"/\\\\|?*]/g, '')\n      .trim() +\n    '.json';\n\nreturn {\n  json: {\n    workflow,\n    workflowId: workflow.id,\n    workflowName: workflow.name,\n\n    workflowFolder,\n    workflowFile,\n\n    owner: github.owner,\n    repo: github.repository,\n    branch: github.branch,\n    folder: github.workflowFolder,\n\n    documentation: config.documentation\n  }\n};\n});"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          624,
+          -208
+        ],
+        "id": "f024c2f4-11cb-4b7a-9028-b14e56b47f9e",
+        "name": "Prepare Workflow"
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "file",
+          "operation": "get",
+          "owner": {
+            "__rl": true,
+            "value": "fahad09011",
+            "mode": "list",
+            "cachedResultName": "fahad09011",
+            "cachedResultUrl": "https://github.com/fahad09011"
+          },
+          "repository": {
+            "__rl": true,
+            "value": "n8n-git-sync",
+            "mode": "list",
+            "cachedResultName": "n8n-git-sync",
+            "cachedResultUrl": "https://github.com/fahad09011/n8n-git-sync"
+          },
+          "filePath": "={{ $json.folder + \"/\" + $json.workflowFolder + \"/\" + $json.workflowFile }}",
+          "asBinaryProperty": false,
+          "additionalParameters": {}
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          848,
+          -208
+        ],
+        "id": "e7e2059b-74af-4886-b01a-a5e79d3c6cd3",
+        "name": "Get Workflow File from GitHub",
+        "webhookId": "921bdb66-d28d-4d38-8f47-ed00b6f1e532",
+        "retryOnFail": false,
+        "waitBetweenTries": 100,
+        "maxTries": 2,
+        "credentials": {
+          "githubOAuth2Api": {
+            "id": "4PJ5LFfzZgNqTF8f",
+            "name": "GitHub account"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "jsCode": "const results = [];\n\nfor (const item of $input.all()) {\n  // Decode Base64 safely using native Node.js Buffers\n  const decodedText = Buffer.from(item.json.content, 'base64').toString('utf-8');\n  \n  // Parse the decoded text string into a JSON object\n  const githubWorkflow = JSON.parse(decodedText);\n\n  // Remove fields that should not trigger a Git commit\n  delete githubWorkflow.updatedAt;\n  delete githubWorkflow.versionId;\n  delete githubWorkflow.meta;\n  delete githubWorkflow.pinData;\n\n  // Push the cleaned workflow along with its unique GitHub SHA\n  results.push({\n    json: {\n      githubWorkflow,\n      sha: item.json.sha,\n    }\n  });\n}\n\nreturn results;\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1072,
+          -304
+        ],
+        "id": "7f244a13-d5d5-4d9b-98ca-cd497fbbe8b4",
+        "name": "Decode GitHub Content"
+      },
+      {
+        "parameters": {
+          "jsCode": "const results = [];\n\nconst currentItems = $('Prepare Workflow').all();\nconst githubItems = $input.all();\n\nfor (let i = 0; i < githubItems.length; i++) {\n\n  const workflow = currentItems[i].json.workflow;\n  const githubWorkflow = githubItems[i].json.githubWorkflow;\n\n  const changed =\n    JSON.stringify(workflow) !== JSON.stringify(githubWorkflow);\n\n  results.push({\n  json: {\n    ...currentItems[i].json,\n    githubWorkflow: githubItems[i].json.githubWorkflow,\n    sha: githubItems[i].json.sha,\n    changed\n  }\n});\n}\n\nreturn results;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1296,
+          -304
+        ],
+        "id": "b20740c6-c7f5-4451-91b3-446a520d0788",
+        "name": "Compare Workflow"
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "file",
+          "operation": "edit",
+          "owner": {
+            "__rl": true,
+            "value": "fahad09011",
+            "mode": "list",
+            "cachedResultName": "fahad09011",
+            "cachedResultUrl": "https://github.com/fahad09011"
+          },
+          "repository": {
+            "__rl": true,
+            "value": "n8n-git-sync",
+            "mode": "list"
+          },
+          "filePath": "={{ $json.folder + \"/\" + $json.workflowFolder + \"/\" + $json.workflowFile }}",
+          "fileContent": "={{ JSON.stringify($json.workflow, null, 2) }}",
+          "commitMessage": "={{\"chore(sync): update \" + $('Get many workflows').item.json.name}}"
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          1872,
+          -400
+        ],
+        "id": "9990fa2f-8545-43d2-ab56-e0f4a367eff5",
+        "name": "Update Workflow File",
+        "webhookId": "e0902c12-6ed9-4113-8496-86251e655f1e",
+        "credentials": {
+          "githubOAuth2Api": {
+            "id": "4PJ5LFfzZgNqTF8f",
+            "name": "GitHub account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "file",
+          "owner": {
+            "__rl": true,
+            "value": "fahad09011",
+            "mode": "list",
+            "cachedResultName": "fahad09011",
+            "cachedResultUrl": "https://github.com/fahad09011"
+          },
+          "repository": {
+            "__rl": true,
+            "value": "n8n-git-sync",
+            "mode": "list",
+            "cachedResultName": "n8n-git-sync",
+            "cachedResultUrl": "https://github.com/fahad09011/n8n-git-sync"
+          },
+          "filePath": "={{ $json.folder + \"/\" + $json.workflowFolder + \"/\" + $json.workflowFile }}",
+          "fileContent": "={{ JSON.stringify($json.workflow, null, 2) }}",
+          "commitMessage": "={{\"chore(sync): add \" + $('Get many workflows').item.json.name}}"
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          1072,
+          -16
+        ],
+        "id": "a740f9d4-aadd-4d09-8f4d-2b37239a17a6",
+        "name": "Create Workflow File",
+        "webhookId": "921bdb66-d28d-4d38-8f47-ed00b6f1e532",
+        "credentials": {
+          "githubOAuth2Api": {
+            "id": "4PJ5LFfzZgNqTF8f",
+            "name": "GitHub account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "file",
+          "owner": {
+            "__rl": true,
+            "mode": "list",
+            "value": "fahad09011"
+          },
+          "repository": {
+            "__rl": true,
+            "mode": "list",
+            "value": "n8n-git-sync"
+          },
+          "filePath": "={{ $('Get Workflow File from GitHub').item.json.folder + \"/\" + $('Get Workflow File from GitHub').item.json.workflowFolder + \"/README.md\" }}\n",
+          "fileContent": "={{ $('Generate README').item.json.content.parts[0].text }}",
+          "commitMessage": "=docs: add README for {{ $('Get Workflow File from GitHub').item.json.workflowName }}"
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          2448,
+          -112
+        ],
+        "id": "18c45f99-9ac2-4911-abe6-8b07a8e6d8e1",
+        "name": "Create a README.md",
+        "webhookId": "b65fcdc2-3c9a-4fb2-b2c3-10958189168c",
+        "credentials": {
+          "githubOAuth2Api": {
+            "id": "4PJ5LFfzZgNqTF8f",
+            "name": "GitHub account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "models/gemma-4-26b-a4b-it",
+            "mode": "list",
+            "cachedResultName": "models/gemma-4-26b-a4b-it"
+          },
+          "messages": {
+            "values": [
+              {
+                "content": "={{ $('Configuration').item.json.ai.modelPrompt }}",
+                "role": "model"
+              },
+              {
+                "content": "={{ $('Configuration').item.json.ai.userPrompt }}\nWorkflow JSON {{ JSON.stringify($('Prepare Workflow').item.json.workflow, null, 2) }}"
+              }
+            ]
+          },
+          "builtInTools": {},
+          "options": {
+            "maxOutputTokens": 6000,
+            "temperature": 0.2
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.googleGemini",
+        "typeVersion": 1.2,
+        "position": [
+          1520,
+          -16
+        ],
+        "id": "df213d2d-7b4b-4794-b014-d9ab1c381172",
+        "name": "Generate README",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "zl328ab0prIopPjj",
+            "name": "Google Gemini(PaLM) Api account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "file",
+          "operation": "edit",
+          "owner": {
+            "__rl": true,
+            "mode": "list",
+            "value": "fahad09011"
+          },
+          "repository": {
+            "__rl": true,
+            "mode": "list",
+            "value": "n8n-git-sync"
+          },
+          "filePath": "={{ $('Get README File from GitHub').item.json.path }}",
+          "fileContent": "={{ $('Clean README.md').item.json.readme }}",
+          "commitMessage": "=docs: Update README for {{ $('Compare Workflow').item.json.workflowName }}"
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          3568,
+          -496
+        ],
+        "id": "af7278ac-3a19-4ccd-9066-5c019ec571c8",
+        "name": "Update README.md",
+        "webhookId": "b65fcdc2-3c9a-4fb2-b2c3-10958189168c",
+        "credentials": {
+          "githubOAuth2Api": {
+            "id": "4PJ5LFfzZgNqTF8f",
+            "name": "GitHub account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "authentication": "oAuth2",
+          "resource": "file",
+          "operation": "get",
+          "owner": {
+            "__rl": true,
+            "value": "fahad09011",
+            "mode": "list",
+            "cachedResultName": "fahad09011",
+            "cachedResultUrl": "https://github.com/fahad09011"
+          },
+          "repository": {
+            "__rl": true,
+            "value": "n8n-git-sync",
+            "mode": "list",
+            "cachedResultName": "n8n-git-sync",
+            "cachedResultUrl": "https://github.com/fahad09011/n8n-git-sync"
+          },
+          "filePath": "={{ $('Compare Workflow').item.json.folder }}/{{ $('Compare Workflow').item.json.workflowFolder }}/README.md",
+          "asBinaryProperty": false,
+          "additionalParameters": {}
+        },
+        "type": "n8n-nodes-base.github",
+        "typeVersion": 1.1,
+        "position": [
+          2896,
+          -400
+        ],
+        "id": "10f443cf-0b11-493e-955d-e9bf94e6392a",
+        "name": "Get README File from GitHub",
+        "webhookId": "921bdb66-d28d-4d38-8f47-ed00b6f1e532",
+        "retryOnFail": false,
+        "waitBetweenTries": 100,
+        "maxTries": 2,
+        "credentials": {
+          "githubOAuth2Api": {
+            "id": "4PJ5LFfzZgNqTF8f",
+            "name": "GitHub account"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "models/gemini-flash-latest",
+            "mode": "list",
+            "cachedResultName": "models/gemini-flash-latest"
+          },
+          "messages": {
+            "values": [
+              {
+                "content": "={{ $('Configuration').item.json.ai.modelPrompt }}\nYou are a senior n8n developer.\n\nYour task is to determine whether a workflow change requires updating its README documentation.\n\nRules:\n\n- Return ONLY valid JSON.\n- Do not include markdown.\n- Do not explain your reasoning.\n- Do not include any text outside the JSON.\n\nA README should be updated only if the workflow behaviour has changed.\nThe \"readme\" field must contain the complete README.md as plain Markdown.\n\nDo not escape newlines manually.\nDo not return Markdown code fences.\nDo not return partial documentation.\nReturn the entire README.\nExamples of changes that REQUIRE a README update:\n\n- Trigger changed\n- New integration added\n- Integration removed\n- Business logic changed\n- New workflow branch added\n- Outputs changed\n- Inputs changed\n- Credentials required changed\n- Workflow purpose changed\n\nExamples that DO NOT require a README update:\n\n- Node position changes\n- Node color changes\n- Notes\n- Metadata\n- Internal helper nodes\n- Variable renaming\n- Cosmetic changes\n- Formatting changes\n\n## Output Format\n\nReturn ONLY valid JSON.\n\nDo not return Markdown directly.\n\nDo not wrap the response in markdown code fences.\n\nReturn exactly this JSON structure:\n\n{\n  \"updateReadme\": true,\n  \"reason\": \"Short explanation.\",\n  \"readme\": \"Complete README.md content\"\n}\n\nor\n\n{\n  \"updateReadme\": false,\n  \"reason\": \"Short explanation.\",\n  \"readme\": null\n}\n\nRules:\n\n- updateReadme must be a boolean.\n- reason must always be provided.\n- readme must contain the complete README.md content only when updateReadme is true.\n- When updateReadme is false, readme must be null.\n- The README content must follow every documentation rule defined in this prompt.",
+                "role": "model"
+              },
+              {
+                "content": "={{ $('Configuration').item.json.ai.userPrompt }}\n\nOld workflow (GitHub)\n{{  JSON.stringify($('Decode GitHub Content').item.json.githubWorkflow )}}\n\nNew workflow (n8n)\n{{  JSON.stringify($('Prepare Workflow').item.json.workflow) }}"
+              }
+            ]
+          },
+          "jsonOutput": true,
+          "builtInTools": {},
+          "options": {
+            "maxOutputTokens": 9000,
+            "temperature": 0.2
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.googleGemini",
+        "typeVersion": 1.2,
+        "position": [
+          2096,
+          -400
+        ],
+        "id": "37beecab-4074-4a1f-a5aa-14d5f62a1e8c",
+        "name": "Should Update README ?",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "CXZZMJrr3TGCOeOb",
+            "name": "Google Gemini(PaLM) Api account 3"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          3568,
+          -304
+        ],
+        "id": "69730f68-d028-407f-b961-03b8e9842917",
+        "name": "No Operation, do nothing1"
+      },
+      {
+        "parameters": {
+          "operation": "sendAndWait",
+          "sendTo": "fahad.testing119@gmail.com",
+          "subject": "=README Update Approval Required - n8n GitSync {{ $json.path }}",
+          "message": "=Hi,\n\nGitSync detected a workflow change that may require updating the README.\n\nWorkflow:\n{{ $('Compare Workflow').item.json.workflow.name }}\n\nReason:\n{{ $('Clean README.md').item.json.reason }}\n\n----------------------------------------\nProposed README\n----------------------------------------\n\n{{ $('Clean README.md').item.json.readme }}\n\n----------------------------------------\n\nChoose an action:\n\n",
+          "approvalOptions": {
+            "values": {
+              "approvalType": "double"
+            }
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.2,
+        "position": [
+          3120,
+          -400
+        ],
+        "id": "690f5511-9d76-4845-bde2-faa965bca08c",
+        "name": "Send mail and wait for approval",
+        "webhookId": "ffcf17d5-e025-4210-aa74-d276e7a5afa6",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "QV3UcajD75i2QUhz",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  const response = JSON.parse(item.json.content.parts[0].text);\n\n  return {\n    json: response\n  };\n});"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2448,
+          -400
+        ],
+        "id": "46bbbcf2-d86b-4793-b010-6d7371996de8",
+        "name": "Clean README.md"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "41649c77-1859-4335-9df9-e14b2eff46d5",
+                "leftValue": "={{ $('Get Workflow File from GitHub').item.json.documentation.enabled }}",
+                "rightValue": false,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1296,
+          -16
+        ],
+        "id": "279fe83a-e7a9-471e-ae26-1f769039b6dd",
+        "name": "Generate README.md or Not ?"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "22e62209-86c5-4d7e-a023-0666fe85d5be",
+                "leftValue": "={{ $('Configuration').item.json.documentation.enabled }}",
+                "rightValue": false,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          2672,
+          -400
+        ],
+        "id": "786e59fc-13d3-4f80-8ffc-a8dfc4ccf48b",
+        "name": "Update README.md or Not ?"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "18f2efe0-32b2-41e6-88e4-7645d04cc3f1",
+                "leftValue": "={{ $json.data.approved }}",
+                "rightValue": false,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          3344,
+          -400
+        ],
+        "id": "5e9ca190-1b62-44ce-b4bd-dfaf8545a64e",
+        "name": "is Approved ?"
+      },
+      {
+        "parameters": {
+          "operation": "sendAndWait",
+          "sendTo": "fahad.testing119@gmail.com",
+          "subject": "=📄 README Creation Approval Required For{{ $('Get Workflow File from GitHub').item.json.workflowName }}",
+          "message": "=Hello,\n\nGitSync has generated a new README.md for the following workflow:\n\n📂 Workflow:\n{{ $('Get Workflow File from GitHub').item.json.workflowName }}\n\nReason:\nThis workflow is being synchronized to GitHub for the first time, and an AI-generated README has been created.\n\nPlease review the attached README.md file.\n\nProposed README\n----------------------------------------\n{{ $json.content.parts[0].text }}\n\n----------------------------------------\nDo you want GitSync to create this README in your GitHub repository?\n\n✅ Approve → The README.md file will be committed to GitHub.\n❌ Reject → The README.md file will not be created.\n\nThank you,\nGitSync for n8n\n",
+          "approvalOptions": {
+            "values": {
+              "approvalType": "double"
+            }
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.2,
+        "position": [
+          1872,
+          -16
+        ],
+        "id": "bb04a7bb-e685-455f-86f1-04b6060190a7",
+        "name": "Send mail and wait for approval1",
+        "webhookId": "ffcf17d5-e025-4210-aa74-d276e7a5afa6",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "QV3UcajD75i2QUhz",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "18f2efe0-32b2-41e6-88e4-7645d04cc3f1",
+                "leftValue": "={{ $json.data.approved }}",
+                "rightValue": false,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          2160,
+          -16
+        ],
+        "id": "07fe7ad5-8099-4458-9942-3447fef23cf2",
+        "name": "is Approved ?1"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2448,
+          80
+        ],
+        "id": "647196b5-9438-402c-b5d1-404a96d0e6e3",
+        "name": "No Operation, do nothing2"
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 1
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          -48,
+          -208
+        ],
+        "id": "86f5074d-ce52-43c7-8453-ea3e1bb5daf9",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.timeSaved",
+        "typeVersion": 1,
+        "position": [
+          3792,
+          -496
+        ],
+        "id": "b724fb64-a20b-49c1-bb8e-cb90fa4d9f75",
+        "name": "Time Saved"
+      }
+    ],
+    "connections": {
+      "Configuration": {
+        "main": [
+          [
+            {
+              "node": "Get many workflows",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many workflows": {
+        "main": [
+          [
+            {
+              "node": "Prepare Workflow",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "check if there is any update in workflow file": {
+        "main": [
+          [
+            {
+              "node": "Update Workflow File",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "No Operation, do nothing",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Prepare Workflow": {
+        "main": [
+          [
+            {
+              "node": "Get Workflow File from GitHub",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Workflow File from GitHub": {
+        "main": [
+          [
+            {
+              "node": "Decode GitHub Content",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Create Workflow File",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Decode GitHub Content": {
+        "main": [
+          [
+            {
+              "node": "Compare Workflow",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Compare Workflow": {
+        "main": [
+          [
+            {
+              "node": "check if there is any update in workflow file",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update Workflow File": {
+        "main": [
+          [
+            {
+              "node": "Should Update README ?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create Workflow File": {
+        "main": [
+          [
+            {
+              "node": "Generate README.md or Not ?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate README": {
+        "main": [
+          [
+            {
+              "node": "Send mail and wait for approval1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create a README.md": {
+        "main": [
+          []
+        ]
+      },
+      "Update README.md": {
+        "main": [
+          [
+            {
+              "node": "Time Saved",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get README File from GitHub": {
+        "main": [
+          [
+            {
+              "node": "Send mail and wait for approval",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Should Update README ?": {
+        "main": [
+          [
+            {
+              "node": "Clean README.md",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send mail and wait for approval": {
+        "main": [
+          [
+            {
+              "node": "is Approved ?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Clean README.md": {
+        "main": [
+          [
+            {
+              "node": "Update README.md or Not ?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate README.md or Not ?": {
+        "main": [
+          [
+            {
+              "node": "Generate README",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update README.md or Not ?": {
+        "main": [
+          [
+            {
+              "node": "Get README File from GitHub",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "is Approved ?": {
+        "main": [
+          [
+            {
+              "node": "Update README.md",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "No Operation, do nothing1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send mail and wait for approval1": {
+        "main": [
+          [
+            {
+              "node": "is Approved ?1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "is Approved ?1": {
+        "main": [
+          [
+            {
+              "node": "Create a README.md",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "No Operation, do nothing2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Configuration",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodeGroups": [],
+    "authors": "Muhammad fahad.webdev119@gmail.com",
+    "name": "Version 1f584e93",
+    "description": "",
+    "autosaved": true
+  },
   "tags": [
     {
       "updatedAt": "2026-06-16T14:55:31.622Z",
