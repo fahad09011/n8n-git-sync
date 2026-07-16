@@ -1,20 +1,20 @@
 # n8n-git-sync
 
-> Automates the synchronization of n8n workflows to a GitHub repository with AI-powered README generation and update detection.
+> Automates the synchronization of n8n workflows to a GitHub repository with AI-powered README generation and email approval workflows.
 
 ---
 
 ## 📌 Overview
 
-This workflow automates the process of backing up and version-controlling n8n workflows to a GitHub repository. It retrieves active workflows from the local n8n instance, formats them, and compares them against the existing versions stored in GitHub.
+The `n8n-git-sync` workflow automates the process of backing up and documenting your n8n workflows directly to a GitHub repository. It retrieves active workflows from your n8n instance, compares them against the existing files in your GitHub repository, and commits any updates or new additions.
 
-If a workflow is new, it commits the workflow JSON to GitHub and automatically generates a comprehensive README.md using Google Gemini. If an existing workflow has changed, it updates the file in GitHub, analyzes the changes using AI to determine if the documentation needs an update, and prompts for approval via Telegram before updating the README.md.
+Additionally, the workflow leverages Google Gemini AI to automatically generate or update comprehensive `README.md` documentation for each workflow. To ensure quality control, it routes these documentation updates through an email-based approval process using Gmail before committing them to your repository.
 
 ---
 
 ## 🎯 Purpose
 
-To establish a robust, automated backup and documentation pipeline for n8n workflows, ensuring all changes are tracked in Git and accompanied by up-to-date, high-quality documentation without manual overhead.
+To establish a robust, automated version control and documentation pipeline for n8n workflows, ensuring that repository backups are always up-to-date and accompanied by clear, AI-generated documentation without requiring manual developer overhead.
 
 ---
 
@@ -22,7 +22,7 @@ To establish a robust, automated backup and documentation pipeline for n8n workf
 
 | Type | Description |
 |------|-------------|
-| Manual | Triggered manually by clicking 'Execute workflow' in n8n. |
+| Manual Trigger | Initiates the synchronization and documentation process on demand. |
 
 ---
 
@@ -31,13 +31,17 @@ To establish a robust, automated backup and documentation pipeline for n8n workf
 ```text
 Manual Trigger
       │
-Retrieve Workflows
+Retrieve Workflows (n8n API)
       │
-Check GitHub
+Check GitHub Repository
       │
 Workflow Exists?
-├── Yes → Compare → Update if changed → Check if README needs update → Telegram Approval → Update README
-└── No  → Create workflow → Generate README (optional) → Commit README
+├── No  → Create Workflow File → Generate README (Gemini) → Gmail Approval → Create README.md
+└── Yes → Compare Content
+             │
+       Has Changed?
+       ├── No  → Do Nothing
+       └── Yes → Update Workflow File → Check if README Needs Update (Gemini) → Gmail Approval → Update README.md
 ```
 
 ---
@@ -46,47 +50,46 @@ Workflow Exists?
 
 | Service | Purpose |
 |----------|----------|
-| n8n | Retrieves workflow definitions via the n8n API. |
-| GitHub | Stores workflow JSON files and README documentation. |
-| Google Gemini | Generates and evaluates README documentation. |
-| Telegram | Sends approval requests and documents for README updates. |
+| n8n API | Retrieves workflow definitions from the local n8n instance. |
+| GitHub | Manages repository files, including retrieving, creating, and updating workflow JSONs and READMEs. |
+| Google Gemini | Analyzes workflow changes and generates or updates documentation. |
+| Gmail | Sends approval requests for new or updated README documentation and waits for user response. |
 
 ---
 
 ## 📥 Inputs
 
-* n8n workflow definitions retrieved via the internal n8n API.
-* Configuration parameters defined in the "Configuration" node (GitHub repository details, documentation settings, AI prompts).
+* Configuration parameters defined in the `Configuration` node (GitHub owner, repository, branch, folder, and AI model settings).
+* Workflow definitions retrieved via the n8n API.
 
 ---
 
 ## 📤 Outputs
 
 * Committed workflow JSON files in the designated GitHub repository.
-* Committed README.md files in the designated GitHub repository.
-* Telegram interactive messages and document files for manual review and approval.
+* Committed `README.md` documentation files in the designated GitHub repository.
+* Approval emails sent via Gmail.
 
 ---
 
 ## ⚙️ Requirements
 
-* n8n API Credentials (`n8n account`)
-* GitHub OAuth2 Credentials (`GitHub account`)
-* Google Gemini API Credentials (`Google Gemini(PaLM) Api account 2`, `Google Gemini(PaLM) Api account 3`)
-* Telegram API Credentials (`Telegram account`)
+* n8n API credentials
+* GitHub OAuth2 credentials
+* Google Gemini (PaLM) API credentials
+* Gmail OAuth2 credentials
 
 ---
 
 ## 🏷 Tags
 
-* learning
+learning
 
 ---
 
 ## 📝 Notes
 
-* The workflow uses Google Gemini models (`models/gemma-4-26b-a4b-it` and `models/gemini-flash-latest`) to generate and evaluate documentation. Ensure your API key has access to these models.
-* Telegram notifications require a configured bot and a valid chat ID set in the Telegram nodes.
+> This workflow uses n8n's "Send and Wait" functionality for Gmail, which pauses execution until the user approves or rejects the generated documentation. Ensure your n8n instance is configured to handle waiting executions correctly.
 
 ---
 
