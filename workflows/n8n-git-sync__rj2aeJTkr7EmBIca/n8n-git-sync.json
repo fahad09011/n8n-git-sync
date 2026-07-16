@@ -398,9 +398,9 @@
       "parameters": {
         "modelId": {
           "__rl": true,
-          "value": "models/gemma-4-26b-a4b-it",
+          "value": "models/gemini-3.5-flash",
           "mode": "list",
-          "cachedResultName": "models/gemma-4-26b-a4b-it"
+          "cachedResultName": "models/gemini-3.5-flash"
         },
         "messages": {
           "values": [
@@ -669,8 +669,7 @@
         "rule": {
           "interval": [
             {
-              "field": "minutes",
-              "minutesInterval": 6
+              "field": "months"
             }
           ]
         }
@@ -977,7 +976,7 @@
       ]
     }
   },
-  "activeVersionId": "8be9bbd2-ba69-4885-a9c9-d4ae42a44a56",
+  "activeVersionId": "ced0c5db-40e5-400a-9752-bf5522e93ad1",
   "triggerCount": 1,
   "shared": [
     {
@@ -989,9 +988,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-07-16T12:43:21.000Z",
-    "createdAt": "2026-07-16T12:43:18.737Z",
-    "versionId": "8be9bbd2-ba69-4885-a9c9-d4ae42a44a56",
+    "updatedAt": "2026-07-16T12:49:12.000Z",
+    "createdAt": "2026-07-16T12:48:58.963Z",
+    "versionId": "ced0c5db-40e5-400a-9752-bf5522e93ad1",
     "workflowId": "rj2aeJTkr7EmBIca",
     "nodes": [
       {
@@ -1658,8 +1657,7 @@
           "rule": {
             "interval": [
               {
-                "field": "minutes",
-                "minutesInterval": 6
+                "field": "months"
               }
             ]
           }
@@ -1953,7 +1951,7 @@
     },
     "nodeGroups": [],
     "authors": "Muhammad fahad.webdev119@gmail.com",
-    "name": "Version 8be9bbd2",
+    "name": "Version ced0c5db",
     "description": "",
     "autosaved": true
   },
