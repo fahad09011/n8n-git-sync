@@ -1,0 +1,28 @@
+{
+  "createdAt": "2026-07-16T10:56:47.184Z",
+  "id": "Y31veAhfN5W0MMrQ",
+  "name": "by",
+  "active": false,
+  "isArchived": false,
+  "nodes": [],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-07-16T10:56:47.198Z",
+      "createdAt": "2026-07-16T10:56:47.198Z",
+      "role": "workflow:owner",
+      "workflowId": "Y31veAhfN5W0MMrQ",
+      "projectId": "Lb300ztv9feaAJz6"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
