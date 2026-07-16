@@ -18,15 +18,15 @@
     },
     {
       "parameters": {
-        "sendTo": "={{ $json[\"Owner Email\"] }}",
-        "subject": "=Error occured in WorkFlow: {{ $json.workflow.name }}",
-        "message": "=<h2>🚨 n8n Workflow Failure Alert</h2>\n<p>A workflow has failed and requires attention.</p>\n\n<hr>\n\n<h3>Workflow Details</h3>\n\n<ul>\n  <li><strong>Workflow:</strong> {{ $json.workflow.name }}</li>\n  <li><strong>Execution ID:</strong> {{ $json.execution.id }}</li>\n  <li><strong>Failed Node:{{ $json.execution.lastNodeExecuted }}</strong> </li>\n  <li><strong>Time:</strong> {{ $now }}</li>\n</ul>\n\n<h3>Error Details</h3>\n\n<p><strong>Message:{{ $json.execution.error.message }}</strong></p>\n\n<pre></pre>\n\n<p><strong>Stack Trace:</strong></p>\n\n<pre>{{ $json.execution.error.stack }}</pre>\n\n<hr>\n\n<p>\nPlease review the workflow execution in n8n and resolve the issue.\n<a href=\"{{ $json.execution.url }}\">Debug here!</a>\n\n</p>",
+        "sendTo": "={{ $json.primaryContact }}",
+        "subject": "=Error Occured In WorkFlow: {{ $('Edit Fields').item.json.workflowName }}",
+        "message": "=<h2>🚨{{ $('Edit Fields').item.json.workflowName }} encounter an error and requires attention</h2>\n\n<hr>\n\n<h3>Workflow Details</h3>\n\n<ul>\n  <li><strong>Workflow:</strong>{{ $json.workflowName }}</li>\n  <li><strong>Execution ID:</strong>{{ $('Edit Fields').item.json.executionId }}</li>\n  <li><strong>Failed Node:<strong>  {{ $('Edit Fields').item.json.failedNode }}</li>\n  <li><strong>Time:</strong> {{ $('Edit Fields').item.json.timeStamp }}</li>\n</ul>\n\n<h3>Error Details</h3>\n\n<p><strong>Message: {{ $('Edit Fields').item.json.errorMessage }}</strong></p>\n\n<pre></pre>\n\n<p><strong>Stack Trace: {{ $('Edit Fields').item.json.stackTrace }}</strong></p>\n\n\n<hr>\n\n<p>\nPlease review the workflow execution in n8n and resolve the issue.\n<a href=\"{{ $('Edit Fields').item.json.executionURL }}\">Debug here!</a>\n\n</p>",
         "options": {}
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        448,
+        672,
         -144
       ],
       "id": "5a60ec5b-7db4-4cf7-b455-7ea14be21848",
@@ -36,6 +36,36 @@
         "gmailOAuth2": {
           "id": "QV3UcajD75i2QUhz",
           "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0BENEGH1FE",
+          "mode": "list",
+          "cachedResultName": "failed-workflows"
+        },
+        "messageType": "block",
+        "blocksUi": "={\n  \"blocks\": [\n    {\n      \"type\": \"header\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": \"🚨 Workflow Failed\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"fields\": [\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Workflow:*\\n{{ $json.workflowName }}\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Execution ID:*{{ $('Edit Fields').item.json.executionId }}\\n\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Failed Node:*\\n{{ $('Edit Fields').item.json.failedNode }}\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Time:*\\n{{ $('Edit Fields').item.json.timeStamp }}\"\n        }\n      ]\n    },\n    {\n      \"type\": \"divider\"\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Error Message*\\n```{{ $('Edit Fields').item.json.errorMessage }}```\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Workflow URL*\\n<{{ $('Edit Fields').item.json.executionURL }}|Open Failed Execution>\"\n      }\n    },\n    {\n      \"type\": \"divider\"\n    },\n    {\n      \"type\": \"context\",\n      \"elements\": [\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"Generated automatically by your n8n Error Workflow.\"\n        }\n      ]\n    }\n  ]\n}",
+        "text": "check",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        672,
+        48
+      ],
+      "id": "013647dd-c1d9-412a-a0e5-81e25f21e360",
+      "name": "Send a message1",
+      "webhookId": "548fbda3-8e91-4ac1-bac1-e45d3f5ffe41",
+      "credentials": {
+        "slackApi": {
+          "id": "HTlCTSjIFJENPdO6",
+          "name": "Slack account 2"
         }
       }
     },
@@ -58,8 +88,8 @@
         "filtersUI": {
           "values": [
             {
-              "lookupColumn": "Workflow Name",
-              "lookupValue": "={{ $json.workflow.name }}"
+              "lookupColumn": "workflowName",
+              "lookupValue": "={{ $json.workflowName }}"
             }
           ]
         },
@@ -68,11 +98,11 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        224,
+        448,
         -48
       ],
       "id": "5935aa0b-5625-4624-a7fc-c7d13ebae220",
-      "name": "Get row(s) in sheet",
+      "name": "get workflow owner and their data",
       "alwaysOutputData": false,
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -83,33 +113,74 @@
     },
     {
       "parameters": {
-        "select": "channel",
-        "channelId": {
-          "__rl": true,
-          "value": "C0BENEGH1FE",
-          "mode": "list",
-          "cachedResultName": "failed-workflows"
+        "assignments": {
+          "assignments": [
+            {
+              "id": "49816372-5e21-4fab-b4fc-aa1a508d23da",
+              "name": "workflowName",
+              "value": "={{ $json.workflow.name }}",
+              "type": "string"
+            },
+            {
+              "id": "8c866260-758d-4a78-a896-44045ebf33be",
+              "name": "workflowId",
+              "value": "={{ $json.workflow.id }}",
+              "type": "string"
+            },
+            {
+              "id": "7f095ac8-3435-46a2-81dd-bfd8320890a3",
+              "name": "executionId",
+              "value": "={{ $json.execution.id }}",
+              "type": "number"
+            },
+            {
+              "id": "85fa315b-d7c6-4a34-b838-9a3ac87b8370",
+              "name": "executionURL",
+              "value": "={{ $json.execution.url }}",
+              "type": "string"
+            },
+            {
+              "id": "878d9cf2-c844-499b-af91-fd448b939681",
+              "name": "failedNode",
+              "value": "={{ $json.execution.lastNodeExecuted }}",
+              "type": "string"
+            },
+            {
+              "id": "40690adf-db4d-4f5d-a5ae-7b1ab5b85d14",
+              "name": "errorMessage",
+              "value": "={{ $json.execution.error.message }}",
+              "type": "string"
+            },
+            {
+              "id": "d809d2c4-a408-4371-a5b8-0d7733c7d029",
+              "name": "errorStack",
+              "value": "={{ $json.execution.error.stack }}",
+              "type": "string"
+            },
+            {
+              "id": "efd2ea65-431b-48a6-bdf9-cf96427f49c2",
+              "name": "timeStamp",
+              "value": "={{ $now.format('dd-MM-yyyy hh:mm:ss') }}",
+              "type": "string"
+            },
+            {
+              "id": "7b977879-7952-4340-af89-6bd0120ab44a",
+              "name": "stackTrace",
+              "value": "={{ $json.execution.error.stack }}",
+              "type": "string"
+            }
+          ]
         },
-        "messageType": "block",
-        "blocksUi": "={\n  \"blocks\": [\n    {\n      \"type\": \"header\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": \"🚨 Workflow Failed\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"fields\": [\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Workflow:*\\n{{ $json.workflow.name }}\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Execution ID:*\\n{{ $json.execution.id }}\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Failed Node:*\\n{{ $json.execution.lastNodeExecuted }}\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Time:*\\n{{ $now }}\"\n        }\n      ]\n    },\n    {\n      \"type\": \"divider\"\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Error Message*\\n```{{ $json.execution.error.message }}```\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Workflow URL*\\n<{{ $json.execution.url }}|Open Failed Execution>\"\n      }\n    },\n    {\n      \"type\": \"divider\"\n    },\n    {\n      \"type\": \"context\",\n      \"elements\": [\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"Generated automatically by your n8n Error Workflow.\"\n        }\n      ]\n    }\n  ]\n}",
-        "text": "check",
-        "otherOptions": {}
+        "options": {}
       },
-      "type": "n8n-nodes-base.slack",
-      "typeVersion": 2.5,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
-        448,
-        48
+        224,
+        -48
       ],
-      "id": "013647dd-c1d9-412a-a0e5-81e25f21e360",
-      "name": "Send a message1",
-      "webhookId": "548fbda3-8e91-4ac1-bac1-e45d3f5ffe41",
-      "credentials": {
-        "slackApi": {
-          "id": "HTlCTSjIFJENPdO6",
-          "name": "Slack account 2"
-        }
-      }
+      "id": "9af30db3-fcb3-4863-9008-05f4cfcf01b5",
+      "name": "Edit Fields"
     }
   ],
   "connections": {
@@ -117,7 +188,7 @@
       "main": [
         [
           {
-            "node": "Get row(s) in sheet",
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
@@ -129,7 +200,7 @@
         []
       ]
     },
-    "Get row(s) in sheet": {
+    "get workflow owner and their data": {
       "main": [
         [
           {
@@ -144,6 +215,17 @@
           }
         ]
       ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "get workflow owner and their data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -152,7 +234,7 @@
     "availableInMCP": false
   },
   "staticData": null,
-  "activeVersionId": "a6435e6f-ed8b-4f87-96b4-0ec18cd3ee50",
+  "activeVersionId": "2da28af1-ead4-4bc3-aba2-ca5611fd8f4b",
   "triggerCount": 0,
   "shared": [
     {
@@ -164,9 +246,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-07-01T17:58:33.000Z",
-    "createdAt": "2026-07-01T17:57:56.899Z",
-    "versionId": "a6435e6f-ed8b-4f87-96b4-0ec18cd3ee50",
+    "updatedAt": "2026-07-16T12:10:56.000Z",
+    "createdAt": "2026-07-16T11:58:11.165Z",
+    "versionId": "2da28af1-ead4-4bc3-aba2-ca5611fd8f4b",
     "workflowId": "aue2mu3q4fW1hMIE",
     "nodes": [
       {
@@ -175,23 +257,23 @@
         "typeVersion": 1,
         "position": [
           0,
-          0
+          -48
         ],
         "id": "ac4ee891-f000-455f-a300-43dbfb3c9374",
         "name": "Error Trigger"
       },
       {
         "parameters": {
-          "sendTo": "fahad.testing119@gmail.com",
-          "subject": "=Error occured in WorkFlow: {{ $json.workflow.name }}",
-          "message": "=<h2>🚨 n8n Workflow Failure Alert</h2>\n\n<p>A workflow has failed and requires attention.</p>\n\n<hr>\n\n<h3>Workflow Details</h3>\n\n<ul>\n  <li><strong>Workflow:</strong> {{ $json.workflow.name }}</li>\n  <li><strong>Execution ID:</strong> {{ $json.execution.id }}</li>\n  <li><strong>Failed Node:{{ $json.execution.lastNodeExecuted }}</strong> </li>\n  <li><strong>Time:</strong> {{ $now }}</li>\n</ul>\n\n<h3>Error Details</h3>\n\n<p><strong>Message:{{ $json.execution.error.message }}</strong></p>\n\n<pre></pre>\n\n<p><strong>Stack Trace:</strong></p>\n\n<pre>{{ $json.execution.error.stack }}</pre>\n\n<hr>\n\n<p>\nPlease review the workflow execution in n8n and resolve the issue.\n<a href=\"{{ $json.execution.url }}\">Debug here!</a>\n\n</p>",
+          "sendTo": "={{ $json.primaryContact }}",
+          "subject": "=Error Occured In WorkFlow: {{ $('Edit Fields').item.json.workflowName }}",
+          "message": "=<h2>🚨{{ $('Edit Fields').item.json.workflowName }} encounter an error and requires attention</h2>\n\n<hr>\n\n<h3>Workflow Details</h3>\n\n<ul>\n  <li><strong>Workflow:</strong>{{ $json.workflowName }}</li>\n  <li><strong>Execution ID:</strong>{{ $('Edit Fields').item.json.executionId }}</li>\n  <li><strong>Failed Node:<strong>  {{ $('Edit Fields').item.json.failedNode }}</li>\n  <li><strong>Time:</strong> {{ $('Edit Fields').item.json.timeStamp }}</li>\n</ul>\n\n<h3>Error Details</h3>\n\n<p><strong>Message: {{ $('Edit Fields').item.json.errorMessage }}</strong></p>\n\n<pre></pre>\n\n<p><strong>Stack Trace: {{ $('Edit Fields').item.json.stackTrace }}</strong></p>\n\n\n<hr>\n\n<p>\nPlease review the workflow execution in n8n and resolve the issue.\n<a href=\"{{ $('Edit Fields').item.json.executionURL }}\">Debug here!</a>\n\n</p>",
           "options": {}
         },
         "type": "n8n-nodes-base.gmail",
         "typeVersion": 2.2,
         "position": [
-          288,
-          -160
+          672,
+          -144
         ],
         "id": "5a60ec5b-7db4-4cf7-b455-7ea14be21848",
         "name": "Send a message",
@@ -200,6 +282,36 @@
           "gmailOAuth2": {
             "id": "QV3UcajD75i2QUhz",
             "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "select": "channel",
+          "channelId": {
+            "__rl": true,
+            "value": "C0BENEGH1FE",
+            "mode": "list",
+            "cachedResultName": "failed-workflows"
+          },
+          "messageType": "block",
+          "blocksUi": "={\n  \"blocks\": [\n    {\n      \"type\": \"header\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": \"🚨 Workflow Failed\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"fields\": [\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Workflow:*\\n{{ $json.workflowName }}\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Execution ID:*{{ $('Edit Fields').item.json.executionId }}\\n\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Failed Node:*\\n{{ $('Edit Fields').item.json.failedNode }}\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Time:*\\n{{ $('Edit Fields').item.json.timeStamp }}\"\n        }\n      ]\n    },\n    {\n      \"type\": \"divider\"\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Error Message*\\n```{{ $('Edit Fields').item.json.errorMessage }}```\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Workflow URL*\\n<{{ $('Edit Fields').item.json.executionURL }}|Open Failed Execution>\"\n      }\n    },\n    {\n      \"type\": \"divider\"\n    },\n    {\n      \"type\": \"context\",\n      \"elements\": [\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"Generated automatically by your n8n Error Workflow.\"\n        }\n      ]\n    }\n  ]\n}",
+          "text": "check",
+          "otherOptions": {}
+        },
+        "type": "n8n-nodes-base.slack",
+        "typeVersion": 2.5,
+        "position": [
+          672,
+          48
+        ],
+        "id": "013647dd-c1d9-412a-a0e5-81e25f21e360",
+        "name": "Send a message1",
+        "webhookId": "548fbda3-8e91-4ac1-bac1-e45d3f5ffe41",
+        "credentials": {
+          "slackApi": {
+            "id": "HTlCTSjIFJENPdO6",
+            "name": "Slack account 2"
           }
         }
       },
@@ -222,8 +334,8 @@
           "filtersUI": {
             "values": [
               {
-                "lookupColumn": "Workflow Name",
-                "lookupValue": "={{ $json.workflow.name }}"
+                "lookupColumn": "workflowName",
+                "lookupValue": "={{ $json.workflowName }}"
               }
             ]
           },
@@ -232,11 +344,11 @@
         "type": "n8n-nodes-base.googleSheets",
         "typeVersion": 4.7,
         "position": [
-          272,
-          144
+          448,
+          -48
         ],
         "id": "5935aa0b-5625-4624-a7fc-c7d13ebae220",
-        "name": "Get row(s) in sheet",
+        "name": "get workflow owner and their data",
         "alwaysOutputData": false,
         "credentials": {
           "googleSheetsOAuth2Api": {
@@ -247,20 +359,94 @@
       },
       {
         "parameters": {
-          "jsCode": "console.log($json);\nreturn $input.all();"
+          "assignments": {
+            "assignments": [
+              {
+                "id": "49816372-5e21-4fab-b4fc-aa1a508d23da",
+                "name": "workflowName",
+                "value": "={{ $json.workflow.name }}",
+                "type": "string"
+              },
+              {
+                "id": "8c866260-758d-4a78-a896-44045ebf33be",
+                "name": "workflowId",
+                "value": "={{ $json.workflow.id }}",
+                "type": "string"
+              },
+              {
+                "id": "7f095ac8-3435-46a2-81dd-bfd8320890a3",
+                "name": "executionId",
+                "value": "={{ $json.execution.id }}",
+                "type": "number"
+              },
+              {
+                "id": "85fa315b-d7c6-4a34-b838-9a3ac87b8370",
+                "name": "executionURL",
+                "value": "={{ $json.execution.url }}",
+                "type": "string"
+              },
+              {
+                "id": "878d9cf2-c844-499b-af91-fd448b939681",
+                "name": "failedNode",
+                "value": "={{ $json.execution.lastNodeExecuted }}",
+                "type": "string"
+              },
+              {
+                "id": "40690adf-db4d-4f5d-a5ae-7b1ab5b85d14",
+                "name": "errorMessage",
+                "value": "={{ $json.execution.error.message }}",
+                "type": "string"
+              },
+              {
+                "id": "d809d2c4-a408-4371-a5b8-0d7733c7d029",
+                "name": "errorStack",
+                "value": "={{ $json.execution.error.stack }}",
+                "type": "string"
+              },
+              {
+                "id": "efd2ea65-431b-48a6-bdf9-cf96427f49c2",
+                "name": "timeStamp",
+                "value": "={{ $now.format('dd-MM-yyyy hh:mm:ss') }}",
+                "type": "string"
+              },
+              {
+                "id": "7b977879-7952-4340-af89-6bd0120ab44a",
+                "name": "stackTrace",
+                "value": "={{ $json.execution.error.stack }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
         },
-        "type": "n8n-nodes-base.code",
-        "typeVersion": 2,
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
         "position": [
-          496,
-          -16
+          224,
+          -48
         ],
-        "id": "1295f202-a014-4e9c-b8d1-9d17070ed09a",
-        "name": "Code in JavaScript"
+        "id": "9af30db3-fcb3-4863-9008-05f4cfcf01b5",
+        "name": "Edit Fields"
       }
     ],
     "connections": {
       "Error Trigger": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send a message": {
+        "main": [
+          []
+        ]
+      },
+      "get workflow owner and their data": {
         "main": [
           [
             {
@@ -269,12 +455,18 @@
               "index": 0
             },
             {
-              "node": "Get row(s) in sheet",
+              "node": "Send a message1",
               "type": "main",
               "index": 0
-            },
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
             {
-              "node": "Code in JavaScript",
+              "node": "get workflow owner and their data",
               "type": "main",
               "index": 0
             }
@@ -284,9 +476,9 @@
     },
     "nodeGroups": [],
     "authors": "Muhammad fahad.webdev119@gmail.com",
-    "name": "Version a6435e6f",
+    "name": "Version 2da28af1",
     "description": "",
-    "autosaved": false
+    "autosaved": true
   },
   "tags": [
     {
