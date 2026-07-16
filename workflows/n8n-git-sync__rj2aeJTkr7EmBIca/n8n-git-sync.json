@@ -11,7 +11,7 @@
       "typeVersion": 1,
       "position": [
         0,
-        -112
+        -208
       ],
       "id": "78c09c56-fb2d-4d55-ab0b-c29351538797",
       "name": "When clicking ‘Execute workflow’"
@@ -26,7 +26,7 @@
       "typeVersion": 3.4,
       "position": [
         224,
-        -112
+        -208
       ],
       "id": "05d26f19-7bf2-4da1-9cb6-b7b533815cf7",
       "name": "Configuration"
@@ -40,7 +40,7 @@
       "typeVersion": 1,
       "position": [
         448,
-        -112
+        -208
       ],
       "id": "ac8fb1dd-694b-4a2a-91b0-5b61112b73a3",
       "name": "Get many workflows",
@@ -91,7 +91,7 @@
       "typeVersion": 2.3,
       "position": [
         1632,
-        -208
+        -304
       ],
       "id": "04d6f3ca-2c3e-434a-b564-9865003dbeb4",
       "name": "check if there is any update in workflow file"
@@ -104,7 +104,7 @@
       "typeVersion": 2,
       "position": [
         672,
-        -112
+        -208
       ],
       "id": "f024c2f4-11cb-4b7a-9028-b14e56b47f9e",
       "name": "Prepare Workflow"
@@ -136,7 +136,7 @@
       "typeVersion": 1.1,
       "position": [
         896,
-        -112
+        -208
       ],
       "id": "e7e2059b-74af-4886-b01a-a5e79d3c6cd3",
       "name": "Get Workflow File from GitHub",
@@ -160,7 +160,7 @@
       "typeVersion": 2,
       "position": [
         1120,
-        -208
+        -304
       ],
       "id": "7f244a13-d5d5-4d9b-98ca-cd497fbbe8b4",
       "name": "Decode GitHub Content"
@@ -173,7 +173,7 @@
       "typeVersion": 2,
       "position": [
         1344,
-        -208
+        -304
       ],
       "id": "b20740c6-c7f5-4451-91b3-446a520d0788",
       "name": "Compare Workflow"
@@ -257,40 +257,6 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "41649c77-1859-4335-9df9-e14b2eff46d5",
-              "leftValue": "={{ $('Get Workflow File from GitHub').item.json.documentation.enabled }}",
-              "rightValue": false,
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        1344,
-        -16
-      ],
-      "id": "279fe83a-e7a9-471e-ae26-1f769039b6dd",
-      "name": "Generate README.md ?"
-    },
-    {
-      "parameters": {
         "authentication": "oAuth2",
         "resource": "file",
         "owner": {
@@ -310,8 +276,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1920,
-        -16
+        2496,
+        -112
       ],
       "id": "18c45f99-9ac2-4911-abe6-8b07a8e6d8e1",
       "name": "Create a README.md",
@@ -365,40 +331,6 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "22e62209-86c5-4d7e-a023-0666fe85d5be",
-              "leftValue": "={{ $('Configuration').item.json.documentation.enabled }}",
-              "rightValue": false,
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        2720,
-        -400
-      ],
-      "id": "786e59fc-13d3-4f80-8ffc-a8dfc4ccf48b",
-      "name": "If"
-    },
-    {
-      "parameters": {
         "authentication": "oAuth2",
         "resource": "file",
         "operation": "edit",
@@ -412,14 +344,14 @@
           "mode": "list",
           "value": "n8n-git-sync"
         },
-        "filePath": "={{ $json.path }}",
-        "fileContent": "={{ $('Code in JavaScript').item.json.readme }}",
+        "filePath": "={{ $('Get README File from GitHub').item.json.path }}",
+        "fileContent": "={{ $('Clean README.md').item.json.readme }}",
         "commitMessage": "=docs: Update README for {{ $('Compare Workflow').item.json.workflowName }}"
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        3168,
+        3616,
         -496
       ],
       "id": "af7278ac-3a19-4ccd-9066-5c019ec571c8",
@@ -517,8 +449,48 @@
       }
     },
     {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3616,
+        -304
+      ],
+      "id": "69730f68-d028-407f-b961-03b8e9842917",
+      "name": "No Operation, do nothing1"
+    },
+    {
       "parameters": {
-        "jsCode": "const items = $input.all();\n\nconst output = [];\n\nfor (const item of items) {\n  const response = JSON.parse(item.json.content.parts[0].text);\n\n  const binaryData = await this.helpers.prepareBinaryData(\n    Buffer.from(response.readme ?? \"\", \"utf8\"),\n    \"README.md\",\n    \"text/markdown\"\n  );\n\n  output.push({\n    json: response,\n    binary: {\n      data: binaryData,\n    },\n  });\n}\n\nreturn output;"
+        "operation": "sendAndWait",
+        "sendTo": "fahad.testing119@gmail.com",
+        "subject": "=README Update Approval Required - n8n GitSync {{ $json.path }}",
+        "message": "=Hi,\n\nGitSync detected a workflow change that may require updating the README.\n\nWorkflow:\n{{ $('Compare Workflow').item.json.workflow.name }}\n\nReason:\n{{ $('Clean README.md').item.json.reason }}\n\n----------------------------------------\nProposed README\n----------------------------------------\n\n{{ $('Clean README.md').item.json.readme }}\n\n----------------------------------------\n\nChoose an action:\n\n",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        3168,
+        -400
+      ],
+      "id": "690f5511-9d76-4845-bde2-faa965bca08c",
+      "name": "Send mail and wait for approval",
+      "webhookId": "ffcf17d5-e025-4210-aa74-d276e7a5afa6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QV3UcajD75i2QUhz",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  const response = JSON.parse(item.json.content.parts[0].text);\n\n  return {\n    json: response\n  };\n});"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -527,13 +499,116 @@
         -400
       ],
       "id": "46bbbcf2-d86b-4793-b010-6d7371996de8",
-      "name": "Code in JavaScript"
+      "name": "Clean README.md"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "41649c77-1859-4335-9df9-e14b2eff46d5",
+              "leftValue": "={{ $('Get Workflow File from GitHub').item.json.documentation.enabled }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1344,
+        -16
+      ],
+      "id": "279fe83a-e7a9-471e-ae26-1f769039b6dd",
+      "name": "Generate README.md or Not ?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "22e62209-86c5-4d7e-a023-0666fe85d5be",
+              "leftValue": "={{ $('Configuration').item.json.documentation.enabled }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2720,
+        -400
+      ],
+      "id": "786e59fc-13d3-4f80-8ffc-a8dfc4ccf48b",
+      "name": "Update README.md or Not ?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "18f2efe0-32b2-41e6-88e4-7645d04cc3f1",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3392,
+        -400
+      ],
+      "id": "5e9ca190-1b62-44ce-b4bd-dfaf8545a64e",
+      "name": "is Approved ?"
     },
     {
       "parameters": {
         "operation": "sendAndWait",
-        "chatId": "8513718634",
-        "message": "=🤖 n8n GitSync\n\n📝 README Update Suggested\n\nThe AI detected workflow changes that require updating the README.\n\n📂 Workflow: {{ $('Compare Workflow').item.json.workflow.name }}\n\n📋 Reason:\n{{ $('Code in JavaScript').item.json.reason }}\n\nReview:\n{{ $('Code in JavaScript').item.json.readme }}\n-------------------------------------\nWould you like to replace the existing README.md?\n\n✅ Approve\n❌ Reject",
+        "sendTo": "fahad.testing119@gmail.com",
+        "subject": "=README Generation Approval Required - n8n GitSync {{ $json.path }}",
+        "message": "=Hi,\n\nGitSync detected a workflow change that may require updating the README.\n\nWorkflow:\n{{ $('Compare Workflow').item.json.workflow.name }}\n\nReason:\n{{ $('Clean README.md').item.json.reason }}\n\n----------------------------------------\nProposed README\n----------------------------------------\n\n{{ $('Clean README.md').item.json.readme }}\n\n----------------------------------------\n\nChoose an action:\n\n",
         "approvalOptions": {
           "values": {
             "approvalType": "double"
@@ -541,44 +616,66 @@
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
       "position": [
-        3168,
-        -304
+        1920,
+        -16
       ],
-      "id": "5439e313-25cd-4781-99e6-ed355f1084dd",
-      "name": "Send message and wait for response",
-      "webhookId": "cb6743c1-13e4-4fd6-8cd8-e3716b60c115",
+      "id": "bb04a7bb-e685-455f-86f1-04b6060190a7",
+      "name": "Send mail and wait for approval1",
+      "webhookId": "ffcf17d5-e025-4210-aa74-d276e7a5afa6",
       "credentials": {
-        "telegramApi": {
-          "id": "CtGTaFTJ4kNRgDCO",
-          "name": "Telegram account"
+        "gmailOAuth2": {
+          "id": "QV3UcajD75i2QUhz",
+          "name": "Gmail account"
         }
       }
     },
     {
       "parameters": {
-        "operation": "sendDocument",
-        "chatId": "8513718634",
-        "binaryData": true,
-        "additionalFields": {}
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "18f2efe0-32b2-41e6-88e4-7645d04cc3f1",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
       "position": [
-        3168,
-        -112
+        2208,
+        -16
       ],
-      "id": "b9408751-a24f-41a7-82e3-9fafb6004087",
-      "name": "Send a document",
-      "webhookId": "1512ff20-85cb-4f08-879a-665656e9c002",
-      "credentials": {
-        "telegramApi": {
-          "id": "CtGTaFTJ4kNRgDCO",
-          "name": "Telegram account"
-        }
-      }
+      "id": "07fe7ad5-8099-4458-9942-3447fef23cf2",
+      "name": "is Approved ?1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2496,
+        80
+      ],
+      "id": "647196b5-9438-402c-b5d1-404a96d0e6e3",
+      "name": "No Operation, do nothing2"
     }
   ],
   "connections": {
@@ -699,18 +796,7 @@
       "main": [
         [
           {
-            "node": "Generate README.md ?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Generate README.md ?": {
-      "main": [
-        [
-          {
-            "node": "Generate README",
+            "node": "Generate README.md or Not ?",
             "type": "main",
             "index": 0
           }
@@ -721,7 +807,7 @@
       "main": [
         [
           {
-            "node": "Create a README.md",
+            "node": "Send mail and wait for approval1",
             "type": "main",
             "index": 0
           }
@@ -733,17 +819,6 @@
         []
       ]
     },
-    "If": {
-      "main": [
-        [
-          {
-            "node": "Get README File from GitHub",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Update README.md": {
       "main": [
         []
@@ -753,17 +828,7 @@
       "main": [
         [
           {
-            "node": "Update README.md",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Send message and wait for response",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Send a document",
+            "node": "Send mail and wait for approval",
             "type": "main",
             "index": 0
           }
@@ -774,18 +839,98 @@
       "main": [
         [
           {
-            "node": "Code in JavaScript",
+            "node": "Clean README.md",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Code in JavaScript": {
+    "Send mail and wait for approval": {
       "main": [
         [
           {
-            "node": "If",
+            "node": "is Approved ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean README.md": {
+      "main": [
+        [
+          {
+            "node": "Update README.md or Not ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate README.md or Not ?": {
+      "main": [
+        [
+          {
+            "node": "Generate README",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update README.md or Not ?": {
+      "main": [
+        [
+          {
+            "node": "Get README File from GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "is Approved ?": {
+      "main": [
+        [
+          {
+            "node": "Update README.md",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send mail and wait for approval1": {
+      "main": [
+        [
+          {
+            "node": "is Approved ?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "is Approved ?1": {
+      "main": [
+        [
+          {
+            "node": "Create a README.md",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing2",
             "type": "main",
             "index": 0
           }
