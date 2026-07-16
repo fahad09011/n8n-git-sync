@@ -398,9 +398,9 @@
       "parameters": {
         "modelId": {
           "__rl": true,
-          "value": "models/gemini-2.5-flash",
+          "value": "models/gemma-4-26b-a4b-it",
           "mode": "list",
-          "cachedResultName": "models/gemini-2.5-flash"
+          "cachedResultName": "models/gemma-4-26b-a4b-it"
         },
         "messages": {
           "values": [
@@ -977,7 +977,7 @@
       ]
     }
   },
-  "activeVersionId": "d3f27604-8c64-4b89-96e1-c8d0be4ea9fa",
+  "activeVersionId": "8be9bbd2-ba69-4885-a9c9-d4ae42a44a56",
   "triggerCount": 1,
   "shared": [
     {
@@ -989,9 +989,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-07-16T12:40:19.000Z",
-    "createdAt": "2026-07-16T12:40:15.488Z",
-    "versionId": "d3f27604-8c64-4b89-96e1-c8d0be4ea9fa",
+    "updatedAt": "2026-07-16T12:43:21.000Z",
+    "createdAt": "2026-07-16T12:43:18.737Z",
+    "versionId": "8be9bbd2-ba69-4885-a9c9-d4ae42a44a56",
     "workflowId": "rj2aeJTkr7EmBIca",
     "nodes": [
       {
@@ -1387,9 +1387,9 @@
         "parameters": {
           "modelId": {
             "__rl": true,
-            "value": "models/gemini-2.5-flash",
+            "value": "models/gemma-4-26b-a4b-it",
             "mode": "list",
-            "cachedResultName": "models/gemini-2.5-flash"
+            "cachedResultName": "models/gemma-4-26b-a4b-it"
           },
           "messages": {
             "values": [
@@ -1953,7 +1953,7 @@
     },
     "nodeGroups": [],
     "authors": "Muhammad fahad.webdev119@gmail.com",
-    "name": "Version d3f27604",
+    "name": "Version 8be9bbd2",
     "description": "",
     "autosaved": true
   },
