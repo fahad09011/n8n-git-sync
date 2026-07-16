@@ -280,9 +280,9 @@
       "parameters": {
         "modelId": {
           "__rl": true,
-          "value": "models/gemma-4-26b-a4b-it",
+          "value": "models/gemini-2.5-flash",
           "mode": "list",
-          "cachedResultName": "models/gemma-4-26b-a4b-it"
+          "cachedResultName": "models/gemini-2.5-flash"
         },
         "messages": {
           "values": [
@@ -669,7 +669,8 @@
         "rule": {
           "interval": [
             {
-              "field": "months"
+              "field": "minutes",
+              "minutesInterval": 6
             }
           ]
         }
@@ -976,7 +977,7 @@
       ]
     }
   },
-  "activeVersionId": "ced0c5db-40e5-400a-9752-bf5522e93ad1",
+  "activeVersionId": "3e4a9bd8-9857-4213-a670-d9dfb1ed767f",
   "triggerCount": 1,
   "shared": [
     {
@@ -988,9 +989,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-07-16T12:49:12.000Z",
-    "createdAt": "2026-07-16T12:48:58.963Z",
-    "versionId": "ced0c5db-40e5-400a-9752-bf5522e93ad1",
+    "updatedAt": "2026-07-16T12:55:29.000Z",
+    "createdAt": "2026-07-16T12:55:24.799Z",
+    "versionId": "3e4a9bd8-9857-4213-a670-d9dfb1ed767f",
     "workflowId": "rj2aeJTkr7EmBIca",
     "nodes": [
       {
@@ -1268,9 +1269,9 @@
         "parameters": {
           "modelId": {
             "__rl": true,
-            "value": "models/gemma-4-26b-a4b-it",
+            "value": "models/gemini-2.5-flash",
             "mode": "list",
-            "cachedResultName": "models/gemma-4-26b-a4b-it"
+            "cachedResultName": "models/gemini-2.5-flash"
           },
           "messages": {
             "values": [
@@ -1386,9 +1387,9 @@
         "parameters": {
           "modelId": {
             "__rl": true,
-            "value": "models/gemma-4-26b-a4b-it",
+            "value": "models/gemini-3.5-flash",
             "mode": "list",
-            "cachedResultName": "models/gemma-4-26b-a4b-it"
+            "cachedResultName": "models/gemini-3.5-flash"
           },
           "messages": {
             "values": [
@@ -1657,7 +1658,8 @@
           "rule": {
             "interval": [
               {
-                "field": "months"
+                "field": "minutes",
+                "minutesInterval": 6
               }
             ]
           }
@@ -1951,7 +1953,7 @@
     },
     "nodeGroups": [],
     "authors": "Muhammad fahad.webdev119@gmail.com",
-    "name": "Version ced0c5db",
+    "name": "Version 3e4a9bd8",
     "description": "",
     "autosaved": true
   },
