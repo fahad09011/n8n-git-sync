@@ -495,7 +495,7 @@ The following screenshots provide a visual overview of GitSync and its key featu
 
 > Example GitHub repository after synchronization.
 
-![Repository Structure](images/repository-structure.png)
+![Repository Structure](images/repository-structrue.png)
 
 ---
 
@@ -503,15 +503,9 @@ The following screenshots provide a visual overview of GitSync and its key featu
 
 > Example email requesting approval before creating or updating workflow documentation.
 
-![README Approval](images/readme-approval.png)
+![README Approval](images/readme-approval1.png)
+![README Approval](images/readme-approval2.png)
 
----
-
-## Generated Workflow Documentation
-
-> Example AI-generated README committed alongside a synchronized workflow.
-
-![Generated README](images/generated-readme.png)
 
 ---
 
