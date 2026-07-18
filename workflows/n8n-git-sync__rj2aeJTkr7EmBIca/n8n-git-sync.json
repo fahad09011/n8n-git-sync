@@ -229,8 +229,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1072,
-        112
+        1056,
+        192
       ],
       "id": "a740f9d4-aadd-4d09-8f4d-2b37239a17a6",
       "name": "Create Workflow File",
@@ -263,8 +263,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        2448,
-        0
+        2272,
+        96
       ],
       "id": "18c45f99-9ac2-4911-abe6-8b07a8e6d8e1",
       "name": "Create a README.md",
@@ -304,8 +304,8 @@
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1.2,
       "position": [
-        1520,
-        112
+        1488,
+        176
       ],
       "id": "df213d2d-7b4b-4794-b014-d9ab1c381172",
       "name": "Generate README",
@@ -505,8 +505,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1296,
-        112
+        1280,
+        192
       ],
       "id": "279fe83a-e7a9-471e-ae26-1f769039b6dd",
       "name": "Generate README.md or Not ?"
@@ -578,80 +578,6 @@
       ],
       "id": "5e9ca190-1b62-44ce-b4bd-dfaf8545a64e",
       "name": "is Approved ?"
-    },
-    {
-      "parameters": {
-        "operation": "sendAndWait",
-        "sendTo": "fahad.testing119@gmail.com",
-        "subject": "=📄 README Creation Approval Required For{{ $('Get Workflow File from GitHub').item.json.workflowName }}",
-        "message": "=Hello,\n\nGitSync has generated a new README.md for the following workflow:\n\n📂 Workflow:\n{{ $('Get Workflow File from GitHub').item.json.workflowName }}\n\nReason:\nThis workflow is being synchronized to GitHub for the first time, and an AI-generated README has been created.\n\nPlease review the attached README.md file.\n\nProposed README\n----------------------------------------\n{{ $json.content.parts[0].text }}\n\n----------------------------------------\nDo you want GitSync to create this README in your GitHub repository?\n\n✅ Approve → The README.md file will be committed to GitHub.\n❌ Reject → The README.md file will not be created.\n\nThank you,\nGitSync for n8n\n",
-        "approvalOptions": {
-          "values": {
-            "approvalType": "double"
-          }
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.gmail",
-      "typeVersion": 2.2,
-      "position": [
-        1872,
-        112
-      ],
-      "id": "bb04a7bb-e685-455f-86f1-04b6060190a7",
-      "name": "Send mail and wait for approval1",
-      "webhookId": "ffcf17d5-e025-4210-aa74-d276e7a5afa6",
-      "credentials": {
-        "gmailOAuth2": {
-          "id": "QV3UcajD75i2QUhz",
-          "name": "Gmail account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "18f2efe0-32b2-41e6-88e4-7645d04cc3f1",
-              "leftValue": "={{ $json.data.approved }}",
-              "rightValue": false,
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        2160,
-        112
-      ],
-      "id": "07fe7ad5-8099-4458-9942-3447fef23cf2",
-      "name": "is Approved ?1"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        2448,
-        208
-      ],
-      "id": "647196b5-9438-402c-b5d1-404a96d0e6e3",
-      "name": "No Operation, do nothing2"
     },
     {
       "parameters": {
@@ -754,6 +680,127 @@
       ],
       "id": "b724fb64-a20b-49c1-bb8e-cb90fa4d9f75",
       "name": "Time Saved Evaluation"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2256,
+        288
+      ],
+      "id": "647196b5-9438-402c-b5d1-404a96d0e6e3",
+      "name": "No Operation1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "18f2efe0-32b2-41e6-88e4-7645d04cc3f1",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2032,
+        176
+      ],
+      "id": "07fe7ad5-8099-4458-9942-3447fef23cf2",
+      "name": "is Approved ?1"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "fahad.testing119@gmail.com",
+        "subject": "=📄 README Creation Approval Required For{{ $('Get Workflow File from GitHub').item.json.workflowName }}",
+        "message": "=Hello,\n\nGitSync has generated a new README.md for the following workflow:\n\n📂 Workflow:\n{{ $('Get Workflow File from GitHub').item.json.workflowName }}\n\nReason:\nThis workflow is being synchronized to GitHub for the first time, and an AI-generated README has been created.\n\nPlease review the attached README.md file.\n\nProposed README\n----------------------------------------\n{{ $json.content.parts[0].text }}\n\n----------------------------------------\nDo you want GitSync to create this README in your GitHub repository?\n\n✅ Approve → The README.md file will be committed to GitHub.\n❌ Reject → The README.md file will not be created.\n\nThank you,\nGitSync for n8n\n",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1808,
+        176
+      ],
+      "id": "bb04a7bb-e685-455f-86f1-04b6060190a7",
+      "name": "Send mail and wait for approval2",
+      "webhookId": "ffcf17d5-e025-4210-aa74-d276e7a5afa6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "QV3UcajD75i2QUhz",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Create New Workflow\n\nCreate a new workflow in GitHub.\n\nIf enabled, AI generates documentation which is reviewed before publication.",
+        "height": 496,
+        "width": 1456,
+        "color": "#D47EFB"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1024,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "4882f7c7-99a2-44da-a410-dd2d931b54f7",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Human Approval\n\nREADME creation and updates require manual approval to ensure documentation quality before committing changes.",
+        "height": 176,
+        "width": 288,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1728,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "bf1edad3-7fde-45ad-a543-f426911c6e1c",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Human Approval\n\nREADME creation and updates require manual approval to ensure documentation quality before committing changes.",
+        "width": 352,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2976,
+        -496
+      ],
+      "typeVersion": 1,
+      "id": "7f282288-9050-4e26-9b22-2b4aa3a28caa",
+      "name": "Sticky Note7"
     }
   ],
   "connections": {
@@ -874,7 +921,7 @@
       "main": [
         [
           {
-            "node": "Send mail and wait for approval1",
+            "node": "Send mail and wait for approval2",
             "type": "main",
             "index": 0
           }
@@ -981,11 +1028,11 @@
         ]
       ]
     },
-    "Send mail and wait for approval1": {
+    "Schedule Trigger": {
       "main": [
         [
           {
-            "node": "is Approved ?1",
+            "node": "Configuration",
             "type": "main",
             "index": 0
           }
@@ -1003,18 +1050,18 @@
         ],
         [
           {
-            "node": "No Operation, do nothing2",
+            "node": "No Operation1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Schedule Trigger": {
+    "Send mail and wait for approval2": {
       "main": [
         [
           {
-            "node": "Configuration",
+            "node": "is Approved ?1",
             "type": "main",
             "index": 0
           }
