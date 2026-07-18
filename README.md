@@ -624,8 +624,6 @@ GitSync for n8n builds upon the excellent ecosystem created by the following pro
 - **Google Gemini** – AI-assisted workflow documentation.
 - **The n8n Community** – For inspiration, feedback, and knowledge sharing.
 
-A special thanks to everyone who contributes ideas, reports issues, and helps improve the project.
-
 ---
 
 # ⭐ Support the Project
