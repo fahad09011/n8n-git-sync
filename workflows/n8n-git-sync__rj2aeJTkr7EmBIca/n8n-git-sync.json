@@ -694,17 +694,18 @@
     },
     {
       "parameters": {
-        "height": 864,
-        "width": 1136,
-        "color": 5
+        "content": "## Workflow Configuration\n\nConfigure the execution schedule and global settings used throughout the workflow.\n\nMost customizations should be made in the Configuration node.",
+        "height": 448,
+        "width": 480,
+        "color": "#57A8F4"
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -320,
-        -816
+        -128,
+        -400
       ],
       "typeVersion": 1,
-      "id": "d4b449f0-fca5-42f7-9c0d-19bdacf9e6aa",
+      "id": "df0c0a43-2bdd-418b-9393-c298bc46aafd",
       "name": "Sticky Note"
     }
   ],
