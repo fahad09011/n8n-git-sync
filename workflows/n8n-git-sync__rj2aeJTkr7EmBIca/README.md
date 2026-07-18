@@ -1,20 +1,20 @@
 # n8n-git-sync
 
-> Automates the synchronization of n8n workflows to a GitHub repository, with optional AI-generated README documentation and manual email approval.
+> Automatically synchronize and document your n8n workflows to a GitHub repository with AI-generated READMEs and manual approval gates.
 
 ---
 
 ## 📌 Overview
 
-The **n8n-git-sync** workflow provides an automated way to back up and version control your n8n workflows directly to a GitHub repository. Running on a scheduled interval, it retrieves all active workflows from your n8n instance and compares them against the files stored in your specified GitHub repository.
+This workflow automates the backup, version control, and documentation of your n8n workflows to a GitHub repository. It periodically fetches all workflows from your n8n instance, compares them with the versions stored in GitHub, and commits any changes.
 
-If changes are detected in an existing workflow, the workflow updates the corresponding JSON file on GitHub. For new workflows, it creates the file in the repository. Additionally, if enabled, the workflow utilizes Google Gemini to automatically generate or update a professional `README.md` for the workflow. To ensure documentation quality, any new or updated README requires manual approval via Gmail before being committed to the repository.
+In addition to backing up the raw JSON definitions, the workflow leverages Google Gemini to automatically generate or update comprehensive README.md documentation for each workflow. To ensure high-quality documentation, updates and creations are routed through an email-based manual approval process before being committed to GitHub.
 
 ---
 
 ## 🎯 Purpose
 
-To establish a robust, automated backup and documentation pipeline for n8n workflows, ensuring version control best practices, tracking changes, and maintaining up-to-date documentation without manual overhead.
+To establish a robust, automated backup and documentation pipeline for n8n workflows, ensuring version control best practices, up-to-date repository documentation, and human-in-the-loop quality control.
 
 ---
 
@@ -22,7 +22,7 @@ To establish a robust, automated backup and documentation pipeline for n8n workf
 
 | Type | Description |
 |------|-------------|
-| Schedule Trigger | Runs periodically at a configured interval (every 6 minutes) to check for workflow updates. |
+| Schedule Trigger | Runs periodically based on a configured interval to check for workflow updates. |
 
 ---
 
@@ -30,16 +30,14 @@ To establish a robust, automated backup and documentation pipeline for n8n workf
 
 ```text
 Schedule Trigger
-      │
-Retrieve Workflows (n8n API)
-      │
-Check GitHub Repository
-      │
+       │
+Retrieve Workflows
+       │
+Check GitHub
+       │
 Workflow Exists?
-├── Yes → Compare → Changed? ── Yes → Update Workflow File ── Should Update README? ── Yes ── Send Approval Email ── Approved? ── Yes ── Update README.md
-│                                                                                                                              └── No ─── Do Nothing
-└── No  → Create Workflow File ── Generate README? ── Yes ── Generate README (Gemini) ── Send Approval Email ── Approved? ── Yes ── Create README.md
-                                                                                                                               └── No ─── Do Nothing
+├── Yes → Compare → Changed? → Yes → Update JSON → Should Update README? → Yes → Wait for Email Approval → Update README
+└── No  → Create JSON → Generate README? → Yes → Wait for Email Approval → Create README
 ```
 
 ---
@@ -48,47 +46,47 @@ Workflow Exists?
 
 | Service | Purpose |
 |----------|----------|
-| n8n API | Retrieves workflow definitions from the local n8n instance. |
-| GitHub | Manages repository files, including creating and updating workflow JSONs and READMEs. |
-| Google Gemini | Generates and evaluates README documentation using generative AI. |
-| Gmail | Sends approval request emails and waits for user confirmation before committing documentation. |
+| n8n API | Retrieves workflow definitions from the local instance. |
+| GitHub | Stores workflow JSON files and README documentation. |
+| Google Gemini | Generates and evaluates README documentation. |
+| Gmail | Sends approval requests and receives manual approval decisions. |
 
 ---
 
 ## 📥 Inputs
 
-*   **n8n Workflows**: Retrieved dynamically using the n8n API.
-*   **GitHub Repository Files**: Existing workflow JSON files and READMEs retrieved for comparison.
-*   **User Approval**: Interactive approval/rejection inputs received via Gmail.
+* n8n workflow configurations and metadata retrieved via the n8n API.
+* Existing workflow files and READMEs retrieved from the target GitHub repository.
 
 ---
 
 ## 📤 Outputs
 
-*   **GitHub Commits**: Updated or newly created workflow JSON files and `README.md` files in the target repository.
-*   **Gmail Notifications**: Interactive emails sent to the administrator for documentation approval.
+* Committed workflow JSON files in the designated GitHub repository folder.
+* Committed README.md documentation files in the designated GitHub repository folder.
+* Approval request emails sent to the administrator.
 
 ---
 
 ## ⚙️ Requirements
 
-*   **n8n API Credentials** (`n8n account`)
-*   **GitHub OAuth2 Credentials** (`GitHub account`)
-*   **Google Gemini API Credentials** (`Google Gemini(PaLM) Api account 2` and `3`)
-*   **Gmail OAuth2 Credentials** (`Gmail account`)
+* n8n API credentials (`n8n account`)
+* GitHub OAuth2 credentials (`GitHub account`)
+* Google Gemini API credentials (`Google Gemini(PaLM) Api account`)
+* Gmail OAuth2 credentials (`Gmail account`)
 
 ---
 
 ## 🏷 Tags
 
-*   `learning`
+* learning
 
 ---
 
 ## 📝 Notes
 
-*   **Manual Approval**: README generation and updates are paused until the administrator approves or rejects the changes via the interactive Gmail notification.
-*   **Configuration**: Repository details (owner, branch, folder path) and AI prompts are centrally managed in the `Configuration` node.
+* Ensure the configuration node is properly populated with your GitHub repository details (owner, repository, branch, folder) and documentation preferences.
+* The workflow uses Gmail to send interactive approval emails. Ensure the recipient email address is correctly configured in the Gmail nodes.
 
 ---
 
@@ -108,5 +106,3 @@ This README was generated automatically by GitSync for n8n.
 You are free to edit this file manually.
 
 Future AI-generated updates require your approval before replacing this documentation.
-
----
