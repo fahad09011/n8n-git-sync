@@ -9,7 +9,24 @@ Instead of manually exporting workflows or committing JSON files, GitSync contin
 To ensure documentation quality, all AI-generated README files and updates require manual approval before they are committed.#
 
 ---
+<p align="center">
+  <img src="images/workflow-overview.png" alt="GitSync for n8n">
+</p>
 
+## Table of Contents
+
+- Why GitSync?
+- Features
+- Architecture
+- How It Works
+- Repository Structure
+- Installation
+- Configuration
+- Credentials
+- Screenshots
+- Roadmap
+- Contributing
+- License
 # Why GitSync?
 
 Version control is a fundamental part of modern software development, but managing n8n workflows in Git often requires manual exports, manual commits, and manual documentation.
@@ -459,3 +476,179 @@ To help protect your environment:
 - Grant only the minimum permissions required for each credential.
 - Never hardcode API keys, access tokens, or passwords inside workflow nodes.
 - Regularly review and rotate credentials according to your organization's security policies.
+
+---
+
+# 📸 Screenshots
+
+The following screenshots provide a visual overview of GitSync and its key features.
+
+## Workflow Overview
+
+> Complete GitSync workflow showing synchronization, documentation generation, and approval process.
+
+![Workflow Overview](images/workflow-overview.png)
+
+---
+
+## Repository Structure
+
+> Example GitHub repository after synchronization.
+
+![Repository Structure](images/repository-structure.png)
+
+---
+
+## AI Documentation Approval
+
+> Example email requesting approval before creating or updating workflow documentation.
+
+![README Approval](images/readme-approval.png)
+
+---
+
+## Generated Workflow Documentation
+
+> Example AI-generated README committed alongside a synchronized workflow.
+
+![Generated README](images/generated-readme.png)
+
+---
+
+## Workflow Directory
+
+> Each synchronized workflow is stored in its own directory containing both the workflow definition and documentation.
+
+![Workflow Directory](images/workflow-directory.png)
+
+---
+
+## Configuration
+
+> Repository settings, documentation options, and AI configuration are managed from a single Configuration node.
+
+![Configuration](images/configuration-node.png)
+
+
+---
+
+# 🤝 Contributing
+
+Contributions of all sizes are welcome and appreciated.
+
+Whether you've found a bug, have an idea for a new feature, want to improve the documentation, or would like to enhance the workflow, your contributions help make GitSync better for everyone.
+
+## Ways to Contribute
+
+You can contribute by:
+
+- 🐛 Reporting bugs
+- 💡 Suggesting new features
+- 📖 Improving documentation
+- ⚡ Optimizing workflow performance
+- 🧪 Testing new releases
+- 🔧 Fixing bugs
+- ✨ Submitting pull requests
+
+---
+
+## Before Opening an Issue
+
+Please check if a similar issue or feature request already exists.
+
+When reporting a bug, include:
+
+- n8n version
+- Deployment type (Self-hosted / Cloud)
+- Steps to reproduce
+- Expected behavior
+- Actual behavior
+- Screenshots or logs (if applicable)
+
+---
+
+## Development Principles
+
+GitSync follows a few simple design principles:
+
+- Prefer native n8n nodes whenever possible.
+- Keep workflows simple and easy to understand.
+- Avoid unnecessary Code nodes.
+- Build incrementally.
+- Prioritize maintainability over complexity.
+- Preserve backward compatibility whenever practical.
+- Document new functionality.
+
+These principles help keep the project approachable for both users and contributors.
+
+---
+
+## Pull Requests
+
+When submitting a pull request:
+
+- Keep changes focused on a single improvement.
+- Update documentation when required.
+- Test your changes before submitting.
+- Follow the existing workflow structure and naming conventions.
+- Explain the purpose of the change in the pull request description.
+
+Constructive feedback and discussion are always welcome.
+
+---
+
+## Questions & Discussions
+
+If you're unsure whether a feature fits the project, feel free to open a discussion or issue before starting implementation.
+
+This helps ensure that new contributions align with the project's direction and avoids duplicated work.
+
+---
+
+# 📄 License
+
+This project is licensed under the **MIT License**.
+
+You are free to use, modify, distribute, and build upon this project in accordance with the terms of the license.
+
+See the [LICENSE](LICENSE) file for full details.
+
+---
+
+# 🙏 Acknowledgements
+
+GitSync for n8n builds upon the excellent ecosystem created by the following projects and communities:
+
+- **n8n** – Workflow automation platform.
+- **GitHub** – Version control and repository hosting.
+- **Google Gemini** – AI-assisted workflow documentation.
+- **The n8n Community** – For inspiration, feedback, and knowledge sharing.
+
+A special thanks to everyone who contributes ideas, reports issues, and helps improve the project.
+
+---
+
+# ⭐ Support the Project
+
+If GitSync helps you manage your n8n workflows, consider supporting the project by:
+
+- ⭐ Starring the repository on GitHub
+- 🐛 Reporting bugs and suggesting improvements
+- 🤝 Contributing new features or documentation
+- 💬 Sharing the project with the n8n community
+
+Community feedback helps shape future releases and keeps the project improving.
+
+---
+
+# 📬 Feedback
+
+Questions, ideas, and constructive feedback are always welcome.
+
+If you encounter a problem or have a suggestion, please open an Issue or start a Discussion on GitHub.
+
+---
+
+<p align="center">
+Made with ❤️ for the n8n community.
+</p>
