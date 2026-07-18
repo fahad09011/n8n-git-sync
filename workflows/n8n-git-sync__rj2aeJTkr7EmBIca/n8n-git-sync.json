@@ -45,8 +45,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1872,
-        -208
+        1856,
+        -176
       ],
       "id": "2e3c893a-756f-4c5d-b9f9-c6e0e8505296",
       "name": "No Operation, do nothing"
@@ -191,8 +191,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        1872,
-        -400
+        1840,
+        -320
       ],
       "id": "9990fa2f-8545-43d2-ab56-e0f4a367eff5",
       "name": "Update Workflow File",
@@ -230,7 +230,7 @@
       "typeVersion": 1.1,
       "position": [
         1072,
-        -16
+        112
       ],
       "id": "a740f9d4-aadd-4d09-8f4d-2b37239a17a6",
       "name": "Create Workflow File",
@@ -264,7 +264,7 @@
       "typeVersion": 1.1,
       "position": [
         2448,
-        -112
+        0
       ],
       "id": "18c45f99-9ac2-4911-abe6-8b07a8e6d8e1",
       "name": "Create a README.md",
@@ -305,7 +305,7 @@
       "typeVersion": 1.2,
       "position": [
         1520,
-        -16
+        112
       ],
       "id": "df213d2d-7b4b-4794-b014-d9ab1c381172",
       "name": "Generate README",
@@ -338,8 +338,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        3568,
-        -496
+        3600,
+        -352
       ],
       "id": "af7278ac-3a19-4ccd-9066-5c019ec571c8",
       "name": "Update README.md",
@@ -377,8 +377,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        2896,
-        -400
+        2864,
+        -336
       ],
       "id": "10f443cf-0b11-493e-955d-e9bf94e6392a",
       "name": "Get README File from GitHub",
@@ -423,8 +423,8 @@
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1.2,
       "position": [
-        2096,
-        -400
+        2064,
+        -320
       ],
       "id": "37beecab-4074-4a1f-a5aa-14d5f62a1e8c",
       "name": "Should Update README ?",
@@ -434,17 +434,6 @@
           "name": "Google Gemini(PaLM) Api account 3"
         }
       }
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        3568,
-        -304
-      ],
-      "id": "69730f68-d028-407f-b961-03b8e9842917",
-      "name": "No Operation, do nothing1"
     },
     {
       "parameters": {
@@ -462,8 +451,8 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        3120,
-        -400
+        3136,
+        -336
       ],
       "id": "690f5511-9d76-4845-bde2-faa965bca08c",
       "name": "Send mail and wait for approval",
@@ -482,8 +471,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2448,
-        -400
+        2416,
+        -320
       ],
       "id": "46bbbcf2-d86b-4793-b010-6d7371996de8",
       "name": "Clean README.md"
@@ -517,7 +506,7 @@
       "typeVersion": 2.3,
       "position": [
         1296,
-        -16
+        112
       ],
       "id": "279fe83a-e7a9-471e-ae26-1f769039b6dd",
       "name": "Generate README.md or Not ?"
@@ -550,8 +539,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2672,
-        -400
+        2640,
+        -320
       ],
       "id": "786e59fc-13d3-4f80-8ffc-a8dfc4ccf48b",
       "name": "Update README.md or Not ?"
@@ -584,8 +573,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        3344,
-        -400
+        3360,
+        -336
       ],
       "id": "5e9ca190-1b62-44ce-b4bd-dfaf8545a64e",
       "name": "is Approved ?"
@@ -607,7 +596,7 @@
       "typeVersion": 2.2,
       "position": [
         1872,
-        -16
+        112
       ],
       "id": "bb04a7bb-e685-455f-86f1-04b6060190a7",
       "name": "Send mail and wait for approval1",
@@ -648,7 +637,7 @@
       "typeVersion": 2.3,
       "position": [
         2160,
-        -16
+        112
       ],
       "id": "07fe7ad5-8099-4458-9942-3447fef23cf2",
       "name": "is Approved ?1"
@@ -659,7 +648,7 @@
       "typeVersion": 1,
       "position": [
         2448,
-        80
+        208
       ],
       "id": "647196b5-9438-402c-b5d1-404a96d0e6e3",
       "name": "No Operation, do nothing2"
@@ -682,17 +671,6 @@
       "name": "Schedule Trigger"
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.timeSaved",
-      "typeVersion": 1,
-      "position": [
-        3792,
-        -496
-      ],
-      "id": "b724fb64-a20b-49c1-bb8e-cb90fa4d9f75",
-      "name": "Time Saved"
-    },
-    {
       "parameters": {
         "content": "## Workflow Configuration\n\nConfigure the execution schedule and global settings used throughout the workflow.\n\nMost customizations should be made in the Configuration node.",
         "height": 448,
@@ -702,11 +680,80 @@
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         -128,
-        -400
+        -496
       ],
       "typeVersion": 1,
       "id": "df0c0a43-2bdd-418b-9393-c298bc46aafd",
       "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Retrieve Workflows\n\nFetch workflows from n8n and prepare them for synchronization.\n\nThe workflow then checks whether each workflow already exists in the GitHub repository.",
+        "height": 448,
+        "width": 624,
+        "color": "#2F8358"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        -496
+      ],
+      "typeVersion": 1,
+      "id": "f1a7f3f0-8343-4f40-b7e0-f7c14564d403",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Detect Changes\n\nCompare the local workflow with the GitHub version.\n\nOnly modified workflows continue through the update process, avoiding unnecessary commits.",
+        "height": 448,
+        "width": 704,
+        "color": "#F49F71"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1024,
+        -496
+      ],
+      "typeVersion": 1,
+      "id": "33414ff6-cdeb-4f42-8993-fb0d8afa1eb9",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Update Existing Workflow\n\nUpdate the workflow JSON in GitHub.\n\nAI evaluates whether the README requires updating.\nDocumentation changes require manual approval before being committed.",
+        "height": 448,
+        "width": 2208
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1792,
+        -496
+      ],
+      "typeVersion": 1,
+      "id": "63822b05-da94-4d0c-82a8-c69ab8b83b09",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3600,
+        -192
+      ],
+      "id": "69730f68-d028-407f-b961-03b8e9842917",
+      "name": "No Operation"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.timeSaved",
+      "typeVersion": 1,
+      "position": [
+        3824,
+        -352
+      ],
+      "id": "b724fb64-a20b-49c1-bb8e-cb90fa4d9f75",
+      "name": "Time Saved Evaluation"
     }
   ],
   "connections": {
@@ -843,7 +890,7 @@
       "main": [
         [
           {
-            "node": "Time Saved",
+            "node": "Time Saved Evaluation",
             "type": "main",
             "index": 0
           }
@@ -927,7 +974,7 @@
         ],
         [
           {
-            "node": "No Operation, do nothing1",
+            "node": "No Operation",
             "type": "main",
             "index": 0
           }
