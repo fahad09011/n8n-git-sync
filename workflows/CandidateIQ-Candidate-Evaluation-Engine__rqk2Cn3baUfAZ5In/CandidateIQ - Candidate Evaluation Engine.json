@@ -1,0 +1,93 @@
+{
+  "createdAt": "2026-07-21T22:36:47.735Z",
+  "id": "rqk2Cn3baUfAZ5In",
+  "name": "CandidateIQ - Candidate Evaluation Engine",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "upload_file",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        -16
+      ],
+      "id": "773e72ec-25ac-4ec9-9068-6f850ca48e2d",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "formTitle": "testing",
+        "formDescription": "testing",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "upload file",
+              "fieldType": "file",
+              "acceptFileTypes": ".pdf"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        224,
+        -16
+      ],
+      "id": "1b06c910-4e7e-43f6-bd3f-18757b66c4b7",
+      "name": "On form submission",
+      "webhookId": "76569597-2898-45c4-b1a8-c15bce07def4"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-07-21T22:36:47.750Z",
+      "createdAt": "2026-07-21T22:36:47.750Z",
+      "role": "workflow:owner",
+      "workflowId": "rqk2Cn3baUfAZ5In",
+      "projectId": "Lb300ztv9feaAJz6"
+    }
+  ],
+  "activeVersion": null,
+  "tags": [
+    {
+      "updatedAt": "2026-06-16T14:55:31.622Z",
+      "createdAt": "2026-06-16T14:55:31.622Z",
+      "id": "YF7kRaLLoZERdRud",
+      "name": "learning"
+    }
+  ]
+}
