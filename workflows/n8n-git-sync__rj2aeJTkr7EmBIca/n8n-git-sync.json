@@ -156,7 +156,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const results = [];\n\nconst currentItems = $('Prepare Workflow').all();\nconst githubItems = $input.all();\n\nfor (let i = 0; i < githubItems.length; i++) {\n\n  const workflow = currentItems[i].json.workflow;\n  const githubWorkflow = githubItems[i].json.githubWorkflow;\n\n  const changed =\n    JSON.stringify(workflow) !== JSON.stringify(githubWorkflow);\n\n  results.push({\n  json: {\n    ...currentItems[i].json,\n    githubWorkflow: githubItems[i].json.githubWorkflow,\n    sha: githubItems[i].json.sha,\n    changed\n  }\n});\n}\n\nreturn results;"
+        "jsCode": "const githubMap = new Map();\n\n// Build a lookup table of GitHub workflows\nfor (const item of $input.all()) {\n  githubMap.set(item.json.githubWorkflow.id, item.json);\n}\n\nconst results = [];\n\n// Compare every workflow from Prepare Workflow\nfor (const item of $('Prepare Workflow').all()) {\n\n  const workflow = item.json.workflow;\n  const github = githubMap.get(workflow.id);\n\n  // Skip workflows that don't exist in GitHub\n  if (!github) {\n    continue;\n  }\n\n  const changed =\n    JSON.stringify(workflow) !==\n    JSON.stringify(github.githubWorkflow);\n\n  results.push({\n    json: {\n      ...item.json,\n      githubWorkflow: github.githubWorkflow,\n      sha: github.sha,\n      changed\n    }\n  });\n}\n\nreturn results;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
