@@ -583,7 +583,10 @@
       "parameters": {
         "rule": {
           "interval": [
-            {}
+            {
+              "field": "minutes",
+              "minutesInterval": 2
+            }
           ]
         }
       },
