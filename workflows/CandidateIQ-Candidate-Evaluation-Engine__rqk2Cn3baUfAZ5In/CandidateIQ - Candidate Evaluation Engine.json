@@ -7,47 +7,228 @@
   "nodes": [
     {
       "parameters": {
+        "httpMethod": "POST",
+        "path": "6aff713e-c829-4a09-a404-f94b35ad2cc8",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        16,
+        144
+      ],
+      "id": "9d7db196-b458-4a97-a7c1-87eb3e873951",
+      "name": "job form",
+      "webhookId": "6aff713e-c829-4a09-a404-f94b35ad2cc8"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.body.Resume[0] }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        240,
+        144
+      ],
+      "id": "355c4fdc-39a4-4aaf-98f6-a2bd96c3a685",
+      "name": "Download resume",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "M38vXu8b5UYZJ6ig",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "jobs",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "title",
+              "keyValue": "={{ $('job form').item.json.body[\"Which Job position(s) are you interested in?\"] }}"
+            },
+            {
+              "keyName": "status",
+              "keyValue": "Open"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        144
+      ],
+      "id": "ac57b170-2375-49b1-ad3c-eb74c556e322",
+      "name": "Get JOB",
+      "alwaysOutputData": false,
+      "notesInFlow": false,
+      "credentials": {
+        "supabaseApi": {
+          "id": "9w0oEoqSwA2cbUvy",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "candidates",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "first_name",
+              "fieldValue": "={{ $('job form').item.json.body[\"First Name\"] }}"
+            },
+            {
+              "fieldId": "last_name",
+              "fieldValue": "={{ $('job form').item.json.body[\"Last Name\"] }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $('job form').item.json.body.Email }}"
+            },
+            {
+              "fieldId": "phone",
+              "fieldValue": "={{ $('job form').item.json.body[\"Phone number\"] }}"
+            },
+            {
+              "fieldId": "linkedin_url",
+              "fieldValue": "={{ $('job form').item.json.body[\"LinkedIn URL\"] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        0
+      ],
+      "id": "e62a81a9-dbcb-4252-bdc4-b9a0ffd04a0e",
+      "name": "Create candidate",
+      "credentials": {
+        "supabaseApi": {
+          "id": "9w0oEoqSwA2cbUvy",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "operation": "pdf",
-        "binaryPropertyName": "upload_file",
         "options": {}
       },
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1.1,
       "position": [
-        448,
-        -16
+        464,
+        144
       ],
-      "id": "773e72ec-25ac-4ec9-9068-6f850ca48e2d",
+      "id": "e46eeb66-0ac6-44cb-b300-395a3897ec89",
       "name": "Extract from File"
     },
     {
       "parameters": {
-        "formTitle": "testing",
-        "formDescription": "testing",
-        "formFields": {
-          "values": [
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {
+          "maxOutputTokens": 4000,
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        768,
+        368
+      ],
+      "id": "b6e80533-82ac-4472-818f-577505bcd553",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "CXZZMJrr3TGCOeOb",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.text }}",
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"personal_information\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"first_name\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"last_name\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"email\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"phone\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"location\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"linkedin_url\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"github_url\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"portfolio_url\": {\n          \"type\": [\"string\", \"null\"]\n        }\n      }\n    },\n    \"professional_summary\": {\n      \"type\": [\"string\", \"null\"]\n    },\n    \"technical_skills\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"soft_skills\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"work_experience\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"job_title\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"company\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"start_date\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"end_date\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"currently_working\": {\n            \"type\": [\"boolean\", \"null\"]\n          }\n        }\n      }\n    },\n    \"education\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"degree\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"institution\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"field_of_study\": {\n            \"type\": [\"string\", \"null\"]\n          }\n        }\n      }\n    },\n    \"projects\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"name\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"description\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"technologies\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"string\"\n            }\n          }\n        }\n      }\n    },\n    \"certifications\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"name\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"issuer\": {\n            \"type\": [\"string\", \"null\"]\n          }\n        }\n      }\n    }\n  }\n}",
+        "options": {
+          "systemPromptTemplate": "You are an expert resume parser.\n\nYour ONLY task is to convert the provided resume into structured JSON.\n\nRules:\n\n1. Return ONLY valid JSON.\n2. Do not include markdown.\n3. Do not explain your reasoning.\n4. Do not infer information that is not explicitly stated.\n5. If a value is missing, return:\n   - null for missing string/number values\n   - [] for missing arrays\n6. Preserve wording where possible.\n7. Do not calculate candidate suitability.\n8. Do not score the candidate.\n9. Do not compare against any job.\n10. Do not hallucinate technologies, companies, projects, certifications, dates or experience.\n11. If confidence is low, return null instead of guessing.\n12. The JSON structure must exactly match the schema above.\n13. Examine/Analyze whole text to get data"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        688,
+        144
+      ],
+      "id": "aa0164d1-25b8-4435-a513-ac4329e9adfd",
+      "name": "Structure Candidate Data"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Evaluate the following candidate against the job requirements.\n\nJob:\n\n{{ JSON.stringify($('Get JOB').item.json, null, 2) }}\n\nCandidate:\n{{ JSON.stringify( $('Structure Candidate Data').item.json.output)}}\n\n\nEvaluate the candidate and return the structured result.",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
             {
-              "fieldLabel": "upload file",
-              "fieldType": "file",
-              "acceptFileTypes": ".pdf"
+              "message": "You are an experienced technical recruiter and hiring manager.\n\nYour task is to evaluate a candidate against a job description.\n\nRules:\n\n- Evaluate only using the provided information.\n- Never invent skills or experience.\n- If information is missing, treat it as unknown.\n- Compare the candidate only against the supplied job requirements.\n- Be objective and consistent.\n- Return only the requested structured output."
             }
           ]
         },
-        "options": {}
+        "batching": {}
       },
-      "type": "n8n-nodes-base.formTrigger",
-      "typeVersion": 2.6,
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
       "position": [
-        224,
-        -16
+        1264,
+        304
       ],
-      "id": "1b06c910-4e7e-43f6-bd3f-18757b66c4b7",
-      "name": "On form submission",
-      "webhookId": "76569597-2898-45c4-b1a8-c15bce07def4"
+      "id": "bfb2b3ef-7c50-4d25-b530-d5f7866b113b",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"overall_score\": {\n      \"type\": \"integer\",\n      \"minimum\": 0,\n      \"maximum\": 100\n    },\n    \"recommendation\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"strong_match\",\n        \"review\",\n        \"weak_match\"\n      ]\n    },\n    \"summary\": {\n      \"type\": \"string\"\n    },\n    \"strengths\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"missing_skills\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"matching_skills\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"experience_match\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"required_years\": {\n          \"type\": [\n            \"number\",\n            \"null\"\n          ]\n        },\n        \"candidate_years\": {\n          \"type\": [\n            \"number\",\n            \"null\"\n          ]\n        },\n        \"meets_requirement\": {\n          \"type\": \"boolean\"\n        }\n      }\n    },\n    \"education_match\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"matched\",\n        \"partially_matched\",\n        \"not_matched\",\n        \"unknown\"\n      ]\n    },\n    \"evaluation_details\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"skills_score\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"maximum\": 100\n        },\n        \"experience_score\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"maximum\": 100\n        },\n        \"education_score\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"maximum\": 100\n        }\n      }\n    }\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1344,
+        528
+      ],
+      "id": "0d8ccd50-ee43-4ea3-84ca-6e0bdf4dc3d6",
+      "name": "Structured Output Parser"
     }
   ],
   "connections": {
-    "On form submission": {
+    "job form": {
+      "main": [
+        [
+          {
+            "node": "Download resume",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download resume": {
       "main": [
         [
           {
@@ -58,9 +239,74 @@
         ]
       ]
     },
-    "Extract from File": {
+    "Get JOB": {
+      "main": [
+        [
+          {
+            "node": "Create candidate",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create candidate": {
       "main": [
         []
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Structure Candidate Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structure Candidate Data",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structure Candidate Data": {
+      "main": [
+        [
+          {
+            "node": "Get JOB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
       ]
     }
   },
