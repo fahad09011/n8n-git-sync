@@ -986,6 +986,7 @@
     "availableInMCP": false
   },
   "staticData": null,
+  "nodeGroups": [],
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
