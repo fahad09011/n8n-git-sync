@@ -288,6 +288,7 @@
       }
     }
   },
+  "nodeGroups": [],
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
