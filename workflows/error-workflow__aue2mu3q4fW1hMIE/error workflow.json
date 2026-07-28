@@ -234,6 +234,7 @@
     "availableInMCP": false
   },
   "staticData": null,
+  "nodeGroups": [],
   "activeVersionId": "2da28af1-ead4-4bc3-aba2-ca5611fd8f4b",
   "triggerCount": 0,
   "shared": [
