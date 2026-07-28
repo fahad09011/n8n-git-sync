@@ -383,6 +383,7 @@
       }
     }
   },
+  "nodeGroups": [],
   "activeVersionId": "ed70f966-4c7c-46b3-9dcf-03df4fe34db8",
   "triggerCount": 1,
   "shared": [
