@@ -2294,6 +2294,7 @@
     "callerPolicy": "workflowsFromSameOwner"
   },
   "staticData": null,
+  "nodeGroups": [],
   "activeVersionId": "d36246b7-ec29-4146-a0c6-fef9600cba10",
   "triggerCount": 1,
   "shared": [
