@@ -376,6 +376,7 @@
     "callerPolicy": "workflowsFromSameOwner"
   },
   "staticData": null,
+  "nodeGroups": [],
   "activeVersionId": "0bfe7daa-1e4c-44cc-bdbe-fc5e1a1344b8",
   "triggerCount": 1,
   "shared": [
