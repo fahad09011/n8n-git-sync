@@ -1126,10 +1126,14 @@
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": [
-        13
+        null
+      ],
+      "recurrenceRuleSignatures": [
+        null
       ]
     }
   },
+  "nodeGroups": [],
   "activeVersionId": "a0ee3f40-4fda-45c0-900c-fd888354a0c3",
   "triggerCount": 1,
   "shared": [
