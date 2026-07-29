@@ -7,42 +7,120 @@
   "nodes": [
     {
       "parameters": {
-        "modelName": "models/gemini-3.5-flash-lite",
+        "text": "={{ $json.text }}",
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"personal_information\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"first_name\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"last_name\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"email\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"phone\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"location\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"linkedin_url\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"github_url\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"portfolio_url\": {\n          \"type\": [\"string\", \"null\"]\n        }\n      }\n    },\n    \"professional_summary\": {\n      \"type\": [\"string\", \"null\"]\n    },\n    \"technical_skills\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"soft_skills\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"work_experience\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"job_title\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"company\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"start_date\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"end_date\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"currently_working\": {\n            \"type\": [\"boolean\", \"null\"]\n          }\n        }\n      }\n    },\n    \"education\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"degree\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"institution\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"field_of_study\": {\n            \"type\": [\"string\", \"null\"]\n          }\n        }\n      }\n    },\n    \"projects\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"name\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"description\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"technologies\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"string\"\n            }\n          }\n        }\n      }\n    },\n    \"certifications\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"name\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"issuer\": {\n            \"type\": [\"string\", \"null\"]\n          }\n        }\n      }\n    }\n  }\n}",
         "options": {
-          "maxOutputTokens": 4000,
-          "temperature": 0.4
+          "systemPromptTemplate": "You are an expert resume parser.\n\nYour ONLY task is to convert the provided resume into structured JSON.\n\nRules:\n\n1. Return ONLY valid JSON.\n2. Do not include markdown.\n3. Do not explain your reasoning.\n4. Do not infer information that is not explicitly stated.\n5. If a value is missing, return:\n   - null for missing string/number values\n   - [] for missing arrays\n6. Preserve wording where possible.\n7. Do not calculate candidate suitability.\n8. Do not score the candidate.\n9. Do not compare against any job.\n10. Do not hallucinate technologies, companies, projects, certifications, dates or experience.\n11. If confidence is low, return null instead of guessing.\n12. The JSON structure must exactly match the schema above.\n13. Examine/Analyze whole text to get data"
         }
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
       "position": [
-        760,
-        408
+        -1440,
+        1392
       ],
-      "id": "b6e80533-82ac-4472-818f-577505bcd553",
-      "name": "Google Gemini Chat Model",
+      "id": "750dec03-4908-4718-b020-b830c0b87108",
+      "name": "Extract Candidate Profile",
+      "retryOnFail": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"overall_score\": {\n      \"type\": \"integer\",\n      \"minimum\": 0,\n      \"maximum\": 100\n    },\n    \"summary\": {\n      \"type\": \"string\"\n    },\n    \"strengths\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"missing_skills\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"matching_skills\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"experience_match\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"required_years\": {\n          \"type\": [\n            \"number\",\n            \"null\"\n          ]\n        },\n        \"candidate_years\": {\n          \"type\": [\n            \"number\",\n            \"null\"\n          ]\n        },\n        \"meets_requirement\": {\n          \"type\": \"boolean\"\n        }\n      }\n    },\n    \"education_match\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"matched\",\n        \"partially_matched\",\n        \"not_matched\",\n        \"unknown\"\n      ]\n    },\n    \"evaluation_details\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"skills_score\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"maximum\": 100\n        },\n        \"experience_score\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"maximum\": 100\n        },\n        \"education_score\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"maximum\": 100\n        }\n      }\n    }\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -728,
+        1320
+      ],
+      "id": "fb3b96d9-9bdb-4b41-8dbc-acabfef0635a",
+      "name": "Candidate Evaluation Schema"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0BMJMWGDH6",
+          "mode": "list",
+          "cachedResultName": "candidate-iq-error-handling-in-workflow"
+        },
+        "text": "=🚨 CandidateIQ - Extract Candidate Profile Failed  \nCandidate: {{ $('Receive Job Application').item.json.body[\"First Name\"] }} {{ $('Receive Job Application').item.json.body['Last Name'] }}\nEmail: {{ $('Receive Job Application').item.json.body.Email }}\nJob: {{ $('Receive Job Application').item.json.body['Which Job position(s) are you interested in?'] }}  \nNode: Extract Candidate Profile  \nError: {{ $json.error }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        -800,
+        1488
+      ],
+      "id": "4167892e-21c2-487b-8b16-f2822ff6c5dc",
+      "name": "Notify Admin - AI Failure",
+      "webhookId": "39faf92b-07c6-4dc2-a004-f1b30a99c3ea",
       "credentials": {
-        "googlePalmApi": {
-          "id": "CXZZMJrr3TGCOeOb",
-          "name": "Google Gemini(PaLM) Api account 3"
+        "slackApi": {
+          "id": "HTlCTSjIFJENPdO6",
+          "name": "Slack account 2"
         }
       }
     },
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "6aff713e-c829-4a09-a404-f94b35ad2cc8",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0BMJMWGDH6",
+          "mode": "list",
+          "cachedResultName": "candidate-iq-error-handling-in-workflow"
+        },
+        "text": "=🚨 CandidateIQ - Upload Resume to Storage Failed  \n\nCandidate ID: {{\n$('Create Candidate Record').item.json?.id ??\n$('Get Existing Candidate').item.json?.id\n}}\nCandidate: {{ $('Receive Job Application').item.json.body[\"First Name\"] }} {{ $('Receive Job Application').item.json.body['Last Name'] }}\nEmail: {{ $('Receive Job Application').item.json.body.Email }}\nJob: {{ $('Receive Job Application').item.json.body['Which Job position(s) are you interested in?'] }}  \nNode: Upload Resume to Storage  \nStage: Upload Resume\nError: {{ $json.error.message }} | {{ $json.error.description }} | {{ $json.error.name }}\n\nWorkflow stopped.",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        832,
+        1216
+      ],
+      "id": "2f485cde-7477-4333-a2f4-3ef634f19f8c",
+      "name": "Notify Admin - Resume Storage Failure",
+      "webhookId": "39faf92b-07c6-4dc2-a004-f1b30a99c3ea",
+      "credentials": {
+        "slackApi": {
+          "id": "HTlCTSjIFJENPdO6",
+          "name": "Slack account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://nbxdnevtdgjpfcrfadtc.supabase.co/storage/v1/object/resumes/{{\n$('Create Candidate Record').item.json?.id ??\n$('Get Existing Candidate').item.json?.id\n}}-{{ $('Download Resume').item.binary.data.fileName }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
         "options": {}
       },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
       "position": [
-        16,
-        64
+        384,
+        1072
       ],
-      "id": "9d7db196-b458-4a97-a7c1-87eb3e873951",
-      "name": "Receive Job Application",
-      "webhookId": "6aff713e-c829-4a09-a404-f94b35ad2cc8"
+      "id": "7b6050ee-62ea-468e-95c4-a9f108024872",
+      "name": "Upload Resume to Storage",
+      "credentials": {
+        "supabaseApi": {
+          "id": "9w0oEoqSwA2cbUvy",
+          "name": "Supabase account"
+        }
+      },
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -57,10 +135,10 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        240,
-        64
+        -1888,
+        1264
       ],
-      "id": "355c4fdc-39a4-4aaf-98f6-a2bd96c3a685",
+      "id": "afa3e257-cf7c-4277-946d-494c111146f6",
       "name": "Download Resume",
       "credentials": {
         "googleDriveOAuth2Api": {
@@ -71,35 +149,33 @@
     },
     {
       "parameters": {
+        "httpMethod": "POST",
+        "path": "6aff713e-c829-4a09-a404-f94b35ad2cc8",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -2112,
+        1264
+      ],
+      "id": "dcff0f30-4d6d-4a16-b866-73b545149e3f",
+      "name": "Receive Job Application",
+      "webhookId": "6aff713e-c829-4a09-a404-f94b35ad2cc8"
+    },
+    {
+      "parameters": {
         "operation": "pdf",
         "options": {}
       },
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1.1,
       "position": [
-        464,
-        192
+        -1664,
+        1392
       ],
-      "id": "e46eeb66-0ac6-44cb-b300-395a3897ec89",
+      "id": "6f64e012-6392-4db9-a646-76ade0760b2a",
       "name": "Extract Resume Text"
-    },
-    {
-      "parameters": {
-        "text": "={{ $json.text }}",
-        "schemaType": "manual",
-        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"personal_information\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"first_name\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"last_name\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"email\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"phone\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"location\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"linkedin_url\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"github_url\": {\n          \"type\": [\"string\", \"null\"]\n        },\n        \"portfolio_url\": {\n          \"type\": [\"string\", \"null\"]\n        }\n      }\n    },\n    \"professional_summary\": {\n      \"type\": [\"string\", \"null\"]\n    },\n    \"technical_skills\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"soft_skills\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"work_experience\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"job_title\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"company\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"start_date\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"end_date\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"currently_working\": {\n            \"type\": [\"boolean\", \"null\"]\n          }\n        }\n      }\n    },\n    \"education\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"degree\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"institution\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"field_of_study\": {\n            \"type\": [\"string\", \"null\"]\n          }\n        }\n      }\n    },\n    \"projects\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"name\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"description\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"technologies\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"string\"\n            }\n          }\n        }\n      }\n    },\n    \"certifications\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"name\": {\n            \"type\": [\"string\", \"null\"]\n          },\n          \"issuer\": {\n            \"type\": [\"string\", \"null\"]\n          }\n        }\n      }\n    }\n  }\n}",
-        "options": {
-          "systemPromptTemplate": "You are an expert resume parser.\n\nYour ONLY task is to convert the provided resume into structured JSON.\n\nRules:\n\n1. Return ONLY valid JSON.\n2. Do not include markdown.\n3. Do not explain your reasoning.\n4. Do not infer information that is not explicitly stated.\n5. If a value is missing, return:\n   - null for missing string/number values\n   - [] for missing arrays\n6. Preserve wording where possible.\n7. Do not calculate candidate suitability.\n8. Do not score the candidate.\n9. Do not compare against any job.\n10. Do not hallucinate technologies, companies, projects, certifications, dates or experience.\n11. If confidence is low, return null instead of guessing.\n12. The JSON structure must exactly match the schema above.\n13. Examine/Analyze whole text to get data"
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
-      "typeVersion": 1.2,
-      "position": [
-        688,
-        192
-      ],
-      "id": "aa0164d1-25b8-4435-a513-ac4329e9adfd",
-      "name": "Extract Candidate Profile"
     },
     {
       "parameters": {
@@ -121,10 +197,10 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        1040,
-        192
+        -1088,
+        1200
       ],
-      "id": "ac57b170-2375-49b1-ad3c-eb74c556e322",
+      "id": "f4f042b3-36c5-45b6-9b5f-5b8bac0a640b",
       "name": "Get Job Details",
       "alwaysOutputData": false,
       "notesInFlow": false,
@@ -152,11 +228,40 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.9,
       "position": [
-        1264,
-        192
+        -864,
+        1088
       ],
-      "id": "bfb2b3ef-7c50-4d25-b530-d5f7866b113b",
+      "id": "b3680343-37a2-478c-83c7-99ed2ee32332",
       "name": "Evaluate Candidate"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8bc70683-5fe3-4585-8170-0466584477d1",
+              "name": "candidate_status",
+              "value": "={{\n$('Evaluate Candidate').item.json.output.overall_score >= 80\n? \"🟢 Strong Match\"\n: $('Evaluate Candidate').item.json.output.overall_score >= 60\n? \"🟡 Weak Match Requires Manual Review\"\n: \"🔴 Low Match \"\n}}",
+              "type": "string"
+            },
+            {
+              "id": "d90396d0-d97e-4fc8-aab2-c1aa2368d5ec",
+              "name": "intro_message",
+              "value": "={{\n$('Evaluate Candidate').item.json.output.overall_score >= 80\n? \"A candidate has been evaluated by CandidateIQ and is a strong match for this position.\"\n: $('Evaluate Candidate').item.json.output.overall_score >= 60\n? \"A candidate has been evaluated by CandidateIQ and requires manual review before a hiring decision can be made.\"\n: \"A candidate has been evaluated by CandidateIQ and has a low compatibility score. Please review before making the final decision.\"\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -512,
+        1200
+      ],
+      "id": "8f8004b8-7840-4953-bee1-a9e2cd6969b6",
+      "name": "Prepare HR Notification"
     },
     {
       "parameters": {
@@ -189,17 +294,22 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        1616,
-        192
+        -288,
+        1200
       ],
-      "id": "e62a81a9-dbcb-4252-bdc4-b9a0ffd04a0e",
+      "id": "b79e80df-0641-460c-9427-5fbbf92c9cb5",
       "name": "Create Candidate Record",
+      "notesInFlow": false,
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "retryOnFail": false,
       "credentials": {
         "supabaseApi": {
           "id": "9w0oEoqSwA2cbUvy",
           "name": "Supabase account"
         }
-      }
+      },
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -210,51 +320,12 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        1840,
-        64
+        160,
+        1072
       ],
-      "id": "a2a3ab35-5c7c-44e8-b9b5-fd2f9f1ca6cb",
-      "name": "Merge Candidate & Resume"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "=https://nbxdnevtdgjpfcrfadtc.supabase.co/storage/v1/object/resumes/{{ $('Create Candidate Record').item.json.id }}-{{ $('Download Resume').item.binary.data.fileName }}",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "supabaseApi",
-        "sendBody": true,
-        "contentType": "binaryData",
-        "inputDataFieldName": "data",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        2064,
-        64
-      ],
-      "id": "2923fe4a-422e-4e9b-929b-a420a3b7abd6",
-      "name": "Upload Resume to Storage",
-      "credentials": {
-        "supabaseApi": {
-          "id": "9w0oEoqSwA2cbUvy",
-          "name": "Supabase account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "schemaType": "manual",
-        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"overall_score\": {\n      \"type\": \"integer\",\n      \"minimum\": 0,\n      \"maximum\": 100\n    },\n    \"summary\": {\n      \"type\": \"string\"\n    },\n    \"strengths\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"missing_skills\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"matching_skills\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    },\n    \"experience_match\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"required_years\": {\n          \"type\": [\n            \"number\",\n            \"null\"\n          ]\n        },\n        \"candidate_years\": {\n          \"type\": [\n            \"number\",\n            \"null\"\n          ]\n        },\n        \"meets_requirement\": {\n          \"type\": \"boolean\"\n        }\n      }\n    },\n    \"education_match\": {\n      \"type\": \"string\",\n      \"enum\": [\n        \"matched\",\n        \"partially_matched\",\n        \"not_matched\",\n        \"unknown\"\n      ]\n    },\n    \"evaluation_details\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"skills_score\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"maximum\": 100\n        },\n        \"experience_score\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"maximum\": 100\n        },\n        \"education_score\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"maximum\": 100\n        }\n      }\n    }\n  }\n}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
-      "typeVersion": 1.3,
-      "position": [
-        1336,
-        408
-      ],
-      "id": "0d8ccd50-ee43-4ea3-84ca-6e0bdf4dc3d6",
-      "name": "Candidate Evaluation Schema"
+      "id": "1878e80a-ca54-4432-bdf2-697f654b53b4",
+      "name": "Merge Candidate & Resume",
+      "alwaysOutputData": false
     },
     {
       "parameters": {
@@ -265,7 +336,7 @@
             {
               "keyName": "id",
               "condition": "eq",
-              "keyValue": "={{ $('Create Candidate Record').item.json.id }}"
+              "keyValue": "={{\n$('Create Candidate Record').item.json?.id ??\n$('Get Existing Candidate').item.json?.id\n}}"
             }
           ]
         },
@@ -273,7 +344,7 @@
           "fieldValues": [
             {
               "fieldId": "resume_path",
-              "fieldValue": "={{ $('Create Candidate Record').item.json.id }}/{{ $('Download Resume').item.binary.data.fileName }}"
+              "fieldValue": "={{ $('Create Candidate Record').item.json.id }}-{{ $('Download Resume').item.binary.data.fileName }}"
             }
           ]
         }
@@ -281,10 +352,10 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        2288,
-        64
+        608,
+        1024
       ],
-      "id": "d009abbf-508c-46b2-9a53-72a991df0325",
+      "id": "898cd03c-b3eb-433b-902e-a58223393f43",
       "name": "Update Candidate Resume",
       "credentials": {
         "supabaseApi": {
@@ -300,7 +371,7 @@
           "fieldValues": [
             {
               "fieldId": "candidate_id",
-              "fieldValue": "={{ $('Create Candidate Record').item.json.id }}"
+              "fieldValue": "={{\n$('Create Candidate Record').item.json?.id ??\n$('Get Existing Candidate').item.json?.id\n}}"
             },
             {
               "fieldId": "job_id",
@@ -336,10 +407,10 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        2512,
-        64
+        832,
+        1024
       ],
-      "id": "5ca04690-9bff-4e6c-a29d-df869c24ab07",
+      "id": "b39f1817-dc35-481a-985e-84f7cea1e9bb",
       "name": "Create Application",
       "credentials": {
         "supabaseApi": {
@@ -358,7 +429,7 @@
           "mode": "list",
           "cachedResultName": "candidate-hr"
         },
-        "message": "=🎯 New Strong Candidate Identified\n\nA candidate has been evaluated by CandidateIQ and meets the strong match threshold.\n\n━━━━━━━━━━━━━━━━━━━━━━\n👤 Candidate Information\n━━━━━━━━━━━━━━━━━━━━━━\n\nName:{{ $('Extract Candidate Profile').item.json.output.personal_information.first_name }} {{ $('Extract Candidate Profile').item.json.output.personal_information.last_name }}\nEmail:{{ $('Extract Candidate Profile').item.json.output.personal_information.email }}\nPhone:{{ $('Extract Candidate Profile').item.json.output.personal_information.phone }}\nLinkedIn:{{ $('Extract Candidate Profile').item.json.output.personal_information.linkedin_url }}\n\nPortfolio:{{ $('Extract Candidate Profile').item.json.output.personal_information.portfolio_url }}\n\nGitHub:{{ $('Extract Candidate Profile').item.json.output.personal_information.github_url }}\n\n━━━━━━━━━━━━━━━━━━━━━━\n💼 Job Information\n━━━━━━━━━━━━━━━━━━━━━━\n\nPosition:{{ $('Get Job Details').item.json.title }}\nDepartment:{{ $('Get Job Details').item.json.title }}\nJob ID:{{ $('Get Job Details').item.json.id }}\n\n━━━━━━━━━━━━━━━━━━━━━━\n🤖 AI Evaluation\n━━━━━━━━━━━━━━━━━━━━━━\n\nOverall Score:{{ $('Evaluate Candidate').item.json.output.overall_score }}/100\n\nSummary:{{ $('Evaluate Candidate').item.json.output.summary }}\n\n\n━━━━━━━━━━━━━━━━━━━━━━\n✅ Key Strengths\n━━━━━━━━━━━━━━━━━━━━━━\n\n• {{ $('Evaluate Candidate').item.json.output.strengths.map(s => `• ${s}`).join('\\n')  }}\n\n━━━━━━━━━━━━━━━━━━━━━━\n⚠️ Missing Skills\n━━━━━━━━━━━━━━━━━━━━━━\n\n• {{ $('Evaluate Candidate').item.json.output.missing_skills.map(s => `• ${s}`).join('\\n')  }}\n\n━━━━━━━━━━━━━━━━━━━━━━\n📄 Resume\n━━━━━━━━━━━━━━━━━━━━━━\n\nResume Link: not integrated yet\n\n━━━━━━━━━━━━━━━━━━━━━━\n📝 HR Decision Required\n━━━━━━━━━━━━━━━━━━━━━━\n\nPlease review the candidate and choose one of the following actions:\n\n✅ Approve Interview\n❌ Reject Candidate\n\nIf rejecting, a reason is required before the candidate is notified.\n\nCandidateIQ is awaiting your decision.",
+        "message": "={{ $('Prepare HR Notification').item.json.candidate_status }}\n\n{{ $('Prepare HR Notification').item.json.intro_message }}\n\n━━━━━━━━━━━━━━━━━━━━━━\n👤 Candidate Information\n━━━━━━━━━━━━━━━━━━━━━━\nCandidate ID: {{ $('Create Application').item.json.candidate_id }}\nApplication ID: {{ $('Create Application').item.json.id }}\nName: {{ $('Extract Candidate Profile').item.json.output.personal_information.first_name }} {{ $('Extract Candidate Profile').item.json.output.personal_information.last_name }}\nEmail: {{ $('Extract Candidate Profile').item.json.output.personal_information.email }}\nPhone: {{ $('Extract Candidate Profile').item.json.output.personal_information.phone }}\nLinkedIn: {{ $('Extract Candidate Profile').item.json.output.personal_information.linkedin_url ? $('Extract Candidate Profile').item.json.output.personal_information.linkedin_url : \"Not Provided\"  }}\n\nPortfolio: {{ $('Extract Candidate Profile').item.json.output.personal_information.portfolio_url ? $('Extract Candidate Profile').item.json.output.personal_information.portfolio_url : \"Not Provided\"}}\n\nGitHub: {{ $('Extract Candidate Profile').item.json.output.personal_information.github_url ? $('Extract Candidate Profile').item.json.output.personal_information.github_url : \"Not Provided\"}}\n\n━━━━━━━━━━━━━━━━━━━━━━\n💼 Job Information\n━━━━━━━━━━━━━━━━━━━━━━\n\nPosition: {{ $('Get Job Details').item.json.title }}\nJob ID: {{ $('Get Job Details').item.json.id }}\n\n━━━━━━━━━━━━━━━━━━━━━━\n🤖 AI Evaluation\n━━━━━━━━━━━━━━━━━━━━━━\n\nOverall Match Score: {{ $('Evaluate Candidate').item.json.output.overall_score }}/100\n\nSummary: {{ $('Evaluate Candidate').item.json.output.summary }}\n\n\n━━━━━━━━━━━━━━━━━━━━━━\n✅ Key Strengths\n━━━━━━━━━━━━━━━━━━━━━━\n\n{{ $('Evaluate Candidate').item.json.output.strengths.map(s => `• ${s}`).join('\\n')  }}\n\n━━━━━━━━━━━━━━━━━━━━━━\n⚠️ Missing Skills\n━━━━━━━━━━━━━━━━━━━━━━\n\n{{ $('Evaluate Candidate').item.json.output.missing_skills.map(s => `• ${s}`).join('\\n')  }}\n\n\n━━━━━━━━━━━━━━━━━━━━━━\n📝 HR Decision Required\n━━━━━━━━━━━━━━━━━━━━━━\n\nPlease review the candidate's profile and AI evaluation before making a final hiring decision.\n\nAvailable actions:\n\n✅ Proceed to Interview\n\n❌ Reject Application\n\nIf rejecting the candidate, please provide a reason before the candidate is notified.\n\nCandidateIQ is awaiting your decision.",
         "approvalOptions": {
           "values": {
             "approvalType": "double",
@@ -370,10 +441,10 @@
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2.5,
       "position": [
-        3040,
-        -32
+        1056,
+        1024
       ],
-      "id": "a8e71b14-ff0e-4d65-a1c6-5cdb1c15aa9b",
+      "id": "c35d2dc8-41a9-4fc5-a250-d70a35052c81",
       "name": "Sent Candidate Information To HR",
       "webhookId": "55a94dc7-60bf-40e0-a1a1-6cebce9d11d3",
       "credentials": {
@@ -382,95 +453,6 @@
           "name": "Slack account 2"
         }
       }
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.overall_score }}",
-                    "rightValue": 80,
-                    "operator": {
-                      "type": "number",
-                      "operation": "gte"
-                    },
-                    "id": "25c64e43-ff25-4040-929b-26e368f987fa"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Strong Match"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "3a888deb-5ab8-405d-8a98-4f3681070e13",
-                    "leftValue": "={{ $json.overall_score }}",
-                    "rightValue": 60,
-                    "operator": {
-                      "type": "number",
-                      "operation": "gte"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Review"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "bd973453-d782-4966-a96c-b03c5f4be71d",
-                    "leftValue": "={{ $json.overall_score }}",
-                    "rightValue": 50,
-                    "operator": {
-                      "type": "number",
-                      "operation": "lt"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Reject"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        2736,
-        48
-      ],
-      "id": "041d10d4-bec9-4f75-96fe-a6eb8f5036e7",
-      "name": "Evaluate Score Threshold"
     },
     {
       "parameters": {
@@ -500,72 +482,220 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        3184,
-        64
+        1280,
+        1024
       ],
-      "id": "4d26de21-5d2f-479f-a03e-bc7c7de37264",
+      "id": "ebf13cfc-c8f8-4131-98f8-b12b84b297a4",
       "name": "Wait for HR Decision"
     },
     {
       "parameters": {
-        "calendar": {
-          "__rl": true,
-          "value": "fahad.webdev119@gmail.com",
-          "mode": "list",
-          "cachedResultName": "fahad.webdev119@gmail.com"
-        },
-        "start": "={{\n$now\n  .plus({ days: 5 })\n  .set({ hour: 15, minute: 0, second: 0, millisecond: 0 })\n  .toFormat('yyyy-MM-dd HH:mm:ss')\n}}",
-        "end": "={{\n$now\n  .plus({ days: 5 })\n  .set({ hour: 16, minute: 30, second: 0, millisecond: 0 })\n  .toFormat('yyyy-MM-dd HH:mm:ss')\n}}",
-        "additionalFields": {
-          "attendees": [
-            "={{ $('Extract Candidate Profile').item.json.output.personal_information.email }}"
-          ],
-          "conferenceDataUi": {
-            "conferenceDataValues": {
-              "conferenceSolution": "hangoutsMeet"
-            }
-          },
-          "description": "testing",
-          "location": "testing"
-        }
-      },
-      "type": "n8n-nodes-base.googleCalendar",
-      "typeVersion": 1.3,
-      "position": [
-        3408,
-        -32
-      ],
-      "id": "7c335275-c191-4641-bd55-2182557d271a",
-      "name": "Create Interview Event",
-      "credentials": {
-        "googleCalendarOAuth2Api": {
-          "id": "0ulCfce1DbiqBLvB",
-          "name": "Google Calendar account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "sendTo": "={{ $('Extract Candidate Profile').item.json.output.personal_information.email }}",
-        "subject": "Congratulations! You've Been Shortlisted for the {{ $('Get Job Details').item.json.title }} Position at Fahad.org",
+        "subject": "=Congratulations! You've Been Shortlisted for the {{ $('Get Job Details').item.json.title }} Position at Fahad.org",
         "message": "=\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<body style=\"margin:0; padding:0; background:#f4f7fb; font-family:Arial, Helvetica, sans-serif; color:#333333;\">\n\n<div style=\"max-width:650px; margin:30px auto; background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,.08);\">\n\n    <!-- Header -->\n    <div style=\"background:#1565C0; color:#ffffff; padding:30px;\">\n        <h1 style=\"margin:0;\">Congratulations!</h1>\n        <p style=\"margin-top:10px;\">You've been shortlisted for an interview.</p>\n    </div>\n\n    <!-- Body -->\n    <div style=\"padding:35px;\">\n\n        <p>\n            Dear\n            <strong>\n                {{ $('Extract Candidate Profile').item.json.output.personal_information.first_name }}\n                {{ $('Extract Candidate Profile').item.json.output.personal_information.last_name }}\n            </strong>,\n        </p>\n\n        <p>\n            Thank you for applying for the\n            <strong>{{ $('Get Job Details').item.json.title }}</strong>\n            position at\n            <strong>fahad.org</strong>.\n        </p>\n\n        <p>\n            We are pleased to inform you that, after carefully reviewing your application,\n            you have been <strong>shortlisted</strong> for the next stage of our recruitment process.\n        </p>\n\n        <p>\n            We would be delighted to meet with you to discuss your experience,\n            skills, and how they align with this opportunity.\n        </p>\n\n        <!-- Interview Card -->\n        <div style=\"background:#f8fbff; border-left:5px solid #1565C0; padding:20px; border-radius:8px; margin:30px 0;\">\n\n            <h2 style=\"margin-top:0; color:#1565C0;\">\n                📅 Interview Details\n            </h2>\n\n            <table style=\"width:100%; border-collapse:collapse;\">\n\n                <tr>\n                    <td style=\"padding:10px 0;\"><strong>Position</strong></td>\n                    <td>{{ $('Get Job Details').item.json.title }}</td>\n                </tr>\n\n                <tr>\n                    <td style=\"padding:10px 0;\"><strong>Date</strong></td>\n                    <td>{{ $json.start.dateTime.toDateTime().format('yyyy-MM-dd') }}</td>\n                </tr>\n\n                <tr>\n                    <td style=\"padding:10px 0;\"><strong>Time</strong></td>\n                    <td>{{ $json.start.dateTime.toDateTime().format('HH:mm') }}</td>\n                </tr>\n\n                <tr>\n                    <td style=\"padding:10px 0;\"><strong>Duration</strong></td>\n                    <td>1 Hour</td>\n                </tr>\n\n                <tr>\n                    <td style=\"padding:10px 0;\"><strong>Location</strong></td>\n                    <td>ABCD Block, 23 Avenue</td>\n                </tr>\n\n                <tr>\n                    <td style=\"padding:10px 0;\"><strong>Meeting Link</strong></td>\n                    <td>\n                        <a href=\"{{ $json.conferenceData.entryPoints[0].uri }}\">\n                            Join Interview\n                        </a>\n                    </td>\n                </tr>\n\n            </table>\n\n        </div>\n\n        <!-- Tips -->\n        <div style=\"background:#FFF8E1; border-left:4px solid #FFC107; padding:18px; border-radius:6px;\">\n\n            <strong>Please Note:</strong>\n\n            <ul>\n                <li>Join the meeting 5–10 minutes before the scheduled time.</li>\n                <li>Ensure your internet connection, microphone, and camera are working properly.</li>\n                <li>Keep a copy of your resume available during the interview.</li>\n                <li>Prepare any questions you may have about the role or the company.</li>\n            </ul>\n\n        </div>\n\n        <p style=\"margin-top:30px;\">\n            If you have any questions or require an alternative interview time,\n            please reply to this email and we'll be happy to assist you.\n        </p>\n\n        <p>\n            We appreciate your interest in joining our team and look forward to speaking with you.\n        </p>\n\n        <br>\n\n        <p>\n            Kind regards,\n        </p>\n\n        <strong>John Smith</strong><br>\n        Account Sales Executive / Recruitment Team<br>\n        fahad.org<br>\n        📧 recruitment@fahad.org.com<br>\n        🌐 fahad.org\n\n    </div>\n\n    <!-- Footer -->\n    <div style=\"background:#f5f7fa; padding:20px; text-align:center; font-size:13px; color:#666666;\">\n        <br><br>\n\n        Please do not reply to this email unless you need assistance regarding your interview.\n\n    </div>\n\n</div>\n\n</body>\n</html>\n\n",
         "options": {
-          "senderName": "recruitment@fahad.org"
+          "senderName": "Fahad.org Recruitment Team"
         }
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        3632,
-        -32
+        2176,
+        832
       ],
-      "id": "c3342bb4-8275-407f-988d-8a5ceb2c6299",
+      "id": "98a01d3a-db09-4c5d-9de1-4285596e12a4",
       "name": "Send Interview Invitation",
       "webhookId": "de293e80-94f4-4543-9f97-43b4a03b64eb",
       "credentials": {
         "gmailOAuth2": {
           "id": "QV3UcajD75i2QUhz",
           "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2475247b-8981-4b9e-93d2-230aa71b5ede",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1088,
+        1488
+      ],
+      "id": "ddd5e716-6547-4ab8-8282-1953964d568a",
+      "name": "Error Exist 1 ?"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {
+          "maxOutputTokens": 4000,
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -856,
+        1320
+      ],
+      "id": "161078ba-f79b-47de-a84f-1022827f8ece",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "CXZZMJrr3TGCOeOb",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2475247b-8981-4b9e-93d2-230aa71b5ede",
+              "leftValue": "={{ $json.error.isNotEmpty().toString() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        608,
+        1216
+      ],
+      "id": "670773d9-e38f-4304-a12a-2256957804b7",
+      "name": "Error Exist 2 ?"
+    },
+    {
+      "parameters": {
+        "errorMessage": "An Error Occured"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        1216
+      ],
+      "id": "0fa44fbf-7bec-446b-9f87-ccb54febb0f6",
+      "name": "Stop and Error 2"
+    },
+    {
+      "parameters": {
+        "errorMessage": "An Error Occured"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        1488
+      ],
+      "id": "90209416-275d-441b-b936-6bc54e101961",
+      "name": "Stop and Error 1"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "candidates",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "keyValue": "={{ $('Extract Candidate Profile').item.json.output.personal_information.email }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        1216
+      ],
+      "id": "2a09f264-4c08-4d16-96ba-81f96deb2493",
+      "name": "Get Existing Candidate",
+      "credentials": {
+        "supabaseApi": {
+          "id": "9w0oEoqSwA2cbUvy",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "applications",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $('Create Application').item.json.id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "status",
+              "fieldValue": "={{ $json.data.approved === false ? \"Rejected\" : \"Approved\"}}"
+            },
+            {
+              "fieldId": "updated_at",
+              "fieldValue": "={{ $now }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        1024
+      ],
+      "id": "359ba729-b94f-4324-8ed2-566287a4aae3",
+      "name": "Update Application Status",
+      "credentials": {
+        "supabaseApi": {
+          "id": "9w0oEoqSwA2cbUvy",
+          "name": "Supabase account"
         }
       }
     },
@@ -581,10 +711,10 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        3408,
-        160
+        1504,
+        1216
       ],
-      "id": "a416a823-9205-4a67-b8fe-31157c472134",
+      "id": "74fe7bda-184d-4f1c-b0b7-973b85c6dcf7",
       "name": "Send Rejection Email",
       "webhookId": "13b4c8bf-4634-4793-8207-588c5cfd8340",
       "credentials": {
@@ -593,30 +723,161 @@
           "name": "Gmail account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "fahad.webdev119@gmail.com",
+          "mode": "list",
+          "cachedResultName": "fahad.webdev119@gmail.com"
+        },
+        "timeMax": "={{ $now.plus(2, 'weeks') }}",
+        "options": {
+          "outputFormat": "raw",
+          "timezone": {
+            "__rl": true,
+            "value": "Europe/Dublin",
+            "mode": "list",
+            "cachedResultName": "Europe/Dublin"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1504,
+        832
+      ],
+      "id": "ad93dd7c-bb60-40f3-8965-6194663368af",
+      "name": "Get availability in a calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "0ulCfce1DbiqBLvB",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// ===============================\n// CandidateIQ - Calculate Available Interview Slots\n// ===============================\n\n// ===== Configuration =====\nconst CONFIG = {\n    workStartHour: 9,\n    workEndHour: 17,\n    slotDurationMinutes: 60,\n    workingDays: [1, 2, 3, 4, 5], // Monday-Friday\n};\n\n// ===== Input =====\nconst input = $input.first().json;\n\nconst calendarKey = Object.keys(input.calendars)[0];\nconst busySlots = input.calendars[calendarKey].busy || [];\n\nconst searchStart = new Date(input.timeMin);\nconst searchEnd = new Date(input.timeMax);\n\n// Convert busy slots to Date objects\nconst busy = busySlots.map(slot => ({\n    start: new Date(slot.start),\n    end: new Date(slot.end),\n}));\n\nconst availableSlots = [];\n\n// ===== Helper =====\nfunction createSlot(start, end) {\n    return {\n        start: start.toISOString(),\n        end: end.toISOString(),\n        display: `${start.toLocaleDateString('en-IE', {\n            weekday: 'short',\n            day: '2-digit',\n            month: 'short',\n            year: 'numeric',\n        })} | ${start.toLocaleTimeString('en-IE', {\n            hour: '2-digit',\n            minute: '2-digit',\n            hour12: false,\n        })} - ${end.toLocaleTimeString('en-IE', {\n            hour: '2-digit',\n            minute: '2-digit',\n            hour12: false,\n        })}`,\n    };\n}\n\n// ===== Loop through each day =====\nfor (\n    let day = new Date(searchStart);\n    day <= searchEnd;\n    day.setDate(day.getDate() + 1)\n) {\n    const currentDay = new Date(day);\n\n    // Skip weekends\n    if (!CONFIG.workingDays.includes(currentDay.getDay())) {\n        continue;\n    }\n\n    // Working hours\n    let workStart = new Date(currentDay);\n    workStart.setHours(CONFIG.workStartHour, 0, 0, 0);\n\n    let workEnd = new Date(currentDay);\n    workEnd.setHours(CONFIG.workEndHour, 0, 0, 0);\n\n    // Respect searchStart on first day\n    if (\n        workStart.toDateString() === searchStart.toDateString() &&\n        searchStart > workStart\n    ) {\n        workStart = new Date(searchStart);\n    }\n\n    // Respect searchEnd on last day\n    if (\n        workEnd.toDateString() === searchEnd.toDateString() &&\n        searchEnd < workEnd\n    ) {\n        workEnd = new Date(searchEnd);\n    }\n\n    // Busy slots for current day\n    const todaysBusy = busy\n        .filter(slot => slot.start.toDateString() === currentDay.toDateString())\n        .sort((a, b) => a.start - b.start);\n\n    let currentPointer = new Date(workStart);\n\n    for (const meeting of todaysBusy) {\n\n        // Generate free slots before meeting\n        while (\n            currentPointer.getTime() + CONFIG.slotDurationMinutes * 60000 <=\n            meeting.start.getTime()\n        ) {\n            const slotEnd = new Date(\n                currentPointer.getTime() +\n                CONFIG.slotDurationMinutes * 60000\n            );\n\n            availableSlots.push(createSlot(currentPointer, slotEnd));\n\n            currentPointer = slotEnd;\n        }\n\n        // Move pointer after meeting\n        if (meeting.end > currentPointer) {\n            currentPointer = new Date(meeting.end);\n        }\n    }\n\n    // Remaining free time after last meeting\n    while (\n        currentPointer.getTime() + CONFIG.slotDurationMinutes * 60000 <=\n        workEnd.getTime()\n    ) {\n        const slotEnd = new Date(\n            currentPointer.getTime() +\n            CONFIG.slotDurationMinutes * 60000\n        );\n\n        availableSlots.push(createSlot(currentPointer, slotEnd));\n\n        currentPointer = slotEnd;\n    }\n}\n\n// ===== Output =====\nreturn [\n    {\n        json: {\n            interviewer: calendarKey,\n            total_slots: availableSlots.length,\n            first_available_slot: availableSlots[0] ?? null,\n            available_slots: availableSlots,\n        },\n    },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        832
+      ],
+      "id": "5495668d-5d89-43b0-b0fc-f3b484ef2676",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "fahad.webdev119@gmail.com",
+          "mode": "list",
+          "cachedResultName": "fahad.webdev119@gmail.com"
+        },
+        "start": "={{ $json.available_slots[1].start }}",
+        "end": "=\n\n{{ $json.available_slots[1].end }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ $('Extract Candidate Profile').item.json.output.personal_information.email }}"
+          ],
+          "conferenceDataUi": {
+            "conferenceDataValues": {
+              "conferenceSolution": "hangoutsMeet"
+            }
+          },
+          "description": "=Interview Invitation\n\nThank you for your interest in joining Fahad.org.\n\nPosition:\n{{ $('Get Job Details').item.json.title }}\n\nPlease join the meeting at the scheduled time using the Google Meet link included in this invitation.\n\nIf you need to reschedule or have any questions, please contact our recruitment team.\n\nWe look forward to meeting you.\n\nRecruitment Team\nFahad.org",
+          "location": "Google Meet",
+          "sendUpdates": "all",
+          "showMeAs": "opaque",
+          "summary": "=Interview - {{ $('Get Job Details').item.json.title }} - {{ $('Extract Candidate Profile').item.json.output.personal_information.first_name }} {{ $('Extract Candidate Profile').item.json.output.personal_information.last_name }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1952,
+        832
+      ],
+      "id": "2e2e1515-6d83-475d-b5d1-0203f335e939",
+      "name": "Create Interview Event1",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "0ulCfce1DbiqBLvB",
+          "name": "Google Calendar account"
+        }
+      }
     }
   ],
   "connections": {
-    "Google Gemini Chat Model": {
-      "ai_languageModel": [
+    "Extract Candidate Profile": {
+      "main": [
         [
           {
-            "node": "Extract Candidate Profile",
-            "type": "ai_languageModel",
+            "node": "Get Job Details",
+            "type": "main",
             "index": 0
-          },
+          }
+        ],
+        [
           {
-            "node": "Evaluate Candidate",
-            "type": "ai_languageModel",
+            "node": "Error Exist 1 ?",
+            "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Receive Job Application": {
+    "Candidate Evaluation Schema": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Evaluate Candidate",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Admin - AI Failure": {
       "main": [
         [
           {
-            "node": "Download Resume",
+            "node": "Stop and Error 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Admin - Resume Storage Failure": {
+      "main": [
+        [
+          {
+            "node": "Stop and Error 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Resume to Storage": {
+      "main": [
+        [
+          {
+            "node": "Update Candidate Resume",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Exist 2 ?",
             "type": "main",
             "index": 0
           }
@@ -639,22 +900,22 @@
         ]
       ]
     },
-    "Extract Resume Text": {
+    "Receive Job Application": {
       "main": [
         [
           {
-            "node": "Extract Candidate Profile",
+            "node": "Download Resume",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Extract Candidate Profile": {
+    "Extract Resume Text": {
       "main": [
         [
           {
-            "node": "Get Job Details",
+            "node": "Extract Candidate Profile",
             "type": "main",
             "index": 0
           }
@@ -676,6 +937,18 @@
       "main": [
         [
           {
+            "node": "Prepare HR Notification",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Prepare HR Notification": {
+      "main": [
+        [
+          {
             "node": "Create Candidate Record",
             "type": "main",
             "index": 0
@@ -691,6 +964,13 @@
             "type": "main",
             "index": 1
           }
+        ],
+        [
+          {
+            "node": "Get Existing Candidate",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -699,28 +979,6 @@
         [
           {
             "node": "Upload Resume to Storage",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Candidate Evaluation Schema": {
-      "ai_outputParser": [
-        [
-          {
-            "node": "Evaluate Candidate",
-            "type": "ai_outputParser",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Upload Resume to Storage": {
-      "main": [
-        [
-          {
-            "node": "Update Candidate Resume",
             "type": "main",
             "index": 0
           }
@@ -742,7 +1000,7 @@
       "main": [
         [
           {
-            "node": "Evaluate Score Threshold",
+            "node": "Sent Candidate Information To HR",
             "type": "main",
             "index": 0
           }
@@ -760,24 +1018,16 @@
         ]
       ]
     },
-    "Evaluate Score Threshold": {
-      "main": [
-        [
-          {
-            "node": "Sent Candidate Information To HR",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [],
-        []
-      ]
-    },
     "Wait for HR Decision": {
       "main": [
         [
           {
-            "node": "Create Interview Event",
+            "node": "Update Application Status",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get availability in a calendar",
             "type": "main",
             "index": 0
           }
@@ -787,11 +1037,87 @@
             "node": "Send Rejection Email",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Update Application Status",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
     },
-    "Create Interview Event": {
+    "Error Exist 1 ?": {
+      "main": [
+        [
+          {
+            "node": "Notify Admin - AI Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Extract Candidate Profile",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Evaluate Candidate",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Exist 2 ?": {
+      "main": [
+        [
+          {
+            "node": "Notify Admin - Resume Storage Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Existing Candidate": {
+      "main": [
+        [
+          {
+            "node": "Merge Candidate & Resume",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get availability in a calendar": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Create Interview Event1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Interview Event1": {
       "main": [
         [
           {
