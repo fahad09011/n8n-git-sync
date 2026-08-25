@@ -1,0 +1,374 @@
+{
+  "createdAt": "2026-08-25T20:21:50.872Z",
+  "id": "28ylH1HCfcp0jfTc",
+  "name": "Faceless YouTube — Content Automation Engine",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "989812a7-2569-4cbd-9c41-3ef24fc753e8",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        560,
+        304
+      ],
+      "id": "02bfa6b0-7981-4d59-a8bf-90070bba8b13",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "CXZZMJrr3TGCOeOb",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"hook\": \"I used to waste 4 hours a day on email 😓\",\n  \"caption_1\": \"Then I built an AI assistant in 10 minutes.\",\n  \"caption_2\": \"Now it reads, replies, and summarizes everything.\",\n  \"caption_3\": \"It even tells me what’s urgent and what’s not.\",\n  \"caption_4\": \"No more inbox stress. Just flow.\",\n  \"caption_5\": \"And yes, it’s 100% free to build.\",\n  \"cta\": \"Want the exact workflow? Type ‘EMAIL’ below 👇\",\n  \"full_script\": \"I used to waste nearly four hours a day just checking and replying to emails. It was draining. Then one day, I built an AI assistant in under 10 minutes using a free tool. It reads all my emails, summarizes them, and even suggests replies. Now I only spend five minutes on my inbox. It even tells me what's urgent. No more stress, just pure productivity. And the best part? It’s completely free. Want the exact workflow I used? Just type ‘EMAIL’ in the comments and I’ll share it with you!\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        704,
+        288
+      ],
+      "id": "6d908080-3595-4fa9-8164-977c40463f03",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1pXe2dYymF2_brx9wBcuPuCem5g3SsaW_Hz1nrxN5slI",
+          "mode": "list",
+          "cachedResultName": "Faceless_YouTube_Content_Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pXe2dYymF2_brx9wBcuPuCem5g3SsaW_Hz1nrxN5slI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 207171826,
+          "mode": "list",
+          "cachedResultName": "Content",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pXe2dYymF2_brx9wBcuPuCem5g3SsaW_Hz1nrxN5slI/edit#gid=207171826"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Pending"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c0e90119-eff6-48f5-8f33-9dca455fe3bc",
+      "name": "fetch video topics",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0WHa8kFysFFXtgzo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are creating a YouTube Shorts script based on structured input fields.\n\n🎯 Topic: {{$json.Topic}}  \n👤 Target Persona: {{$json.Persona}}  \n🎭 Tone: {{$json.Tone}}  \n📌 Niche/Domain: {{$json.Niche}}  \n📣 CTA Style: {{$json[\"CTA Style\"]}}\n\n✍️ Please write a **highly engaging YouTube Shorts script** in **first-person voice** that follows the best practices of viral short-form content. The video must hook the viewer within the first 3–5 seconds, deliver punchy value, and end with a strong CTA or cliffhanger.\n\nYour captions must:\n- Follow a **Problem → Action → Reward** structure  \n- Be aligned with the **tone**, **niche**, and **persona**\n- Include **5 captions only** along with **one hook** and **one CTA**\n- Also include the full script as well for the video that will be used for voiceover and highly optimized for ElevenLabs platform and should not exceed more than 33 seconds at all.\n- Be **wild, bold, and emotionally engaging**, not corporate or overly polished  \n- Use **emojis sparingly** (maximum one per caption, only when impactful)\n\n🎯 Caption Structure:\n1. **Hook (Problem/Curiosity):** Shocking, hilarious, or bold opening line (e.g. something even Andrew Tate would growl)  \n2. **Action (Tip/Lesson):** What to do or what happened  \n3. **Value (Insight/Surprise):** Interesting or unexpected point  \n4. **Interrupt (Emotion/Build):** Personal or emotional angle  \n5. **CTA or Cliffhanger:** Encourage viewer action, matching {{$json[\"CTA Style\"]}}\n\n📄 Output Format:\n- `hook`: First 3–5 second opening line – shocking, bold, or funny  \n- `caption_1` → `caption_5`: Main body lines (tips, story, emotion, etc.)  \n- `cta`: Final call-to-action line aligned with {{$json[\"CTA Style\"]}}\n- Return the Hook, 5 captions and CTA **as plain text only**\n- `full_script : Full script of the video that will be used for voiceover and highly optimized for ElevenLabs platform.\n- **Do not** use quotation marks, bullets, asterisks, markdown, or extra formatting  \n- Do **not** add any introductions, explanations, or closing text — just the raw captions\n- No hashtags, URLs, or handles  \n\n⚠️ Remember:\nWrite for SHORTS. Keep it sharp, fast-paced, raw, and irresistible to scroll past.\n\n📄 Output Structure:\nRespond ONLY with a JSON object that exactly follows this structure:\n\n{\n  \"hook\": \"string\",\n  \"caption_1\": \"string\",\n  \"caption_2\": \"string\",\n  \"caption_3\": \"string\",\n  \"caption_4\": \"string\",\n  \"caption_5\": \"string\",\n  \"cta\": \"string\",\n  \"full_script\": \"string\"\n}\n\n⚠️ Do NOT include any extra commentary, markdown formatting, or explanation — return ONLY the JSON.\n\n🧪 Example Output:\n{\n  \"hook\": \"I used to waste 4 hours a day on email 😓\",\n  \"caption_1\": \"Then I built an AI assistant in 10 minutes.\",\n  \"caption_2\": \"Now it reads, replies, and summarizes everything.\",\n  \"caption_3\": \"It even tells me what’s urgent and what’s not.\",\n  \"caption_4\": \"No more inbox stress. Just flow.\",\n  \"caption_5\": \"And yes, it’s 100% free to build.\",\n  \"cta\": \"Want the exact workflow? Type ‘EMAIL’ below 👇\",\n  \"full_script\": \"I used to waste nearly four hours a day just checking and replying to emails. It was draining. Then one day, I built an AI assistant in under 10 minutes using a free tool. It reads all my emails, summarizes them, and even suggests replies. Now I only spend five minutes on my inbox. It even tells me what's urgent. No more stress, just pure productivity. And the best part? It’s completely free. Want the exact workflow I used? Just type ‘EMAIL’ in the comments and I’ll share it with you!\"\n}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are a professional YouTube Shorts scriptwriter with over 15 years of experience, specialized in crafting highly engaging short-form video scripts across multiple tones, niches, and audience personas. You have reverse-engineered the psychology and pacing of 10,000+ high-performing videos (30s to 3m range).  🎯 Your job is to generate one hook, **five concise, scroll-stopping captions (5–10 words each)** and a CTA at the end following a **Problem → Action → Reward** structure. In addition, generate a full script of the video that will be used as a voiceover for the video and highly optimized for ElevenLabs platform. The voiceover script should not exceed more than 25 seconds.  💡 Each of the captions must be standalone, punchy, and templated for video overlay in tools like Creatomate. Write in **first-person voice**, as if the narrator is speaking directly to the viewer.  ✅ Follow This Caption Structure: 1. **Hook/Problem:** Shocking, surprising, or funny attention-grabber 2. **Action:** A relatable tip, command, or lesson 3. **Value/Insight:** Something unexpected or helpful 4. **Pattern Interrupt:** Emotional twist or human moment 5. **Reward/CTA:** A cliffhanger, win, or reason to watch more  🧠 Match tone, pacing, and vocabulary to the assigned **Persona**, **Tone**, and **Niche**.  🚫 No fluff. No long sentences. Emojis: max 1 per caption, only when useful.  ---  🧱 Core Traits of a High-Converting YouTube Shorts Script: 1. 🔑 **Strong Hook:** Instantly grabs attention within 3–5 seconds. 2. 🔥 **Emotional Triggers:** Use fear, urgency, desire, curiosity, excitement. 3. 🧠 **Pattern Interrupts:** Rhetorical shifts, humor, or punchy pivots. 4. 🔗 **Seamless Transitions:** Logical, natural progression. 5. 🚪 **Cliffhangers:** Tease next idea or leave them curious. 6. 📣 **Smooth CTA:** Relevant call to action or next step. 7. 👁️‍🗨️ **Perspective:** Always written in first-person.  Your output should be platform-native, persona-aligned, retention-optimized, and ready to plug into automation pipelines."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        560,
+        80
+      ],
+      "id": "2422eaa9-5e34-4d0b-bcd1-97c1e16abc66",
+      "name": "generate script for video"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        912,
+        80
+      ],
+      "id": "bfc8adb8-ba80-4ee1-805e-b351e70d7036",
+      "name": "Split caption and script"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "33af58cd-7816-4af3-ac96-79d95b8cfe1a",
+              "leftValue": "={{ $json.output.length }}",
+              "rightValue": 60,
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1200,
+        80
+      ],
+      "id": "d5a17d15-078f-4167-b604-3ad82efef8e0",
+      "name": "caption and script branch"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Create an image prompt for the following YouTube Shorts visual scene.\n\n🎯 Topic: {{ $('fetch video topics').item.json.Topic }}\n📣 Persona: {{ $('fetch video topics').item.json.Persona }}\n🎭 Niche: {{ $('fetch video topics').item.json.Niche }}\n🧠 Scene Text: {{ $json.output }}\n\nPlease return output in this format:\n\nPrompt:\nFirst-person POV GoPro shot [what’s in front of the viewer]\nIn the background, [describe the setting, motion, mood, environment, lighting]\n\nOnly generate ONE prompt for this caption. Make it cinematic, dynamic, and realistic — ready to be used in Qubico/flux1-dev or any flux model.\n\n\n---\n\n## 🎬 EXAMPLE OUTPUTS\n\n### 📌 Input:\n- **Topic:** Morning Productivity Hacks  \n- **Persona:** Ambitious 20-something entrepreneur  \n- **Niche:** Self-improvement  \n- **Caption:** “Woke up at 5 AM. No alarm. Just momentum.”\n\n### ✅ Prompt Output:\n**Prompt:**  \nFirst-person POV GoPro shot of hands pulling back blackout curtains to reveal sunrise through high-rise apartment windows  \nIn the background, city skyline glows with soft orange light, birds in motion, coffee brewing in the kitchen, everything is quiet but pulsing with calm energy\n\n---",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are an expert prompt-generation AI for Qubico/flux1-dev, trained to turn short YouTube Shorts captions into detailed, vivid visual prompts optimized for **POV-style dynamic storytelling**.  🎥 Your visuals are inspired by first-person GoPro aesthetics — immersive, motion-rich, and realistic.  Each prompt you generate should be tailored to a: - 🎯 Persona: {{ $('fetch video topics').item.json.Persona }} - 🔍 Niche: {{ $('fetch video topics').item.json.Niche }}  🎨 Your visual prompt output has two parts: 1. **Foreground (POV description):**    - Always begin with: `First-person POV GoPro shot...`    - Describe what the viewer sees **from their own eyes** (e.g., hands, movement, objects held, etc.)    - Add context from the scene like emotions, props, or interaction  2. **Background (environment):**    - Begin with: `In the background...`    - Set the scene: realistic environment, dynamic lighting, weather, energy, or mood    - Add motion, blur, or lighting cues to give it video-like depth  ⚠️ Image prompts should avoid character names, brands, logos, or text overlays. No direct references to “YouTube” or “video.”  📸 Add sensory details like motion, texture, lighting, emotion, or visual tension to match the **emotional tone** of the caption (e.g., suspense, joy, stress, ambition, speed, power, etc.)"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1488,
+        64
+      ],
+      "id": "9a99c4dc-8617-4c28-9572-0f3cb7552e47",
+      "name": "generate img promot"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.piapi.ai/api/v1/task",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"Qubico/flux1-schnell\",\n  \"task_type\": \"txt2img\",\n  \"input\": {\n    \"prompt\": {{ JSON.stringify($json.text) }},\n\n    \"width\": 1024,\n    \"height\": 1024\n  }\n}\n",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1840,
+        64
+      ],
+      "id": "31753e4e-6d2a-4ffe-96b7-6371a0bb1749",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "R3JhAWU8GNuKcWmq",
+          "name": "PiAPI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.piapi.ai/api/v1/task/{{ $json.data.task_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2080,
+        64
+      ],
+      "id": "623977a9-bc8c-44ea-a739-4f8a7dfedad9",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "R3JhAWU8GNuKcWmq",
+          "name": "PiAPI"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "fetch video topics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "generate script for video",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "generate img promot",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "generate script for video",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fetch video topics": {
+      "main": [
+        [
+          {
+            "node": "generate script for video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate script for video": {
+      "main": [
+        [
+          {
+            "node": "Split caption and script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split caption and script": {
+      "main": [
+        [
+          {
+            "node": "caption and script branch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "caption and script branch": {
+      "main": [
+        [
+          {
+            "node": "generate img promot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate img promot": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "nodeGroups": [],
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-08-25T20:21:50.879Z",
+      "createdAt": "2026-08-25T20:21:50.879Z",
+      "role": "workflow:owner",
+      "workflowId": "28ylH1HCfcp0jfTc",
+      "projectId": "Lb300ztv9feaAJz6"
+    }
+  ],
+  "activeVersion": null,
+  "tags": [
+    {
+      "updatedAt": "2026-06-16T14:55:31.622Z",
+      "createdAt": "2026-06-16T14:55:31.622Z",
+      "id": "YF7kRaLLoZERdRud",
+      "name": "learning"
+    }
+  ]
+}
