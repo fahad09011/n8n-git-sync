@@ -28,26 +28,13 @@
         304
       ],
       "id": "02bfa6b0-7981-4d59-a8bf-90070bba8b13",
-      "name": "Google Gemini Chat Model",
+      "name": "Gemini — Content Generation",
       "credentials": {
         "googlePalmApi": {
           "id": "CXZZMJrr3TGCOeOb",
           "name": "Google Gemini(PaLM) Api account 3"
         }
       }
-    },
-    {
-      "parameters": {
-        "jsonSchemaExample": "{\n  \"hook\": \"I used to waste 4 hours a day on email 😓\",\n  \"caption_1\": \"Then I built an AI assistant in 10 minutes.\",\n  \"caption_2\": \"Now it reads, replies, and summarizes everything.\",\n  \"caption_3\": \"It even tells me what’s urgent and what’s not.\",\n  \"caption_4\": \"No more inbox stress. Just flow.\",\n  \"caption_5\": \"And yes, it’s 100% free to build.\",\n  \"cta\": \"Want the exact workflow? Type ‘EMAIL’ below 👇\",\n  \"full_script\": \"I used to waste nearly four hours a day just checking and replying to emails. It was draining. Then one day, I built an AI assistant in under 10 minutes using a free tool. It reads all my emails, summarizes them, and even suggests replies. Now I only spend five minutes on my inbox. It even tells me what's urgent. No more stress, just pure productivity. And the best part? It’s completely free. Want the exact workflow I used? Just type ‘EMAIL’ in the comments and I’ll share it with you!\"\n}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
-      "typeVersion": 1.3,
-      "position": [
-        704,
-        288
-      ],
-      "id": "6d908080-3595-4fa9-8164-977c40463f03",
-      "name": "Structured Output Parser"
     },
     {
       "parameters": {
@@ -84,7 +71,7 @@
         0
       ],
       "id": "c0e90119-eff6-48f5-8f33-9dca455fe3bc",
-      "name": "fetch video topics",
+      "name": "Fetch Pending Video",
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "0WHa8kFysFFXtgzo",
@@ -113,7 +100,20 @@
         80
       ],
       "id": "2422eaa9-5e34-4d0b-bcd1-97c1e16abc66",
-      "name": "generate script for video"
+      "name": "Generate Shorts Script"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"hook\": \"I used to waste 4 hours a day on email 😓\",\n  \"caption_1\": \"Then I built an AI assistant in 10 minutes.\",\n  \"caption_2\": \"Now it reads, replies, and summarizes everything.\",\n  \"caption_3\": \"It even tells me what’s urgent and what’s not.\",\n  \"caption_4\": \"No more inbox stress. Just flow.\",\n  \"caption_5\": \"And yes, it’s 100% free to build.\",\n  \"cta\": \"Want the exact workflow? Type ‘EMAIL’ below 👇\",\n  \"full_script\": \"I used to waste nearly four hours a day just checking and replying to emails. It was draining. Then one day, I built an AI assistant in under 10 minutes using a free tool. It reads all my emails, summarizes them, and even suggests replies. Now I only spend five minutes on my inbox. It even tells me what's urgent. No more stress, just pure productivity. And the best part? It’s completely free. Want the exact workflow I used? Just type ‘EMAIL’ in the comments and I’ll share it with you!\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        704,
+        288
+      ],
+      "id": "6d908080-3595-4fa9-8164-977c40463f03",
+      "name": "Parse Script Output"
     },
     {
       "parameters": {
@@ -128,7 +128,7 @@
         80
       ],
       "id": "bfc8adb8-ba80-4ee1-805e-b351e70d7036",
-      "name": "Split caption and script"
+      "name": "Split Script Scenes"
     },
     {
       "parameters": {
@@ -161,16 +161,16 @@
         80
       ],
       "id": "d5a17d15-078f-4167-b604-3ad82efef8e0",
-      "name": "caption and script branch"
+      "name": "Validate Scene Count"
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Create an image prompt for the following YouTube Shorts visual scene.\n\n🎯 Topic: {{ $('fetch video topics').item.json.Topic }}\n📣 Persona: {{ $('fetch video topics').item.json.Persona }}\n🎭 Niche: {{ $('fetch video topics').item.json.Niche }}\n🧠 Scene Text: {{ $json.output }}\n\nPlease return output in this format:\n\nPrompt:\nFirst-person POV GoPro shot [what’s in front of the viewer]\nIn the background, [describe the setting, motion, mood, environment, lighting]\n\nOnly generate ONE prompt for this caption. Make it cinematic, dynamic, and realistic — ready to be used in Qubico/flux1-dev or any flux model.\n\n\n---\n\n## 🎬 EXAMPLE OUTPUTS\n\n### 📌 Input:\n- **Topic:** Morning Productivity Hacks  \n- **Persona:** Ambitious 20-something entrepreneur  \n- **Niche:** Self-improvement  \n- **Caption:** “Woke up at 5 AM. No alarm. Just momentum.”\n\n### ✅ Prompt Output:\n**Prompt:**  \nFirst-person POV GoPro shot of hands pulling back blackout curtains to reveal sunrise through high-rise apartment windows  \nIn the background, city skyline glows with soft orange light, birds in motion, coffee brewing in the kitchen, everything is quiet but pulsing with calm energy\n\n---",
+        "text": "=Create an image prompt for the following YouTube Shorts visual scene.\n\n🎯 Topic: {{ $('Fetch Pending Video').item.json.Topic }}\n📣 Persona: {{ $('Fetch Pending Video').item.json.Persona }}\n🎭 Niche: {{ $('Fetch Pending Video').item.json.Niche }}\n🧠 Scene Text: {{ $json.output }}\n\nPlease return output in this format:\n\nPrompt:\nFirst-person POV GoPro shot [what’s in front of the viewer]\nIn the background, [describe the setting, motion, mood, environment, lighting]\n\nOnly generate ONE prompt for this caption. Make it cinematic, dynamic, and realistic — ready to be used in Qubico/flux1-dev or any flux model.\n\n\n---\n\n## 🎬 EXAMPLE OUTPUTS\n\n### 📌 Input:\n- **Topic:** Morning Productivity Hacks  \n- **Persona:** Ambitious 20-something entrepreneur  \n- **Niche:** Self-improvement  \n- **Caption:** “Woke up at 5 AM. No alarm. Just momentum.”\n\n### ✅ Prompt Output:\n**Prompt:**  \nFirst-person POV GoPro shot of hands pulling back blackout curtains to reveal sunrise through high-rise apartment windows  \nIn the background, city skyline glows with soft orange light, birds in motion, coffee brewing in the kitchen, everything is quiet but pulsing with calm energy\n\n---",
         "messages": {
           "messageValues": [
             {
-              "message": "=You are an expert prompt-generation AI for Qubico/flux1-dev, trained to turn short YouTube Shorts captions into detailed, vivid visual prompts optimized for **POV-style dynamic storytelling**.  🎥 Your visuals are inspired by first-person GoPro aesthetics — immersive, motion-rich, and realistic.  Each prompt you generate should be tailored to a: - 🎯 Persona: {{ $('fetch video topics').item.json.Persona }} - 🔍 Niche: {{ $('fetch video topics').item.json.Niche }}  🎨 Your visual prompt output has two parts: 1. **Foreground (POV description):**    - Always begin with: `First-person POV GoPro shot...`    - Describe what the viewer sees **from their own eyes** (e.g., hands, movement, objects held, etc.)    - Add context from the scene like emotions, props, or interaction  2. **Background (environment):**    - Begin with: `In the background...`    - Set the scene: realistic environment, dynamic lighting, weather, energy, or mood    - Add motion, blur, or lighting cues to give it video-like depth  ⚠️ Image prompts should avoid character names, brands, logos, or text overlays. No direct references to “YouTube” or “video.”  📸 Add sensory details like motion, texture, lighting, emotion, or visual tension to match the **emotional tone** of the caption (e.g., suspense, joy, stress, ambition, speed, power, etc.)"
+              "message": "=You are an expert prompt-generation AI for Qubico/flux1-dev, trained to turn short YouTube Shorts captions into detailed, vivid visual prompts optimized for **POV-style dynamic storytelling**.  🎥 Your visuals are inspired by first-person GoPro aesthetics — immersive, motion-rich, and realistic.  Each prompt you generate should be tailored to a: - 🎯 Persona: {{ $('Fetch Pending Video').item.json.Persona }} - 🔍 Niche: {{ $('Fetch Pending Video').item.json.Niche }}  🎨 Your visual prompt output has two parts: 1. **Foreground (POV description):**    - Always begin with: `First-person POV GoPro shot...`    - Describe what the viewer sees **from their own eyes** (e.g., hands, movement, objects held, etc.)    - Add context from the scene like emotions, props, or interaction  2. **Background (environment):**    - Begin with: `In the background...`    - Set the scene: realistic environment, dynamic lighting, weather, energy, or mood    - Add motion, blur, or lighting cues to give it video-like depth  ⚠️ Image prompts should avoid character names, brands, logos, or text overlays. No direct references to “YouTube” or “video.”  📸 Add sensory details like motion, texture, lighting, emotion, or visual tension to match the **emotional tone** of the caption (e.g., suspense, joy, stress, ambition, speed, power, etc.)"
             }
           ]
         },
@@ -183,7 +183,7 @@
         64
       ],
       "id": "9a99c4dc-8617-4c28-9572-0f3cb7552e47",
-      "name": "generate img promot"
+      "name": "Generate Image Prompt"
     },
     {
       "parameters": {
@@ -203,11 +203,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1840,
+        1936,
         64
       ],
       "id": "31753e4e-6d2a-4ffe-96b7-6371a0bb1749",
-      "name": "HTTP Request",
+      "name": "Submit Image Generation",
       "credentials": {
         "httpHeaderAuth": {
           "id": "R3JhAWU8GNuKcWmq",
@@ -225,17 +225,375 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        2080,
+        2160,
         64
       ],
       "id": "623977a9-bc8c-44ea-a739-4f8a7dfedad9",
-      "name": "HTTP Request1",
+      "name": "Check Image Generation",
       "credentials": {
         "httpHeaderAuth": {
           "id": "R3JhAWU8GNuKcWmq",
           "name": "PiAPI"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5d322334-6c4f-4d65-8d77-b91e0191b73e",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "failed",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2384,
+        64
+      ],
+      "id": "58f5f567-07f3-4b59-abad-46b3f43e6e21",
+      "name": "Validate Image Status"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://queue.fal.run/fal-ai/gemini-3.1-flash-tts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \n  \"prompt\": {{ JSON.stringify($json.output) }},\n  \"speakers\": [\n    {\n      \"voice\": \"Charon\",\n      \"speaker_id\": \"Host\"\n    },\n    {\n      \"voice\": \"Kore\",\n      \"speaker_id\": \"DrChen\"\n    }\n  ],\n  \"temperature\": 1,\n  \"language_code\": \"English (US)\",\n  \"output_format\": \"mp3\",\n  \"style_instructions\": \"Say the following in a warm, enthusiastic podcast conversation tone. The host is energetic and curious. Dr. Chen is knowledgeable and approachable.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1936,
+        448
+      ],
+      "id": "1c4af12a-3cd6-4320-8b02-4902c9a24ed9",
+      "name": "Submit Audio Generation",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "IbD86Xn9YT56jnky",
+          "name": "fal ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://queue.fal.run/fal-ai/gemini-3.1-flash-tts/requests/{{ $json.request_id }}/status",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2160,
+        448
+      ],
+      "id": "a76b99c6-818e-4819-bfff-9463a3b04e87",
+      "name": "Check Audio Status",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "IbD86Xn9YT56jnky",
+          "name": "fal ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "91bc4569-5d17-4779-8383-b54da578b3db",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=COMPLETED",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2384,
+        448
+      ],
+      "id": "d7f7eae7-1ae2-49f9-810f-7688c0ce1d5b",
+      "name": "Validate Audio Status"
+    },
+    {
+      "parameters": {
+        "url": "=https://queue.fal.run/fal-ai/gemini-3.1-flash-tts/requests/{{ $json.request_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2736,
+        432
+      ],
+      "id": "769e53a4-b5cc-4226-b40d-38ecec3dc034",
+      "name": "Fetch Generated Audio",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "IbD86Xn9YT56jnky",
+          "name": "fal ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "errorMessage": "An error occured in generating images/videos"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        2576,
+        -32
+      ],
+      "id": "6e47b231-21e6-4e5b-9597-79f529518e41",
+      "name": "Stop — Media Generation Failed"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3168,
+        208
+      ],
+      "id": "729f94c5-efc0-4d65-821d-7df42bda1e24",
+      "name": "Merge images and captions"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "931e5da7-f5a2-491a-b9b3-3d7b280184ab",
+              "name": "=image_url",
+              "value": "={{ $json.data.output.image_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        2816,
+        80
+      ],
+      "id": "b0e57275-1436-45b1-94ef-b6e6ea132f58",
+      "name": "extract image urls"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3168,
+        432
+      ],
+      "id": "04c81709-2467-4022-b031-ee10acb36a3e",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3136,
+        -144
+      ],
+      "id": "718c43a5-1e2e-465c-87d7-d95e37adfaf1",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "92545f7a-5dc2-445c-b3ed-d2a83bf37f90",
+              "name": "image_prompt",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1936,
+        -160
+      ],
+      "id": "1000aadb-15f3-4d34-a4b6-a6ee8a104fca",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://queue.fal.run/fal-ai/kling-video/v2.5-turbo/standard/image-to-video",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "prompt",
+              "value": "={{ $json.image_prompt }}"
+            },
+            {
+              "name": "image_url",
+              "value": "={{ $json.image_url }}"
+            },
+            {
+              "name": "duration",
+              "value": "5"
+            },
+            {
+              "name": "cfg_scale",
+              "value": "0.5"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1936,
+        736
+      ],
+      "id": "a2b2f96e-adc1-41ea-a750-cff442213fce",
+      "name": "Submit Video Generation",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "tMXqkIjDM6NJtq0o",
+          "name": "fal ai2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://queue.fal.run/fal-ai/kling-video/requests/{{ $json.request_id }}/status",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2144,
+        736
+      ],
+      "id": "762aa818-9ea9-4f3a-8b81-6ca6fb58998e",
+      "name": "Check Video Status",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "tMXqkIjDM6NJtq0o",
+          "name": "fal ai2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "91bc4569-5d17-4779-8383-b54da578b3db",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=COMPLETED",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2432,
+        736
+      ],
+      "id": "da5a6d5f-d2f4-454e-b932-5f99a255bdc3",
+      "name": "Validate Video Status"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.response_url }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2704,
+        720
+      ],
+      "id": "81f5a736-f2cb-42c0-af0b-9db9fc27db81",
+      "name": "Fetch Generated Video",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "tMXqkIjDM6NJtq0o",
+          "name": "fal ai2"
+        }
+      },
+      "onError": "continueErrorOutput"
     }
   ],
   "connections": {
@@ -243,104 +601,281 @@
       "main": [
         [
           {
-            "node": "fetch video topics",
+            "node": "Fetch Pending Video",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Google Gemini Chat Model": {
+    "Gemini — Content Generation": {
       "ai_languageModel": [
         [
           {
-            "node": "generate script for video",
+            "node": "Generate Shorts Script",
             "type": "ai_languageModel",
             "index": 0
           },
           {
-            "node": "generate img promot",
+            "node": "Generate Image Prompt",
             "type": "ai_languageModel",
             "index": 0
           }
         ]
       ]
     },
-    "Structured Output Parser": {
+    "Fetch Pending Video": {
+      "main": [
+        [
+          {
+            "node": "Generate Shorts Script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Shorts Script": {
+      "main": [
+        [
+          {
+            "node": "Split Script Scenes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Script Output": {
       "ai_outputParser": [
         [
           {
-            "node": "generate script for video",
+            "node": "Generate Shorts Script",
             "type": "ai_outputParser",
             "index": 0
           }
         ]
       ]
     },
-    "fetch video topics": {
+    "Split Script Scenes": {
       "main": [
         [
           {
-            "node": "generate script for video",
+            "node": "Validate Scene Count",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "generate script for video": {
+    "Validate Scene Count": {
       "main": [
         [
           {
-            "node": "Split caption and script",
+            "node": "Generate Image Prompt",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge images and captions",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Submit Audio Generation",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Split caption and script": {
+    "Generate Image Prompt": {
       "main": [
         [
           {
-            "node": "caption and script branch",
+            "node": "Submit Image Generation",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "caption and script branch": {
+    "Submit Image Generation": {
       "main": [
         [
           {
-            "node": "generate img promot",
+            "node": "Check Image Generation",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "generate img promot": {
+    "Check Image Generation": {
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "Validate Image Status",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "HTTP Request": {
+    "Validate Image Status": {
       "main": [
         [
           {
-            "node": "HTTP Request1",
+            "node": "Stop — Media Generation Failed",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "extract image urls",
             "type": "main",
             "index": 0
           }
         ]
+      ]
+    },
+    "Submit Audio Generation": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Status": {
+      "main": [
+        [
+          {
+            "node": "Validate Audio Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Audio Status": {
+      "main": [
+        [
+          {
+            "node": "Fetch Generated Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extract image urls": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge images and captions": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Generated Audio": {
+      "main": [
+        []
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Submit Video Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Merge images and captions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Submit Video Generation": {
+      "main": [
+        [
+          {
+            "node": "Check Video Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Video Status": {
+      "main": [
+        [
+          {
+            "node": "Validate Video Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Video Status": {
+      "main": [
+        [
+          {
+            "node": "Fetch Generated Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Generated Video": {
+      "main": [
+        []
       ]
     }
   },
