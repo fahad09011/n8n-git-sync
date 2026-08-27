@@ -6,15 +6,27 @@
   "isArchived": false,
   "nodes": [
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
+      "parameters": {
+        "promptType": "define",
+        "text": "=🎯 Topic: {{$json.Topic}}\n👤 Target Persona: {{$json.Persona}}\n🎭 Tone: {{$json.Tone}}\n📌 Niche/Domain: {{$json.Niche}}\n📣 CTA Style: {{$json[\"CTA Style\"]}}\n\nCreate ONE YouTube Short focused entirely on the Topic above.\n\nThe Topic is the SINGLE subject of the entire video.\n\nAll five scenes must explain, demonstrate, explore, or develop different aspects of this SAME Topic.\n\nDo NOT make five unrelated points.\n\nFor example:\n\nGOOD:\nTopic = How AI agents work\n\nScene 1 → What AI agents actually are\nScene 2 → How they make decisions\nScene 3 → How they use tools\nScene 4 → A practical example\nScene 5 → Why they matter + CTA\n\nBAD:\nTopic = AI agents\n\nScene 1 → ChatGPT\nScene 2 → Midjourney\nScene 3 → Claude\nScene 4 → Sora\nScene 5 → ElevenLabs\n\nThe second example is a list of unrelated products and is NOT allowed.\n\nThe video should feel like one coherent story from beginning to end.\n\nGenerate exactly 5 scenes.\n\nEach scene should target approximately 6 seconds.\n\nKeep each scene's narration concise enough to naturally fit approximately 6 seconds.\n\nThe final voiceover should target approximately 28–33 seconds.\n\nDo not create a sixth scene.\n\nDo not create a separate CTA scene.\n\nPut the CTA naturally at the end of Scene 5.\n\nGenerate a title, hook, CTA, full_script, and exactly five scenes containing narration, caption, visual_prompt, and duration.\n\nReturn ONLY the required JSON object.",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are a professional YouTube Shorts scriptwriter with over 15 years of experience, specialized in crafting highly engaging short-form video scripts across multiple tones, niches, and audience personas.  Your job is to create ONE focused YouTube Short about ONE specific topic.  The entire Short must stay focused on the provided Topic.  Do NOT turn the video into a list of unrelated items. Do NOT introduce separate tools, products, people, or subjects unless they are directly necessary to explain the main Topic.  The Short should feel like one continuous story, explanation, discovery, tutorial, or argument.  CORE STRUCTURE  Create exactly 5 scenes:  Scene 1 — HOOK Immediately create curiosity, tension, surprise, or a strong emotional reaction around the Topic.  Scene 2 — CONTEXT Explain the most important thing the viewer needs to understand about the Topic.  Scene 3 — VALUE Reveal an interesting fact, mechanism, technique, example, or insight about the SAME Topic.  Scene 4 — PAYOFF Show why the Topic matters, how it can be used, or what happens when the viewer understands it.  Scene 5 — CTA / CONCLUSION Deliver the final takeaway and naturally transition into the requested CTA.  All 5 scenes MUST discuss the SAME Topic.  TIMING  Create exactly 5 scenes.  Each scene should target approximately 5–7 seconds of spoken narration.  Do NOT artificially add words just to reach a specific duration.  Keep narration concise and natural.  The complete voiceover should target approximately 28–33 seconds.  Never create a sixth scene.  Never create fewer than five scenes.  The CTA must be contained inside Scene 5.  CAPTIONS  Generate one short caption for each scene.  Captions must: - Be 5–10 words where possible - Be immediately understandable - Communicate the key point of that scene - Work as on-screen text - Match the narration of that scene - Remain focused on the main Topic  VISUAL PROMPTS  Generate one visual prompt for each of the 5 scenes.  You are an expert prompt-generation AI for Qubico/flux1-dev, producing POV-style, first-person GoPro-aesthetic, immersive, motion-rich, realistic visuals.  Every visual prompt must represent the SAME Topic as the corresponding narration.  Each visual_prompt is ONE flowing description containing:  1. Foreground — starts exactly with: \"First-person POV GoPro shot...\"  Describe what the viewer sees from their own perspective, including hands, movement, objects, interaction, camera motion, and physical actions where appropriate.  2. Background — continues with: \"In the background...\"  Describe the environment, lighting, weather, atmosphere, motion, depth, and visual context.  Do not label these sections separately.  Translate emotional or tonal beats into concrete visual details.  Do not use abstract descriptions such as \"show excitement\" without visually representing that emotion.  VISUAL RESTRICTIONS  - No character names - No brands or logos unless the Topic itself requires showing a recognizable product/interface - No text overlays - No subtitles - No captions inside the visual - No references to YouTube - No references to \"video\" - No watermarks - No UI text unless absolutely necessary to visually explain the Topic - Realistic - Cinematic - Dynamic - Motion-rich - Immersive - Suitable for an AI video/image generation model  WRITING STYLE  - First-person voice - Match the supplied Persona - Match the supplied Tone - Match the supplied Niche - Strong curiosity and retention - No corporate language - No unnecessary explanations - No fluff - Natural spoken English - Short sentences - Smooth transitions between scenes - Each scene must naturally lead into the next  PROBLEM → ACTION → REWARD  Use this structure when appropriate:  Scene 1: Problem / curiosity Scene 2: Context / action Scene 3: Important insight Scene 4: Result / payoff Scene 5: Final takeaway + CTA  Do not force this structure if another structure produces a better story about the Topic.  EMOJIS  Maximum one emoji per caption. Use emojis only when they genuinely improve the caption.  Do not use emojis in visual_prompt.  OUTPUT  Return ONLY valid JSON.  No markdown. No explanations. No comments. No additional fields.  The JSON must follow this exact structure:  {   \"title\": \"string\",   \"hook\": \"string\",   \"cta\": \"string\",   \"full_script\": \"string\",   \"scenes\": [     {       \"scene_number\": 1,       \"caption\": \"string\",       \"narration\": \"string\",       \"visual_prompt\": \"string\",       \"duration\": 0     }   ] }  REQUIREMENTS  - scenes must contain EXACTLY 5 entries - scene_number must be 1, 2, 3, 4, 5 - Scene 1 must be the hook - Scene 5 must contain the conclusion and CTA - Every scene must remain about the SAME Topic - duration should be 6 for every scene - full_script must contain the complete voiceover narration - full_script must use the narration from all five scenes in the correct order - hook must match Scene 1 - cta must be included in Scene 5 - Do not create separate CTA scenes - Do not create separate title scenes"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
       "position": [
-        0,
-        0
+        32,
+        1536
       ],
-      "id": "989812a7-2569-4cbd-9c41-3ef24fc753e8",
-      "name": "When clicking ‘Execute workflow’"
+      "id": "be3f7a51-1ae3-40d9-8708-6e1c857577a7",
+      "name": "Generate Script & Visual Prompts"
     },
     {
       "parameters": {
@@ -24,11 +36,11 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1.1,
       "position": [
-        560,
-        304
+        48,
+        1776
       ],
-      "id": "02bfa6b0-7981-4d59-a8bf-90070bba8b13",
-      "name": "Gemini — Content Generation",
+      "id": "6b004b0a-52d8-40d2-92f7-7094d6f6f18f",
+      "name": "Gemini — Content Generation1",
       "credentials": {
         "googlePalmApi": {
           "id": "CXZZMJrr3TGCOeOb",
@@ -67,11 +79,11 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        208,
-        0
+        -192,
+        1536
       ],
-      "id": "c0e90119-eff6-48f5-8f33-9dca455fe3bc",
-      "name": "Fetch Pending Video",
+      "id": "8d3ba822-bd2d-4dd0-9bab-21088b5a5d56",
+      "name": "Fetch Pending Video1",
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "0WHa8kFysFFXtgzo",
@@ -81,54 +93,32 @@
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "=You are creating a YouTube Shorts script based on structured input fields.\n\n🎯 Topic: {{$json.Topic}}  \n👤 Target Persona: {{$json.Persona}}  \n🎭 Tone: {{$json.Tone}}  \n📌 Niche/Domain: {{$json.Niche}}  \n📣 CTA Style: {{$json[\"CTA Style\"]}}\n\n✍️ Please write a **highly engaging YouTube Shorts script** in **first-person voice** that follows the best practices of viral short-form content. The video must hook the viewer within the first 3–5 seconds, deliver punchy value, and end with a strong CTA or cliffhanger.\n\nYour captions must:\n- Follow a **Problem → Action → Reward** structure  \n- Be aligned with the **tone**, **niche**, and **persona**\n- Include **5 captions only** along with **one hook** and **one CTA**\n- Also include the full script as well for the video that will be used for voiceover and highly optimized for ElevenLabs platform and should not exceed more than 33 seconds at all.\n- Be **wild, bold, and emotionally engaging**, not corporate or overly polished  \n- Use **emojis sparingly** (maximum one per caption, only when impactful)\n\n🎯 Caption Structure:\n1. **Hook (Problem/Curiosity):** Shocking, hilarious, or bold opening line (e.g. something even Andrew Tate would growl)  \n2. **Action (Tip/Lesson):** What to do or what happened  \n3. **Value (Insight/Surprise):** Interesting or unexpected point  \n4. **Interrupt (Emotion/Build):** Personal or emotional angle  \n5. **CTA or Cliffhanger:** Encourage viewer action, matching {{$json[\"CTA Style\"]}}\n\n📄 Output Format:\n- `hook`: First 3–5 second opening line – shocking, bold, or funny  \n- `caption_1` → `caption_5`: Main body lines (tips, story, emotion, etc.)  \n- `cta`: Final call-to-action line aligned with {{$json[\"CTA Style\"]}}\n- Return the Hook, 5 captions and CTA **as plain text only**\n- `full_script : Full script of the video that will be used for voiceover and highly optimized for ElevenLabs platform.\n- **Do not** use quotation marks, bullets, asterisks, markdown, or extra formatting  \n- Do **not** add any introductions, explanations, or closing text — just the raw captions\n- No hashtags, URLs, or handles  \n\n⚠️ Remember:\nWrite for SHORTS. Keep it sharp, fast-paced, raw, and irresistible to scroll past.\n\n📄 Output Structure:\nRespond ONLY with a JSON object that exactly follows this structure:\n\n{\n  \"hook\": \"string\",\n  \"caption_1\": \"string\",\n  \"caption_2\": \"string\",\n  \"caption_3\": \"string\",\n  \"caption_4\": \"string\",\n  \"caption_5\": \"string\",\n  \"cta\": \"string\",\n  \"full_script\": \"string\"\n}\n\n⚠️ Do NOT include any extra commentary, markdown formatting, or explanation — return ONLY the JSON.\n\n🧪 Example Output:\n{\n  \"hook\": \"I used to waste 4 hours a day on email 😓\",\n  \"caption_1\": \"Then I built an AI assistant in 10 minutes.\",\n  \"caption_2\": \"Now it reads, replies, and summarizes everything.\",\n  \"caption_3\": \"It even tells me what’s urgent and what’s not.\",\n  \"caption_4\": \"No more inbox stress. Just flow.\",\n  \"caption_5\": \"And yes, it’s 100% free to build.\",\n  \"cta\": \"Want the exact workflow? Type ‘EMAIL’ below 👇\",\n  \"full_script\": \"I used to waste nearly four hours a day just checking and replying to emails. It was draining. Then one day, I built an AI assistant in under 10 minutes using a free tool. It reads all my emails, summarizes them, and even suggests replies. Now I only spend five minutes on my inbox. It even tells me what's urgent. No more stress, just pure productivity. And the best part? It’s completely free. Want the exact workflow I used? Just type ‘EMAIL’ in the comments and I’ll share it with you!\"\n}",
-        "hasOutputParser": true,
-        "messages": {
-          "messageValues": [
-            {
-              "message": "You are a professional YouTube Shorts scriptwriter with over 15 years of experience, specialized in crafting highly engaging short-form video scripts across multiple tones, niches, and audience personas. You have reverse-engineered the psychology and pacing of 10,000+ high-performing videos (30s to 3m range).  🎯 Your job is to generate one hook, **five concise, scroll-stopping captions (5–10 words each)** and a CTA at the end following a **Problem → Action → Reward** structure. In addition, generate a full script of the video that will be used as a voiceover for the video and highly optimized for ElevenLabs platform. The voiceover script should not exceed more than 25 seconds.  💡 Each of the captions must be standalone, punchy, and templated for video overlay in tools like Creatomate. Write in **first-person voice**, as if the narrator is speaking directly to the viewer.  ✅ Follow This Caption Structure: 1. **Hook/Problem:** Shocking, surprising, or funny attention-grabber 2. **Action:** A relatable tip, command, or lesson 3. **Value/Insight:** Something unexpected or helpful 4. **Pattern Interrupt:** Emotional twist or human moment 5. **Reward/CTA:** A cliffhanger, win, or reason to watch more  🧠 Match tone, pacing, and vocabulary to the assigned **Persona**, **Tone**, and **Niche**.  🚫 No fluff. No long sentences. Emojis: max 1 per caption, only when useful.  ---  🧱 Core Traits of a High-Converting YouTube Shorts Script: 1. 🔑 **Strong Hook:** Instantly grabs attention within 3–5 seconds. 2. 🔥 **Emotional Triggers:** Use fear, urgency, desire, curiosity, excitement. 3. 🧠 **Pattern Interrupts:** Rhetorical shifts, humor, or punchy pivots. 4. 🔗 **Seamless Transitions:** Logical, natural progression. 5. 🚪 **Cliffhangers:** Tease next idea or leave them curious. 6. 📣 **Smooth CTA:** Relevant call to action or next step. 7. 👁️‍🗨️ **Perspective:** Always written in first-person.  Your output should be platform-native, persona-aligned, retention-optimized, and ready to plug into automation pipelines."
-            }
-          ]
-        },
-        "batching": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.9,
-      "position": [
-        560,
-        80
-      ],
-      "id": "2422eaa9-5e34-4d0b-bcd1-97c1e16abc66",
-      "name": "Generate Shorts Script"
-    },
-    {
-      "parameters": {
-        "jsonSchemaExample": "{\n  \"hook\": \"I used to waste 4 hours a day on email 😓\",\n  \"caption_1\": \"Then I built an AI assistant in 10 minutes.\",\n  \"caption_2\": \"Now it reads, replies, and summarizes everything.\",\n  \"caption_3\": \"It even tells me what’s urgent and what’s not.\",\n  \"caption_4\": \"No more inbox stress. Just flow.\",\n  \"caption_5\": \"And yes, it’s 100% free to build.\",\n  \"cta\": \"Want the exact workflow? Type ‘EMAIL’ below 👇\",\n  \"full_script\": \"I used to waste nearly four hours a day just checking and replying to emails. It was draining. Then one day, I built an AI assistant in under 10 minutes using a free tool. It reads all my emails, summarizes them, and even suggests replies. Now I only spend five minutes on my inbox. It even tells me what's urgent. No more stress, just pure productivity. And the best part? It’s completely free. Want the exact workflow I used? Just type ‘EMAIL’ in the comments and I’ll share it with you!\"\n}"
+        "jsonSchemaExample": "{\n  \"title\": \"5 AI Tools You Should Know in 2026\",\n  \"hook\": \"These five AI tools could completely change how you work.\",\n  \"cta\": \"Follow for more AI content.\",\n  \"full_script\": \"AI is moving incredibly fast right now, and if you are not paying attention you are already behind. Here are five tools that are quietly changing how people work every single day...\",\n  \"scenes\": [\n    {\n      \"scene_number\": 1,\n      \"caption\": \"These five AI tools could completely change how you work.\",\n      \"visual_prompt\": \"First-person POV GoPro shot of hands typing rapidly on a laptop keyboard in a dim home office, screen glow reflecting off focused, determined eyes. In the background, city lights blur through a rain-streaked window, a second monitor pulses with shifting data visualizations, the mood restless and electric.\",\n      \"duration\": 5\n    },\n    {\n      \"scene_number\": 2,\n      \"caption\": \"Tool number one changes everything.\",\n      \"visual_prompt\": \"First-person POV GoPro shot of a hand reaching toward a glowing holographic interface hovering above a desk. In the background, soft blue light washes over a cluttered desk of notebooks and coffee cups, dust motes drifting through a single warm lamp beam, calm but charged with anticipation.\",\n      \"duration\": 5\n    }\n  ]\n}"
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        704,
-        288
+        176,
+        1776
       ],
-      "id": "6d908080-3595-4fa9-8164-977c40463f03",
-      "name": "Parse Script Output"
+      "id": "01cca4b2-013b-4c97-b27e-b7a1a1724e6c",
+      "name": "Parse Script Output1"
     },
     {
       "parameters": {
-        "fieldToSplitOut": "output",
-        "include": "allOtherFields",
-        "options": {}
+        "fieldToSplitOut": "output.scenes",
+        "options": {
+          "disableDotNotation": false
+        }
       },
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        912,
-        80
+        608,
+        1520
       ],
-      "id": "bfc8adb8-ba80-4ee1-805e-b351e70d7036",
-      "name": "Split Script Scenes"
+      "id": "de9eed6f-16d0-4aa7-b9ec-a0094022f48a",
+      "name": "Split Script Scenes1"
     },
     {
       "parameters": {
@@ -142,8 +132,17 @@
           "conditions": [
             {
               "id": "33af58cd-7816-4af3-ac96-79d95b8cfe1a",
-              "leftValue": "={{ $json.output.length }}",
-              "rightValue": 60,
+              "leftValue": "={{ $json.output.scenes.length }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "a1b2c3d4-1111-2222-3333-444455556666",
+              "leftValue": "={{ $json.output.scenes.length }}",
+              "rightValue": 10,
               "operator": {
                 "type": "number",
                 "operation": "lte"
@@ -157,33 +156,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1200,
-        80
+        384,
+        1536
       ],
-      "id": "d5a17d15-078f-4167-b604-3ad82efef8e0",
-      "name": "Validate Scene Count"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "=Create an image prompt for the following YouTube Shorts visual scene.\n\n🎯 Topic: {{ $('Fetch Pending Video').item.json.Topic }}\n📣 Persona: {{ $('Fetch Pending Video').item.json.Persona }}\n🎭 Niche: {{ $('Fetch Pending Video').item.json.Niche }}\n🧠 Scene Text: {{ $json.output }}\n\nPlease return output in this format:\n\nPrompt:\nFirst-person POV GoPro shot [what’s in front of the viewer]\nIn the background, [describe the setting, motion, mood, environment, lighting]\n\nOnly generate ONE prompt for this caption. Make it cinematic, dynamic, and realistic — ready to be used in Qubico/flux1-dev or any flux model.\n\n\n---\n\n## 🎬 EXAMPLE OUTPUTS\n\n### 📌 Input:\n- **Topic:** Morning Productivity Hacks  \n- **Persona:** Ambitious 20-something entrepreneur  \n- **Niche:** Self-improvement  \n- **Caption:** “Woke up at 5 AM. No alarm. Just momentum.”\n\n### ✅ Prompt Output:\n**Prompt:**  \nFirst-person POV GoPro shot of hands pulling back blackout curtains to reveal sunrise through high-rise apartment windows  \nIn the background, city skyline glows with soft orange light, birds in motion, coffee brewing in the kitchen, everything is quiet but pulsing with calm energy\n\n---",
-        "messages": {
-          "messageValues": [
-            {
-              "message": "=You are an expert prompt-generation AI for Qubico/flux1-dev, trained to turn short YouTube Shorts captions into detailed, vivid visual prompts optimized for **POV-style dynamic storytelling**.  🎥 Your visuals are inspired by first-person GoPro aesthetics — immersive, motion-rich, and realistic.  Each prompt you generate should be tailored to a: - 🎯 Persona: {{ $('Fetch Pending Video').item.json.Persona }} - 🔍 Niche: {{ $('Fetch Pending Video').item.json.Niche }}  🎨 Your visual prompt output has two parts: 1. **Foreground (POV description):**    - Always begin with: `First-person POV GoPro shot...`    - Describe what the viewer sees **from their own eyes** (e.g., hands, movement, objects held, etc.)    - Add context from the scene like emotions, props, or interaction  2. **Background (environment):**    - Begin with: `In the background...`    - Set the scene: realistic environment, dynamic lighting, weather, energy, or mood    - Add motion, blur, or lighting cues to give it video-like depth  ⚠️ Image prompts should avoid character names, brands, logos, or text overlays. No direct references to “YouTube” or “video.”  📸 Add sensory details like motion, texture, lighting, emotion, or visual tension to match the **emotional tone** of the caption (e.g., suspense, joy, stress, ambition, speed, power, etc.)"
-            }
-          ]
-        },
-        "batching": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.9,
-      "position": [
-        1488,
-        64
-      ],
-      "id": "9a99c4dc-8617-4c28-9572-0f3cb7552e47",
-      "name": "Generate Image Prompt"
+      "id": "f573ca5d-30a8-4f3d-b790-4cbecfc46a32",
+      "name": "Validate Scene Count1"
     },
     {
       "parameters": {
@@ -193,7 +170,7 @@
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"model\": \"Qubico/flux1-schnell\",\n  \"task_type\": \"txt2img\",\n  \"input\": {\n    \"prompt\": {{ JSON.stringify($json.text) }},\n\n    \"width\": 1024,\n    \"height\": 1024\n  }\n}\n",
+        "jsonBody": "={\n  \"model\": \"Qubico/flux1-schnell\",\n  \"task_type\": \"txt2img\",\n  \"input\": {\n    \"prompt\": {{ JSON.stringify($json.visual_prompt) }},\n\n    \"width\": 1024,\n    \"height\": 1024\n  }\n}\n",
         "options": {
           "redirect": {
             "redirect": {}
@@ -203,15 +180,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1936,
-        64
+        864,
+        1136
       ],
-      "id": "31753e4e-6d2a-4ffe-96b7-6371a0bb1749",
-      "name": "Submit Image Generation",
+      "id": "41e3cf1b-c7fb-49b3-925d-febd81278049",
+      "name": "Submit Image Generation1",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "R3JhAWU8GNuKcWmq",
-          "name": "PiAPI"
+          "id": "cZTqVZ7s1nLdi2Gg",
+          "name": "PiAPI2"
         }
       }
     },
@@ -225,15 +202,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        2160,
-        64
+        1120,
+        1488
       ],
-      "id": "623977a9-bc8c-44ea-a739-4f8a7dfedad9",
-      "name": "Check Image Generation",
+      "id": "ac3ab632-583b-4133-8e7f-7f3425ccf79b",
+      "name": "Check Image Generation1",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "R3JhAWU8GNuKcWmq",
-          "name": "PiAPI"
+          "id": "cZTqVZ7s1nLdi2Gg",
+          "name": "PiAPI2"
         }
       }
     },
@@ -264,11 +241,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2384,
-        64
+        1392,
+        1504
       ],
-      "id": "58f5f567-07f3-4b59-abad-46b3f43e6e21",
-      "name": "Validate Image Status"
+      "id": "0d97be6a-5e81-4bee-bb47-57edb6854a6c",
+      "name": "Validate Image Status1"
     },
     {
       "parameters": {
@@ -278,21 +255,21 @@
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \n  \"prompt\": {{ JSON.stringify($json.output) }},\n  \"speakers\": [\n    {\n      \"voice\": \"Charon\",\n      \"speaker_id\": \"Host\"\n    },\n    {\n      \"voice\": \"Kore\",\n      \"speaker_id\": \"DrChen\"\n    }\n  ],\n  \"temperature\": 1,\n  \"language_code\": \"English (US)\",\n  \"output_format\": \"mp3\",\n  \"style_instructions\": \"Say the following in a warm, enthusiastic podcast conversation tone. The host is energetic and curious. Dr. Chen is knowledgeable and approachable.\"\n}",
+        "jsonBody": "={\n  \n  \"prompt\": {{ JSON.stringify($json.output.full_script) }},\n  \"speakers\": [\n    {\n      \"voice\": \"Charon\",\n      \"speaker_id\": \"Host\"\n    },\n    {\n      \"voice\": \"Kore\",\n      \"speaker_id\": \"DrChen\"\n    }\n  ],\n  \"temperature\": 1,\n  \"language_code\": \"English (US)\",\n  \"output_format\": \"mp3\",\n  \"style_instructions\": \"Say the following in a warm, enthusiastic podcast conversation tone. The host is energetic and curious. Dr. Chen is knowledgeable and approachable.\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1936,
-        448
+        624,
+        2480
       ],
-      "id": "1c4af12a-3cd6-4320-8b02-4902c9a24ed9",
-      "name": "Submit Audio Generation",
+      "id": "3f7b8c5d-c46a-4189-a368-dba48f1af121",
+      "name": "Submit Audio Generation1",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "IbD86Xn9YT56jnky",
-          "name": "fal ai"
+          "id": "k1KwXvh6n7c80tqO",
+          "name": "fal ai3"
         }
       }
     },
@@ -306,15 +283,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        2160,
-        448
+        1040,
+        2480
       ],
-      "id": "a76b99c6-818e-4819-bfff-9463a3b04e87",
-      "name": "Check Audio Status",
+      "id": "ffc23747-ef58-4d0a-b997-7bb2fba13dec",
+      "name": "Check Audio Status1",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "IbD86Xn9YT56jnky",
-          "name": "fal ai"
+          "id": "k1KwXvh6n7c80tqO",
+          "name": "fal ai3"
         }
       }
     },
@@ -330,7 +307,7 @@
           "conditions": [
             {
               "id": "91bc4569-5d17-4779-8383-b54da578b3db",
-              "leftValue": "={{ $json.status }}",
+              "leftValue": "={{ $('Check Audio Status1').item.json.status }}",
               "rightValue": "=COMPLETED",
               "operator": {
                 "type": "string",
@@ -345,11 +322,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2384,
-        448
+        1232,
+        2480
       ],
-      "id": "d7f7eae7-1ae2-49f9-810f-7688c0ce1d5b",
-      "name": "Validate Audio Status"
+      "id": "46f22f7d-35bc-4feb-bcfd-21781d867b76",
+      "name": "Validate Audio Status1"
     },
     {
       "parameters": {
@@ -361,15 +338,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        2736,
-        432
+        1552,
+        2464
       ],
-      "id": "769e53a4-b5cc-4226-b40d-38ecec3dc034",
-      "name": "Fetch Generated Audio",
+      "id": "2e46aa07-9bca-423d-ab24-6329a335fd52",
+      "name": "Fetch Generated Audio1",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "IbD86Xn9YT56jnky",
-          "name": "fal ai"
+          "id": "k1KwXvh6n7c80tqO",
+          "name": "fal ai3"
         }
       }
     },
@@ -380,11 +357,11 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        2576,
-        -32
+        1312,
+        1168
       ],
-      "id": "6e47b231-21e6-4e5b-9597-79f529518e41",
-      "name": "Stop — Media Generation Failed"
+      "id": "fcf3c14e-85c3-48fb-b699-3d261943a06b",
+      "name": "Stop — Media Generation Failed1"
     },
     {
       "parameters": {
@@ -395,11 +372,11 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        3168,
-        208
+        624,
+        1888
       ],
-      "id": "729f94c5-efc0-4d65-821d-7df42bda1e24",
-      "name": "Merge images and captions"
+      "id": "667474dd-c666-4fd5-a71e-836aeb1963cf",
+      "name": "Merge images and captions1"
     },
     {
       "parameters": {
@@ -418,60 +395,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.5,
       "position": [
-        2816,
-        80
+        1824,
+        1520
       ],
-      "id": "b0e57275-1436-45b1-94ef-b6e6ea132f58",
-      "name": "extract image urls"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        3168,
-        432
-      ],
-      "id": "04c81709-2467-4022-b031-ee10acb36a3e",
-      "name": "Merge"
-    },
-    {
-      "parameters": {
-        "mode": "combine",
-        "combineBy": "combineByPosition",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        3136,
-        -144
-      ],
-      "id": "718c43a5-1e2e-465c-87d7-d95e37adfaf1",
-      "name": "Merge1"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "92545f7a-5dc2-445c-b3ed-d2a83bf37f90",
-              "name": "image_prompt",
-              "value": "={{ $json.text }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.5,
-      "position": [
-        1936,
-        -160
-      ],
-      "id": "1000aadb-15f3-4d34-a4b6-a6ee8a104fca",
-      "name": "Edit Fields1"
+      "id": "33dd38f2-79e1-43ba-b22d-048f6aed4a78",
+      "name": "extract image urls1"
     },
     {
       "parameters": {
@@ -484,7 +412,7 @@
           "parameters": [
             {
               "name": "prompt",
-              "value": "={{ $json.image_prompt }}"
+              "value": "={{ $json.visual_prompt }}"
             },
             {
               "name": "image_url",
@@ -505,15 +433,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        1936,
-        736
+        848,
+        1888
       ],
-      "id": "a2b2f96e-adc1-41ea-a750-cff442213fce",
-      "name": "Submit Video Generation",
+      "id": "7769c761-2de5-43ff-b01d-994991fa56f0",
+      "name": "Submit Video Generation1",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "tMXqkIjDM6NJtq0o",
-          "name": "fal ai2"
+          "id": "k1KwXvh6n7c80tqO",
+          "name": "fal ai3"
         }
       }
     },
@@ -527,15 +455,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        2144,
-        736
+        1072,
+        1888
       ],
-      "id": "762aa818-9ea9-4f3a-8b81-6ca6fb58998e",
-      "name": "Check Video Status",
+      "id": "3dbab771-5a09-44ef-8a80-7c6a2e93e2aa",
+      "name": "Check Video Status1",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "tMXqkIjDM6NJtq0o",
-          "name": "fal ai2"
+          "id": "k1KwXvh6n7c80tqO",
+          "name": "fal ai3"
         }
       }
     },
@@ -566,11 +494,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2432,
-        736
+        1296,
+        1888
       ],
-      "id": "da5a6d5f-d2f4-454e-b932-5f99a255bdc3",
-      "name": "Validate Video Status"
+      "id": "6c246ca5-9357-4de5-b437-0d82bab2d961",
+      "name": "Validate Video Status1"
     },
     {
       "parameters": {
@@ -582,216 +510,738 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        2704,
-        720
+        1520,
+        1872
       ],
-      "id": "81f5a736-f2cb-42c0-af0b-9db9fc27db81",
-      "name": "Fetch Generated Video",
+      "id": "639a6b73-c44d-4974-982f-ba6c890cdabd",
+      "name": "Fetch Generated Video1",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "tMXqkIjDM6NJtq0o",
-          "name": "fal ai2"
+          "id": "k1KwXvh6n7c80tqO",
+          "name": "fal ai3"
         }
       },
       "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -416,
+        1536
+      ],
+      "id": "86922f4a-ee0a-4f10-a0b6-a18df3ff10ba",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        816,
+        2480
+      ],
+      "id": "38fcb5d7-e94c-4097-98b4-174c559449ff",
+      "name": "Wait",
+      "webhookId": "3338bff0-5627-40fe-9834-ca34f77cc9a7",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8a1b1889-a17d-4005-80cd-34875bf17ee3",
+              "name": "video_url",
+              "value": "={{ $json.video.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1856,
+        1856
+      ],
+      "id": "095068a7-f14e-489b-8ccb-1433febb46af",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2112,
+        1872
+      ],
+      "id": "ea77f15a-39af-4d25-9789-b9c55193f4f5",
+      "name": "Merge"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2352,
+        1888
+      ],
+      "id": "4cbb0b0f-468c-4bdd-8dce-67dd3d6eed1a",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "includeOtherFields": true,
+        "include": "except",
+        "excludeFields": "visual_prompt, duration, audio.file_size, audio.file_name, audio.content_type",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        2560,
+        1888
+      ],
+      "id": "6bd615e2-db3d-4b29-aeba-9f4b35dd82d6",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "final_data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2784,
+        1888
+      ],
+      "id": "97a70fab-4364-438c-a81f-c412d5d6d91a",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $json.final_data;\n\n// First object contains title, hook, and CTA\nconst metadata = data.find(item =>\n  item.title || item.hook || item.cta\n);\n\nconst videos = data\n  .filter(item => item.video_url)\n  .sort((a, b) => a.scene_number - b.scene_number)\n  .map(item => ({\n    scene_number: item.scene_number,\n    video_url: item.video_url,\n    caption: item.caption\n  }));\n\nconst audio = data.find(item => item.audio);\n\nreturn [\n  {\n    json: {\n      title: metadata?.title ?? null,\n      hook: metadata?.hook ?? null,\n      cta: metadata?.cta ?? null,\n      script: metadata?.script ?? null,\n\n      videos,\n\n      audio_url: audio?.audio?.url ?? null\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2976,
+        1888
+      ],
+      "id": "0d1f21ae-e7bd-4039-ad25-75479a9ae2d1",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.creatomate.com/v2/renders",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 2eecc1cdc5324ab9bf4dac8f88843082b522f9aedceeb972640e91700f17d77594f32dedf7baadfa338abf3668aecc0b"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"template_id\": \"30423e91-c8b9-4942-a18e-6750e18f0965\",\n  \"modifications\": {\n    \"Music.source\": \"{{ $json.audio_url }}\",\n\n    \"Video-1.source\": \"{{ $json.videos[0].video_url }}\",\n    \"Video-2.source\": \"{{ $json.videos[1].video_url }}\",\n    \"Video-3.source\": \"{{ $json.videos[2].video_url }}\",\n    \"Video-4.source\": \"{{ $json.videos[3].video_url }}\",\n    \"Video-5.source\": \"{{ $json.videos[4].video_url }}\",\n\n    \"title.text\": \"{{ $json.title }}\",\n\n    \"scene-1.text\": \"{{ $json.videos[0].caption }}\",\n    \"scene-2.text\": \"{{ $json.videos[1].caption }}\",\n    \"scene-3.text\": \"{{ $json.videos[2].caption }}\",\n    \"scene-4.text\": \"{{ $json.videos[3].caption }}\",\n    \"scene-5.text\": \"{{ $json.videos[4].caption }}\",\n\n    \"cta.text\": \"{{ $json.cta }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3216,
+        1888
+      ],
+      "id": "86f991fa-9140-4fc7-b76f-b82b4e5e89a8",
+      "name": "Create Creatomate Template"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.creatomate.com/v2/renders/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3536,
+        1888
+      ],
+      "id": "70be3b58-0d05-4605-bc7d-48bee6cbf500",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "mHMYnB4rXldclNah",
+          "name": "Creatomate API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f539027c-914b-4dde-9182-bf870381d62a",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "succeeded",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3744,
+        1888
+      ],
+      "id": "126b27ca-8706-403d-9644-f571b4cdaaff",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "747b0404-5495-4cd7-b0c9-fbab03bea47d",
+              "name": "video_url",
+              "value": "={{ $json.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        4016,
+        1872
+      ],
+      "id": "61c1e09d-7290-4606-aaf7-75de4486e176",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "amount": 4
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3760,
+        2128
+      ],
+      "id": "8e56f3fe-5d05-48e3-8baf-9b51585eeea3",
+      "name": "Wait2",
+      "webhookId": "3ab55480-69fe-4b90-956a-bf57f162f0c9"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1pXe2dYymF2_brx9wBcuPuCem5g3SsaW_Hz1nrxN5slI",
+          "mode": "list",
+          "cachedResultName": "Faceless_YouTube_Content_Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pXe2dYymF2_brx9wBcuPuCem5g3SsaW_Hz1nrxN5slI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 207171826,
+          "mode": "list",
+          "cachedResultName": "Content",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pXe2dYymF2_brx9wBcuPuCem5g3SsaW_Hz1nrxN5slI/edit#gid=207171826"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Video Number": "={{ $('Fetch Pending Video1').item.json[\"Video Number\"] }}",
+            "Video URL": "={{ $json.video_url }}"
+          },
+          "matchingColumns": [
+            "Video Number"
+          ],
+          "schema": [
+            {
+              "id": "Video Number",
+              "displayName": "Video Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Topic",
+              "displayName": "Topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tone",
+              "displayName": "Tone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Niche",
+              "displayName": "Niche",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Persona",
+              "displayName": "Persona",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Platform",
+              "displayName": "Platform",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Language",
+              "displayName": "Language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CTA Style",
+              "displayName": "CTA Style",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "YouTube Status",
+              "displayName": "YouTube Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video URL",
+              "displayName": "Video URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        4240,
+        1872
+      ],
+      "id": "73e5ee18-2570-437b-99d3-93f07a5b8226",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0WHa8kFysFFXtgzo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a4dbc25f-5648-4941-8644-e850327fe234",
+              "name": "title",
+              "value": "={{ $json.output.title }}",
+              "type": "string"
+            },
+            {
+              "id": "7bd088f1-7675-4af1-b271-f9083955547a",
+              "name": "hook",
+              "value": "={{ $json.output.hook }}",
+              "type": "string"
+            },
+            {
+              "id": "7c4e4f00-2d67-4819-960b-c4fdf6671318",
+              "name": "cta",
+              "value": "={{ $json.output.cta }}",
+              "type": "string"
+            },
+            {
+              "id": "d793ee8f-b6b0-4604-9ae3-417674e2a87c",
+              "name": "script",
+              "value": "={{ $json.output.full_script }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        2016,
+        1376
+      ],
+      "id": "31b8f31a-e01e-4e1d-b125-feef57ad3c4e",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2448,
+        1472
+      ],
+      "id": "2bf6d3ee-2067-4d18-92c5-f8a5ae5ffe83",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "upload",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        2152.248422304732,
+        2016
+      ],
+      "id": "21c6ce70-6ce3-43f3-86e7-0ebdb1d8a672",
+      "name": "Upload a video"
     }
   ],
   "connections": {
-    "When clicking ‘Execute workflow’": {
+    "Generate Script & Visual Prompts": {
       "main": [
         [
           {
-            "node": "Fetch Pending Video",
+            "node": "Validate Scene Count1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Gemini — Content Generation": {
+    "Gemini — Content Generation1": {
       "ai_languageModel": [
         [
           {
-            "node": "Generate Shorts Script",
-            "type": "ai_languageModel",
-            "index": 0
-          },
-          {
-            "node": "Generate Image Prompt",
+            "node": "Generate Script & Visual Prompts",
             "type": "ai_languageModel",
             "index": 0
           }
         ]
       ]
     },
-    "Fetch Pending Video": {
+    "Fetch Pending Video1": {
       "main": [
         [
           {
-            "node": "Generate Shorts Script",
+            "node": "Generate Script & Visual Prompts",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Generate Shorts Script": {
-      "main": [
-        [
-          {
-            "node": "Split Script Scenes",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Parse Script Output": {
+    "Parse Script Output1": {
       "ai_outputParser": [
         [
           {
-            "node": "Generate Shorts Script",
+            "node": "Generate Script & Visual Prompts",
             "type": "ai_outputParser",
             "index": 0
           }
         ]
       ]
     },
-    "Split Script Scenes": {
+    "Split Script Scenes1": {
       "main": [
         [
           {
-            "node": "Validate Scene Count",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Validate Scene Count": {
-      "main": [
-        [
-          {
-            "node": "Generate Image Prompt",
+            "node": "Submit Image Generation1",
             "type": "main",
             "index": 0
           },
           {
-            "node": "Merge images and captions",
+            "node": "Merge images and captions1",
             "type": "main",
             "index": 1
-          }
-        ],
-        [
-          {
-            "node": "Submit Audio Generation",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Generate Image Prompt": {
-      "main": [
-        [
-          {
-            "node": "Submit Image Generation",
-            "type": "main",
-            "index": 0
           },
           {
-            "node": "Edit Fields1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Submit Image Generation": {
-      "main": [
-        [
-          {
-            "node": "Check Image Generation",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check Image Generation": {
-      "main": [
-        [
-          {
-            "node": "Validate Image Status",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Validate Image Status": {
-      "main": [
-        [
-          {
-            "node": "Stop — Media Generation Failed",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "extract image urls",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Submit Audio Generation": {
-      "main": [
-        [
-          {
-            "node": "Check Audio Status",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check Audio Status": {
-      "main": [
-        [
-          {
-            "node": "Validate Audio Status",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Validate Audio Status": {
-      "main": [
-        [
-          {
-            "node": "Fetch Generated Audio",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "extract image urls": {
-      "main": [
-        [
-          {
-            "node": "Merge1",
+            "node": "Merge",
             "type": "main",
             "index": 1
           }
         ]
       ]
     },
-    "Merge images and captions": {
+    "Validate Scene Count1": {
+      "main": [
+        [
+          {
+            "node": "Split Script Scenes1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Submit Audio Generation1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop — Media Generation Failed1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Submit Image Generation1": {
+      "main": [
+        [
+          {
+            "node": "Check Image Generation1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Image Generation1": {
+      "main": [
+        [
+          {
+            "node": "Validate Image Status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Image Status1": {
+      "main": [
+        [
+          {
+            "node": "Stop — Media Generation Failed1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "extract image urls1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Submit Audio Generation1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Status1": {
+      "main": [
+        [
+          {
+            "node": "Validate Audio Status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Audio Status1": {
+      "main": [
+        [
+          {
+            "node": "Fetch Generated Audio1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge images and captions1": {
+      "main": [
+        [
+          {
+            "node": "Submit Video Generation1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extract image urls1": {
+      "main": [
+        [
+          {
+            "node": "Merge images and captions1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Submit Video Generation1": {
+      "main": [
+        [
+          {
+            "node": "Check Video Status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Video Status1": {
+      "main": [
+        [
+          {
+            "node": "Validate Video Status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Video Status1": {
+      "main": [
+        [
+          {
+            "node": "Fetch Generated Video1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Fetch Pending Video1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Generated Video1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
       "main": [
         [
           {
@@ -802,34 +1252,7 @@
         ]
       ]
     },
-    "Fetch Generated Audio": {
-      "main": [
-        []
-      ]
-    },
     "Merge": {
-      "main": [
-        [
-          {
-            "node": "Submit Video Generation",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge1": {
-      "main": [
-        [
-          {
-            "node": "Merge images and captions",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields1": {
       "main": [
         [
           {
@@ -840,42 +1263,148 @@
         ]
       ]
     },
-    "Submit Video Generation": {
+    "Fetch Generated Audio1": {
       "main": [
         [
           {
-            "node": "Check Video Status",
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Check Video Status": {
+    "Aggregate": {
       "main": [
         [
           {
-            "node": "Validate Video Status",
+            "node": "Code in JavaScript",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Validate Video Status": {
+    "Code in JavaScript": {
       "main": [
         [
           {
-            "node": "Fetch Generated Video",
+            "node": "Create Creatomate Template",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Fetch Generated Video": {
+    "Create Creatomate Template": {
       "main": [
-        []
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Upload a video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
