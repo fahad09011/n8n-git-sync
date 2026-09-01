@@ -1,0 +1,508 @@
+{
+  "createdAt": "2026-09-01T16:28:58.434Z",
+  "id": "jSB5VolkrWzzTMnE",
+  "name": "Section 2 - Order Webhook Processor",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "course/n8n102/new-order",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        144
+      ],
+      "id": "c039bbf5-caf3-423c-a3db-9d5f232c0f0f",
+      "name": "WebhookNewOrder",
+      "webhookId": "b6fce82c-badc-4d60-8921-c745c8dcf81a",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "hibnReVZE86UULWY",
+          "name": "n8n Academy API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "71bab7cf-05be-49fa-b555-bdf40f4e67ec",
+              "leftValue": "={{ $json.body.order_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "bf6baa0b-f2e3-4826-922e-462d6a327e29",
+              "leftValue": "={{ $json.body.customer_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "3d07beba-e55f-4b19-8778-37839bcdf220",
+              "leftValue": "={{ $json.body.total }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        144
+      ],
+      "id": "fdb074b4-6c0a-43e3-8e09-1c929b7ead5b",
+      "name": "ValidateRequiredFields"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"accepted\",\n  \"order_id\": \"{{ $('ExecuteProcessOrder').item.json.order_id }}\",\n  \"message\": \"Order processed successfully\",\n  \"stored\": {{ $('ExecuteProcessOrder').item.json.stored }},\n  \"stored_order\": {{ $('ExecuteProcessOrder').item.json.stored_order }},\n  \"processed\": true,\n  \"processing_result\": \"{{ $('ExecuteProcessOrder').item.json.processing_result }}\"\n}\n",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        672,
+        48
+      ],
+      "id": "0ddc5f80-ea63-466c-b6d5-40f04db57766",
+      "name": "RespondSuccess"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"error\",\n  \"message\": \"Missing required fields: order_id, customer_id, and total are required\"\n}",
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        448,
+        240
+      ],
+      "id": "c2c90d42-dd5d-433c-bb26-4f585b7f1ff6",
+      "name": "RespondValidationError"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Er5gywIsPQmNrZZq",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Er5gywIsPQmNrZZq",
+          "cachedResultName": "Section 2 - Process Order (Sub-workflow)"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "order_id": "={{ $('WebhookNewOrder').item.json.body.order_id }}",
+            "customer_id": "={{ $('WebhookNewOrder').item.json.body.customer_id }}",
+            "total": "={{ $('WebhookNewOrder').item.json.body.total }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "order_id",
+              "displayName": "order_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "customer_id",
+              "displayName": "customer_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "total",
+              "displayName": "total",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        448,
+        80
+      ],
+      "id": "28a34431-21c8-42f3-98a4-82be3ca58376",
+      "name": "ExecuteProcessOrder"
+    },
+    {
+      "parameters": {
+        "content": "# Order Webhook Processor\n\nOwned By: Your Name\nLast Updated: Date\n\nReceives incoming orders via webhook, validates required fields,\nand passes to sub-workflow for processing.\n\n## Endpoints\n- POST /course/n8n102/new-order\n\n## Authentication\n- Requires X-API-Key header\n\n## Validation\n- order_id (required)\n- customer_id (required)\n- total (required)\n\nPart of: n8n Foundations Program, N8N102 Course, Section 2",
+        "height": 560,
+        "width": 512,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -576,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "9ca7b4f8-12e6-4c89-803f-def884bbdb5e",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {
+    "WebhookNewOrder": {
+      "main": [
+        [
+          {
+            "node": "ValidateRequiredFields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ValidateRequiredFields": {
+      "main": [
+        [
+          {
+            "node": "ExecuteProcessOrder",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "RespondValidationError",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ExecuteProcessOrder": {
+      "main": [
+        [
+          {
+            "node": "RespondSuccess",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "nodeGroups": [],
+  "activeVersionId": "8bea16a1-95a3-4ee8-a7e0-b43241ba9bbf",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-09-01T16:28:58.438Z",
+      "createdAt": "2026-09-01T16:28:58.438Z",
+      "role": "workflow:owner",
+      "workflowId": "jSB5VolkrWzzTMnE",
+      "projectId": "Lb300ztv9feaAJz6"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-09-01T18:04:57.000Z",
+    "createdAt": "2026-09-01T18:04:45.303Z",
+    "versionId": "8bea16a1-95a3-4ee8-a7e0-b43241ba9bbf",
+    "workflowId": "jSB5VolkrWzzTMnE",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "course/n8n102/new-order",
+          "authentication": "headerAuth",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          144
+        ],
+        "id": "c039bbf5-caf3-423c-a3db-9d5f232c0f0f",
+        "name": "WebhookNewOrder",
+        "webhookId": "b6fce82c-badc-4d60-8921-c745c8dcf81a",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "hibnReVZE86UULWY",
+            "name": "n8n Academy API Key"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "71bab7cf-05be-49fa-b555-bdf40f4e67ec",
+                "leftValue": "={{ $json.body.order_id }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "bf6baa0b-f2e3-4826-922e-462d6a327e29",
+                "leftValue": "={{ $json.body.customer_id }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "3d07beba-e55f-4b19-8778-37839bcdf220",
+                "leftValue": "={{ $json.body.total }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "number",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          224,
+          144
+        ],
+        "id": "fdb074b4-6c0a-43e3-8e09-1c929b7ead5b",
+        "name": "ValidateRequiredFields"
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={\n  \"status\": \"accepted\",\n  \"order_id\": \"{{ $('ExecuteProcessOrder').item.json.order_id }}\",\n  \"message\": \"Order processed successfully\",\n  \"stored\": {{ $('ExecuteProcessOrder').item.json.stored }},\n  \"stored_order\": {{ $('ExecuteProcessOrder').item.json.stored_order }},\n  \"processed\": true,\n  \"processing_result\": \"{{ $('ExecuteProcessOrder').item.json.processing_result }}\"\n}\n",
+          "options": {
+            "responseCode": 200
+          }
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          672,
+          48
+        ],
+        "id": "0ddc5f80-ea63-466c-b6d5-40f04db57766",
+        "name": "RespondSuccess"
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={\n  \"status\": \"error\",\n  \"message\": \"Missing required fields: order_id, customer_id, and total are required\"\n}",
+          "options": {
+            "responseCode": 400
+          }
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          448,
+          240
+        ],
+        "id": "c2c90d42-dd5d-433c-bb26-4f585b7f1ff6",
+        "name": "RespondValidationError"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "Er5gywIsPQmNrZZq",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/Er5gywIsPQmNrZZq",
+            "cachedResultName": "Section 2 - Process Order (Sub-workflow)"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "order_id": "={{ $('WebhookNewOrder').item.json.body.order_id }}",
+              "customer_id": "={{ $('WebhookNewOrder').item.json.body.customer_id }}",
+              "total": "={{ $('WebhookNewOrder').item.json.body.total }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "order_id",
+                "displayName": "order_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "customer_id",
+                "displayName": "customer_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "total",
+                "displayName": "total",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          448,
+          80
+        ],
+        "id": "28a34431-21c8-42f3-98a4-82be3ca58376",
+        "name": "ExecuteProcessOrder"
+      },
+      {
+        "parameters": {
+          "content": "# Order Webhook Processor\n\nOwned By: Your Name\nLast Updated: Date\n\nReceives incoming orders via webhook, validates required fields,\nand passes to sub-workflow for processing.\n\n## Endpoints\n- POST /course/n8n102/new-order\n\n## Authentication\n- Requires X-API-Key header\n\n## Validation\n- order_id (required)\n- customer_id (required)\n- total (required)\n\nPart of: n8n Foundations Program, N8N102 Course, Section 2",
+          "height": 560,
+          "width": 512,
+          "color": 4
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -576,
+          -112
+        ],
+        "typeVersion": 1,
+        "id": "9ca7b4f8-12e6-4c89-803f-def884bbdb5e",
+        "name": "Sticky Note"
+      }
+    ],
+    "connections": {
+      "WebhookNewOrder": {
+        "main": [
+          [
+            {
+              "node": "ValidateRequiredFields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "ValidateRequiredFields": {
+        "main": [
+          [
+            {
+              "node": "ExecuteProcessOrder",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "RespondValidationError",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "ExecuteProcessOrder": {
+        "main": [
+          [
+            {
+              "node": "RespondSuccess",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodeGroups": [],
+    "authors": "Muhammad fahad.webdev119@gmail.com",
+    "name": "Version 8bea16a1",
+    "description": "",
+    "autosaved": true
+  },
+  "tags": [
+    {
+      "updatedAt": "2026-08-31T16:06:29.989Z",
+      "createdAt": "2026-08-31T16:06:29.989Z",
+      "id": "2cXftqjDumrUIHOZ",
+      "name": "n8n102"
+    }
+  ]
+}
