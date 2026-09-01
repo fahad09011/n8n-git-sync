@@ -1,0 +1,110 @@
+{
+  "createdAt": "2026-09-01T18:01:01.881Z",
+  "id": "16NwiZWGeTXOt61m",
+  "name": "Section 2 - Order Report",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1adc6d69-3ec9-41cb-8415-6439a2351e43",
+      "name": "TriggerManual"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "gJvGGrT7YLE45kgh",
+          "mode": "list",
+          "cachedResultName": "n8n102_course_orders",
+          "cachedResultUrl": "/projects/Lb300ztv9feaAJz6/datatables/gJvGGrT7YLE45kgh"
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c7d4aaea-9d25-46ab-8e95-6b9ccfbef3ac",
+      "name": "GetAllOrders"
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "dc227734-4e61-4302-bc56-260239a8130b",
+      "name": "Summarize"
+    }
+  ],
+  "connections": {
+    "TriggerManual": {
+      "main": [
+        [
+          {
+            "node": "GetAllOrders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetAllOrders": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "nodeGroups": [],
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-09-01T18:01:01.884Z",
+      "createdAt": "2026-09-01T18:01:01.884Z",
+      "role": "workflow:owner",
+      "workflowId": "16NwiZWGeTXOt61m",
+      "projectId": "Lb300ztv9feaAJz6"
+    }
+  ],
+  "activeVersion": null,
+  "tags": [
+    {
+      "updatedAt": "2026-08-31T16:06:29.989Z",
+      "createdAt": "2026-08-31T16:06:29.989Z",
+      "id": "2cXftqjDumrUIHOZ",
+      "name": "n8n102"
+    }
+  ]
+}
