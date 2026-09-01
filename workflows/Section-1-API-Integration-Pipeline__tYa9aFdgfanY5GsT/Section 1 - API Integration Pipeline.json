@@ -521,35 +521,6 @@
       "typeVersion": 1,
       "id": "ada604b4-e1fd-4199-af6a-4e9b9b4036ac",
       "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "path": "33a513eb-9935-4abd-92aa-d5a9ae65de67",
-        "responseMode": "responseNode",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
-      "position": [
-        96,
-        544
-      ],
-      "id": "1b5326e7-76b7-4abd-a4b4-f2c8c132e0bc",
-      "name": "Webhook",
-      "webhookId": "33a513eb-9935-4abd-92aa-d5a9ae65de67"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.5,
-      "position": [
-        304,
-        544
-      ],
-      "id": "b38e4537-39a7-4605-a4a6-e9a65d2ca1e1",
-      "name": "Respond to Webhook"
     }
   ],
   "connections": {
@@ -695,17 +666,6 @@
             "node": "MergeOrdersCustomers",
             "type": "main",
             "index": 1
-          }
-        ]
-      ]
-    },
-    "Webhook": {
-      "main": [
-        [
-          {
-            "node": "Respond to Webhook",
-            "type": "main",
-            "index": 0
           }
         ]
       ]
