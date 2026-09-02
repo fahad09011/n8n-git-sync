@@ -1,0 +1,201 @@
+{
+  "createdAt": "2026-09-01T23:36:14.853Z",
+  "id": "dR6HnpVuJBFnrSc0",
+  "name": "Stock Sentiment Analysis",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "efcabf07-2422-4889-96ab-30c2072eaff9",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "position": [
+        464,
+        32
+      ],
+      "webhookId": "f5961754-ee99-49c0-819d-a50ce2daa5a6",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "use this tool to find out the current date and time.",
+        "options": {}
+      },
+      "id": "4f57d08e-64eb-4573-ad23-216bd71649a7",
+      "name": "get_current_date",
+      "type": "n8n-nodes-base.dateTimeTool",
+      "position": [
+        1072,
+        288
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "options": {
+          "language": "en"
+        }
+      },
+      "id": "36189f4f-e7a0-49ec-b512-6b3c72ad64e1",
+      "name": "web_search",
+      "type": "@n8n/n8n-nodes-langchain.toolSearXng",
+      "position": [
+        896,
+        288
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a financial research assistant. Your task is to find and summarize the latest news for a given company name or stock ticker.\n\nInstructions:\n\nFirst, use the get_current_date tool to determine the date range for the last 7 days.\nPerform two separate web searches using the web_search tool: one with the company's full name and one with its stock ticker. Use the date range in your search queries to filter for news from the last week only.\n\nAfter reviewing the search results, provide a summary of each news article. The summary should cover the key events, announcements, and market sentiment discussed in the articles.\n"
+        }
+      },
+      "id": "7fda8268-843c-4aa5-ae67-1a3e71f9b492",
+      "name": "Research Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        720,
+        32
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=User asked about: {{ $('When chat message received').item.json.chatInput }}\n\nLatest news:\n {{ $json.output }}\n",
+        "options": {
+          "systemMessage": "You are a Financial Sentiment Analyst. You will be provided with a news summary. Your task is to analyze this summary and categorize its sentiment from an investor's perspective.\n\nInstructions:\n1. Read all the news.\n2. Determine the overall sentiment (Positive, Negative, or Neutral) based on the potential impact on the company's financial performance, stock price, or market reputation.\n3. Write a justification that references specific points from the news summaries.\n\nOutput Format:\nSentiment: {sentiment_category}\nJustification: {Your detailed justification}"
+        }
+      },
+      "id": "9d09e2cc-5abc-4098-bb87-81b4ad7b5418",
+      "name": "Sentiment Analysis Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        1120,
+        32
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "98c770b3-eb0c-41df-bfdd-6e133b70f140",
+      "name": "Gemini 2.5 Flash",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "position": [
+        704,
+        288
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "CXZZMJrr3TGCOeOb",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## **Set up steps**\n\n1.  **Select the Language Model (LLM):** This workflow is pre-configured with Google Gemini. You can select a different model for the agents as needed.\n2.  **Configure LLM Credentials:** Ensure that valid credentials for your chosen LLM are correctly set up within your n8n instance.\n3.  **Set Up the SearXNG Connection:** Configure the node to connect to your self-hosted SearXNG instance. This enables the agent's web search capabilities.\n4.  **Define the Research Agent's Task:** Customize the system prompt for the \"Research Agent\" to define its role, instructions, and how it should conduct its research.\n5.  **Define the Sentiment Analysis Agent's Task:** Adjust the system prompt for the \"Sentiment Analysis Agent\" to specify how it should analyze the information provided by the Research Agent.\n6.  **Test the Workflow:** Use the built-in chat interface in the n8n canvas to send a message and verify that the agents are functioning correctly.",
+        "height": 520,
+        "width": 380
+      },
+      "id": "1f33fce9-3e00-4722-a4df-571cb5098aaf",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -48,
+        -96
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "web_search": {
+      "ai_tool": [
+        [
+          {
+            "node": "Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Research Agent": {
+      "main": [
+        [
+          {
+            "node": "Sentiment Analysis Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini 2.5 Flash": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sentiment Analysis Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Research Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_current_date": {
+      "ai_tool": [
+        [
+          {
+            "node": "Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Research Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "nodeGroups": [],
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-09-01T23:36:14.857Z",
+      "createdAt": "2026-09-01T23:36:14.857Z",
+      "role": "workflow:owner",
+      "workflowId": "dR6HnpVuJBFnrSc0",
+      "projectId": "Lb300ztv9feaAJz6"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
