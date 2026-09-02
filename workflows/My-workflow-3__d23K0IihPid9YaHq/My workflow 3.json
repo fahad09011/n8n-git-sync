@@ -1,0 +1,88 @@
+{
+  "createdAt": "2026-09-01T23:49:39.793Z",
+  "id": "d23K0IihPid9YaHq",
+  "name": "My workflow 3",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d38179d8-5cbd-43a4-8198-997452879f28",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "e4ccde97-a6b5-482e-9b74-b34fc71ef817",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.4,
+      "position": [
+        224,
+        208
+      ],
+      "id": "07d91af7-ce61-411b-be21-6a62602dc231",
+      "name": "Postgres Chat Memory"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "nodeGroups": [],
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-09-01T23:49:39.796Z",
+      "createdAt": "2026-09-01T23:49:39.796Z",
+      "role": "workflow:owner",
+      "workflowId": "d23K0IihPid9YaHq",
+      "projectId": "Lb300ztv9feaAJz6"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
