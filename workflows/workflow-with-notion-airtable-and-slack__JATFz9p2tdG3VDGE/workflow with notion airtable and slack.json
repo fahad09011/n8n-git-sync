@@ -1,9 +1,11 @@
 {
-  "createdAt": "2026-06-17T00:42:02.311Z",
   "id": "JATFz9p2tdG3VDGE",
   "name": "workflow with notion airtable and slack",
   "active": true,
+  "activeVersionId": "0bfe7daa-1e4c-44cc-bdbe-fc5e1a1344b8",
+  "createdAt": "2026-06-17T00:42:02.311Z",
   "isArchived": false,
+  "triggerCount": 1,
   "nodes": [
     {
       "parameters": {
@@ -367,6 +369,7 @@
       ]
     }
   },
+  "nodeGroups": [],
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
@@ -376,21 +379,24 @@
     "callerPolicy": "workflowsFromSameOwner"
   },
   "staticData": null,
-  "nodeGroups": [],
-  "activeVersionId": "0bfe7daa-1e4c-44cc-bdbe-fc5e1a1344b8",
-  "triggerCount": 1,
+  "tags": [
+    {
+      "id": "YF7kRaLLoZERdRud",
+      "name": "learning",
+      "createdAt": "2026-06-16T14:55:31.622Z",
+      "updatedAt": "2026-06-16T14:55:31.622Z"
+    }
+  ],
   "shared": [
     {
-      "updatedAt": "2026-06-17T00:42:02.341Z",
-      "createdAt": "2026-06-17T00:42:02.341Z",
       "role": "workflow:owner",
       "workflowId": "JATFz9p2tdG3VDGE",
-      "projectId": "Lb300ztv9feaAJz6"
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-06-17T00:42:02.341Z",
+      "updatedAt": "2026-06-17T00:42:02.341Z"
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-07-16T11:34:35.000Z",
-    "createdAt": "2026-07-16T11:34:31.132Z",
     "versionId": "0bfe7daa-1e4c-44cc-bdbe-fc5e1a1344b8",
     "workflowId": "JATFz9p2tdG3VDGE",
     "nodes": [
@@ -760,14 +766,8 @@
     "authors": "Muhammad fahad.webdev119@gmail.com",
     "name": "Version 0bfe7daa",
     "description": "",
-    "autosaved": true
-  },
-  "tags": [
-    {
-      "updatedAt": "2026-06-16T14:55:31.622Z",
-      "createdAt": "2026-06-16T14:55:31.622Z",
-      "id": "YF7kRaLLoZERdRud",
-      "name": "learning"
-    }
-  ]
+    "autosaved": true,
+    "createdAt": "2026-07-16T11:34:31.132Z",
+    "updatedAt": "2026-07-16T11:34:35.000Z"
+  }
 }
