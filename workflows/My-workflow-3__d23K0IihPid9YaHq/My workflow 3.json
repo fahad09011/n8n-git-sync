@@ -1,9 +1,11 @@
 {
-  "createdAt": "2026-09-01T23:49:39.793Z",
   "id": "d23K0IihPid9YaHq",
   "name": "My workflow 3",
   "active": false,
+  "activeVersionId": null,
+  "createdAt": "2026-09-01T23:49:39.793Z",
   "isArchived": false,
+  "triggerCount": 0,
   "nodes": [
     {
       "parameters": {},
@@ -65,24 +67,22 @@
       ]
     }
   },
+  "nodeGroups": [],
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
     "availableInMCP": false
   },
   "staticData": null,
-  "nodeGroups": [],
-  "activeVersionId": null,
-  "triggerCount": 0,
+  "tags": [],
   "shared": [
     {
-      "updatedAt": "2026-09-01T23:49:39.796Z",
-      "createdAt": "2026-09-01T23:49:39.796Z",
       "role": "workflow:owner",
       "workflowId": "d23K0IihPid9YaHq",
-      "projectId": "Lb300ztv9feaAJz6"
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-09-01T23:49:39.796Z",
+      "updatedAt": "2026-09-01T23:49:39.796Z"
     }
   ],
-  "activeVersion": null,
-  "tags": []
+  "activeVersion": null
 }
