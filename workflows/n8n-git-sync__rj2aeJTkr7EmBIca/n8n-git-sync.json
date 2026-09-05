@@ -1,9 +1,11 @@
 {
-  "createdAt": "2026-07-13T20:06:26.670Z",
   "id": "rj2aeJTkr7EmBIca",
   "name": "n8n-git-sync",
   "active": true,
+  "activeVersionId": "a0ee3f40-4fda-45c0-900c-fd888354a0c3",
+  "createdAt": "2026-07-13T20:06:26.670Z",
   "isArchived": false,
+  "triggerCount": 1,
   "nodes": [
     {
       "parameters": {
@@ -1115,6 +1117,7 @@
       ]
     }
   },
+  "nodeGroups": [],
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
@@ -1133,21 +1136,24 @@
       ]
     }
   },
-  "nodeGroups": [],
-  "activeVersionId": "a0ee3f40-4fda-45c0-900c-fd888354a0c3",
-  "triggerCount": 1,
+  "tags": [
+    {
+      "id": "YF7kRaLLoZERdRud",
+      "name": "learning",
+      "createdAt": "2026-06-16T14:55:31.622Z",
+      "updatedAt": "2026-06-16T14:55:31.622Z"
+    }
+  ],
   "shared": [
     {
-      "updatedAt": "2026-07-13T20:06:26.676Z",
-      "createdAt": "2026-07-13T20:06:26.676Z",
       "role": "workflow:owner",
       "workflowId": "rj2aeJTkr7EmBIca",
-      "projectId": "Lb300ztv9feaAJz6"
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-07-13T20:06:26.676Z",
+      "updatedAt": "2026-07-13T20:06:26.676Z"
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-07-24T19:17:37.000Z",
-    "createdAt": "2026-07-23T12:48:46.613Z",
     "versionId": "a0ee3f40-4fda-45c0-900c-fd888354a0c3",
     "workflowId": "rj2aeJTkr7EmBIca",
     "nodes": [
@@ -2265,14 +2271,8 @@
     "authors": "Muhammad fahad.webdev119@gmail.com",
     "name": "Version a0ee3f40",
     "description": "",
-    "autosaved": true
-  },
-  "tags": [
-    {
-      "updatedAt": "2026-06-16T14:55:31.622Z",
-      "createdAt": "2026-06-16T14:55:31.622Z",
-      "id": "YF7kRaLLoZERdRud",
-      "name": "learning"
-    }
-  ]
+    "autosaved": true,
+    "createdAt": "2026-07-23T12:48:46.613Z",
+    "updatedAt": "2026-07-24T19:17:37.000Z"
+  }
 }
