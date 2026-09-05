@@ -1,9 +1,11 @@
 {
-  "createdAt": "2026-09-01T16:28:58.434Z",
   "id": "jSB5VolkrWzzTMnE",
   "name": "Section 2 - Order Webhook Processor",
   "active": true,
+  "activeVersionId": "8bea16a1-95a3-4ee8-a7e0-b43241ba9bbf",
+  "createdAt": "2026-09-01T16:28:58.434Z",
   "isArchived": false,
+  "triggerCount": 1,
   "nodes": [
     {
       "parameters": {
@@ -236,27 +238,31 @@
       ]
     }
   },
+  "nodeGroups": [],
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
     "availableInMCP": false
   },
   "staticData": null,
-  "nodeGroups": [],
-  "activeVersionId": "8bea16a1-95a3-4ee8-a7e0-b43241ba9bbf",
-  "triggerCount": 1,
+  "tags": [
+    {
+      "id": "2cXftqjDumrUIHOZ",
+      "name": "n8n102",
+      "createdAt": "2026-08-31T16:06:29.989Z",
+      "updatedAt": "2026-08-31T16:06:29.989Z"
+    }
+  ],
   "shared": [
     {
-      "updatedAt": "2026-09-01T16:28:58.438Z",
-      "createdAt": "2026-09-01T16:28:58.438Z",
       "role": "workflow:owner",
       "workflowId": "jSB5VolkrWzzTMnE",
-      "projectId": "Lb300ztv9feaAJz6"
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-09-01T16:28:58.438Z",
+      "updatedAt": "2026-09-01T16:28:58.438Z"
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-09-01T18:04:57.000Z",
-    "createdAt": "2026-09-01T18:04:45.303Z",
     "versionId": "8bea16a1-95a3-4ee8-a7e0-b43241ba9bbf",
     "workflowId": "jSB5VolkrWzzTMnE",
     "nodes": [
@@ -495,14 +501,8 @@
     "authors": "Muhammad fahad.webdev119@gmail.com",
     "name": "Version 8bea16a1",
     "description": "",
-    "autosaved": true
-  },
-  "tags": [
-    {
-      "updatedAt": "2026-08-31T16:06:29.989Z",
-      "createdAt": "2026-08-31T16:06:29.989Z",
-      "id": "2cXftqjDumrUIHOZ",
-      "name": "n8n102"
-    }
-  ]
+    "autosaved": true,
+    "createdAt": "2026-09-01T18:04:45.303Z",
+    "updatedAt": "2026-09-01T18:04:57.000Z"
+  }
 }
