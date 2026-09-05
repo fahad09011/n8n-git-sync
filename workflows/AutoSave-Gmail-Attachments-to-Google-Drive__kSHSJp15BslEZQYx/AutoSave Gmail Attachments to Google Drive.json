@@ -1,9 +1,11 @@
 {
-  "createdAt": "2026-06-28T19:57:49.218Z",
   "id": "kSHSJp15BslEZQYx",
   "name": "AutoSave Gmail Attachments to Google Drive",
   "active": false,
+  "activeVersionId": null,
+  "createdAt": "2026-06-28T19:57:49.218Z",
   "isArchived": false,
+  "triggerCount": 1,
   "nodes": [
     {
       "parameters": {
@@ -269,6 +271,7 @@
       ]
     }
   },
+  "nodeGroups": [],
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
@@ -288,25 +291,22 @@
       }
     }
   },
-  "nodeGroups": [],
-  "activeVersionId": null,
-  "triggerCount": 1,
-  "shared": [
-    {
-      "updatedAt": "2026-06-28T19:57:49.228Z",
-      "createdAt": "2026-06-28T19:57:49.228Z",
-      "role": "workflow:owner",
-      "workflowId": "kSHSJp15BslEZQYx",
-      "projectId": "Lb300ztv9feaAJz6"
-    }
-  ],
-  "activeVersion": null,
   "tags": [
     {
-      "updatedAt": "2026-06-16T14:55:31.622Z",
-      "createdAt": "2026-06-16T14:55:31.622Z",
       "id": "YF7kRaLLoZERdRud",
-      "name": "learning"
+      "name": "learning",
+      "createdAt": "2026-06-16T14:55:31.622Z",
+      "updatedAt": "2026-06-16T14:55:31.622Z"
     }
-  ]
+  ],
+  "shared": [
+    {
+      "role": "workflow:owner",
+      "workflowId": "kSHSJp15BslEZQYx",
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-06-28T19:57:49.228Z",
+      "updatedAt": "2026-06-28T19:57:49.228Z"
+    }
+  ],
+  "activeVersion": null
 }
