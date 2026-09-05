@@ -1,9 +1,11 @@
 {
-  "createdAt": "2026-09-02T11:27:38.967Z",
   "id": "IIUT4vVxXLnLmdUb",
   "name": "Section 4 - Feedback Pipeline",
   "active": false,
+  "activeVersionId": null,
+  "createdAt": "2026-09-02T11:27:38.967Z",
   "isArchived": false,
+  "triggerCount": 0,
   "nodes": [
     {
       "parameters": {},
@@ -399,31 +401,29 @@
       ]
     }
   },
+  "nodeGroups": [],
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
     "availableInMCP": false
   },
   "staticData": null,
-  "nodeGroups": [],
-  "activeVersionId": null,
-  "triggerCount": 0,
-  "shared": [
-    {
-      "updatedAt": "2026-09-02T11:27:38.971Z",
-      "createdAt": "2026-09-02T11:27:38.971Z",
-      "role": "workflow:owner",
-      "workflowId": "IIUT4vVxXLnLmdUb",
-      "projectId": "Lb300ztv9feaAJz6"
-    }
-  ],
-  "activeVersion": null,
   "tags": [
     {
-      "updatedAt": "2026-09-02T11:27:47.862Z",
-      "createdAt": "2026-09-02T11:27:47.862Z",
       "id": "Ly6u77ch4HPNO0YU",
-      "name": "n8n103"
+      "name": "n8n103",
+      "createdAt": "2026-09-02T11:27:47.862Z",
+      "updatedAt": "2026-09-02T11:27:47.862Z"
     }
-  ]
+  ],
+  "shared": [
+    {
+      "role": "workflow:owner",
+      "workflowId": "IIUT4vVxXLnLmdUb",
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-09-02T11:27:38.971Z",
+      "updatedAt": "2026-09-02T11:27:38.971Z"
+    }
+  ],
+  "activeVersion": null
 }
