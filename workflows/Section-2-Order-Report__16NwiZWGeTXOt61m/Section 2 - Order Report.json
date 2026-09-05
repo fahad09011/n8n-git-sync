@@ -1,9 +1,11 @@
 {
-  "createdAt": "2026-09-01T18:01:01.881Z",
   "id": "16NwiZWGeTXOt61m",
   "name": "Section 2 - Order Report",
   "active": false,
+  "activeVersionId": null,
+  "createdAt": "2026-09-01T18:01:01.881Z",
   "isArchived": false,
+  "triggerCount": 0,
   "nodes": [
     {
       "parameters": {},
@@ -80,31 +82,29 @@
       ]
     }
   },
+  "nodeGroups": [],
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
     "availableInMCP": false
   },
   "staticData": null,
-  "nodeGroups": [],
-  "activeVersionId": null,
-  "triggerCount": 0,
-  "shared": [
-    {
-      "updatedAt": "2026-09-01T18:01:01.884Z",
-      "createdAt": "2026-09-01T18:01:01.884Z",
-      "role": "workflow:owner",
-      "workflowId": "16NwiZWGeTXOt61m",
-      "projectId": "Lb300ztv9feaAJz6"
-    }
-  ],
-  "activeVersion": null,
   "tags": [
     {
-      "updatedAt": "2026-08-31T16:06:29.989Z",
-      "createdAt": "2026-08-31T16:06:29.989Z",
       "id": "2cXftqjDumrUIHOZ",
-      "name": "n8n102"
+      "name": "n8n102",
+      "createdAt": "2026-08-31T16:06:29.989Z",
+      "updatedAt": "2026-08-31T16:06:29.989Z"
     }
-  ]
+  ],
+  "shared": [
+    {
+      "role": "workflow:owner",
+      "workflowId": "16NwiZWGeTXOt61m",
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-09-01T18:01:01.884Z",
+      "updatedAt": "2026-09-01T18:01:01.884Z"
+    }
+  ],
+  "activeVersion": null
 }
