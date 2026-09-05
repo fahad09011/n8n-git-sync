@@ -1,9 +1,11 @@
 {
-  "createdAt": "2026-06-16T14:55:34.615Z",
   "id": "5bwqa0TVQm2mtySd",
   "name": "Order Status Management & Notification System with essential nodes",
   "active": false,
+  "activeVersionId": null,
+  "createdAt": "2026-06-16T14:55:34.615Z",
   "isArchived": false,
+  "triggerCount": 0,
   "nodes": [
     {
       "parameters": {},
@@ -980,31 +982,29 @@
       ]
     }
   },
+  "nodeGroups": [],
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
     "availableInMCP": false
   },
   "staticData": null,
-  "nodeGroups": [],
-  "activeVersionId": null,
-  "triggerCount": 0,
-  "shared": [
-    {
-      "updatedAt": "2026-06-16T14:55:34.644Z",
-      "createdAt": "2026-06-16T14:55:34.644Z",
-      "role": "workflow:owner",
-      "workflowId": "5bwqa0TVQm2mtySd",
-      "projectId": "Lb300ztv9feaAJz6"
-    }
-  ],
-  "activeVersion": null,
   "tags": [
     {
-      "updatedAt": "2026-06-16T14:55:31.622Z",
-      "createdAt": "2026-06-16T14:55:31.622Z",
       "id": "YF7kRaLLoZERdRud",
-      "name": "learning"
+      "name": "learning",
+      "createdAt": "2026-06-16T14:55:31.622Z",
+      "updatedAt": "2026-06-16T14:55:31.622Z"
     }
-  ]
+  ],
+  "shared": [
+    {
+      "role": "workflow:owner",
+      "workflowId": "5bwqa0TVQm2mtySd",
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-06-16T14:55:34.644Z",
+      "updatedAt": "2026-06-16T14:55:34.644Z"
+    }
+  ],
+  "activeVersion": null
 }
