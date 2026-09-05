@@ -1,9 +1,11 @@
 {
-  "createdAt": "2026-07-21T22:36:47.735Z",
   "id": "rqk2Cn3baUfAZ5In",
   "name": "CandidateIQ - Candidate Evaluation Engine",
   "active": true,
+  "activeVersionId": "dafd337c-78af-4dea-9350-98eb13482394",
+  "createdAt": "2026-07-21T22:36:47.735Z",
   "isArchived": false,
+  "triggerCount": 1,
   "nodes": [
     {
       "parameters": {
@@ -1717,6 +1719,7 @@
       ]
     }
   },
+  "nodeGroups": [],
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
@@ -1726,21 +1729,24 @@
     "callerPolicy": "workflowsFromSameOwner"
   },
   "staticData": null,
-  "nodeGroups": [],
-  "activeVersionId": "dafd337c-78af-4dea-9350-98eb13482394",
-  "triggerCount": 1,
+  "tags": [
+    {
+      "id": "YF7kRaLLoZERdRud",
+      "name": "learning",
+      "createdAt": "2026-06-16T14:55:31.622Z",
+      "updatedAt": "2026-06-16T14:55:31.622Z"
+    }
+  ],
   "shared": [
     {
-      "updatedAt": "2026-07-21T22:36:47.750Z",
-      "createdAt": "2026-07-21T22:36:47.750Z",
       "role": "workflow:owner",
       "workflowId": "rqk2Cn3baUfAZ5In",
-      "projectId": "Lb300ztv9feaAJz6"
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-07-21T22:36:47.750Z",
+      "updatedAt": "2026-07-21T22:36:47.750Z"
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-08-24T20:51:59.000Z",
-    "createdAt": "2026-08-24T20:51:48.394Z",
     "versionId": "dafd337c-78af-4dea-9350-98eb13482394",
     "workflowId": "rqk2Cn3baUfAZ5In",
     "nodes": [
@@ -3460,14 +3466,8 @@
     "authors": "Muhammad fahad.webdev119@gmail.com",
     "name": "Version dafd337c",
     "description": "",
-    "autosaved": true
-  },
-  "tags": [
-    {
-      "updatedAt": "2026-06-16T14:55:31.622Z",
-      "createdAt": "2026-06-16T14:55:31.622Z",
-      "id": "YF7kRaLLoZERdRud",
-      "name": "learning"
-    }
-  ]
+    "autosaved": true,
+    "createdAt": "2026-08-24T20:51:48.394Z",
+    "updatedAt": "2026-08-24T20:51:59.000Z"
+  }
 }
