@@ -1,0 +1,204 @@
+{
+  "id": "UIHGxEgoaqITzpU3",
+  "name": "Section 2 - Debugging Practice",
+  "active": false,
+  "activeVersionId": null,
+  "createdAt": "2026-09-05T23:15:07.400Z",
+  "isArchived": false,
+  "triggerCount": 0,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fefefcf0-9139-4438-b202-fa74ffd64c9c",
+      "name": "TriggerManual"
+    },
+    {
+      "parameters": {
+        "url": "https://learn.app.n8n.cloud/webhook/course/n8n103/unreliable-api",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Assessment-ID",
+              "value": "0a4fa0ffc940670b583b6966c228a793"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "35153a5a-6a88-453c-8630-afd4d3c7007f",
+      "name": "GetUnreliableData",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "hibnReVZE86UULWY",
+          "name": "n8n Academy API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://learn.app.n8n.cloud/webhook/webhook/course/n8n103/retry-result",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Assessment-ID",
+              "value": "0a4fa0ffc940670b583b6966c228a793"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "=confirmation_code",
+              "value": "={{ $json.confirmation_code }}"
+            },
+            {
+              "name": "order_id",
+              "value": "={{ $json.order.order_id }}"
+            },
+            {
+              "name": "customer_name",
+              "value": "={{ $json.order.customer_name }}"
+            },
+            {
+              "name": "retry_configured",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        448,
+        0
+      ],
+      "id": "cd800602-5b48-4a65-8387-22027fcd0e7c",
+      "name": "SendRetryResult",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "hibnReVZE86UULWY",
+          "name": "n8n Academy API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Section 2 - Debugging Practice\n\nOwned By: Muhammad Fahad\nLast Updated: 06/09/2026\n\nMain workflow for Section 2 exercises. Tests retry configuration\nagainst a flaky API endpoint.\n\n## Nodes\n- TriggerManual: Starts the workflow\n- GetUnreliableData: Calls 50% failure rate API (retry configured)\n- SendRetryResult: Submits successful retry data\n\n## Key Configurations\n- GetUnreliableData has Retry On Fail enabled (5 tries, 1000ms wait)\n\n## Dependencies\n- Requires: n8n Academy API Key credential\n\nPart of: n8n Foundations Program, N8N103 Course - Section 2",
+        "height": 656,
+        "width": 432
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -464,
+        -224
+      ],
+      "typeVersion": 1,
+      "id": "ffeb47e1-c918-4b6c-a436-fd8640715181",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "url": "https://https://n8n.fahadwebdev119.org/webhook/course/n8n103/failure-test",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        672,
+        0
+      ],
+      "id": "f58a756e-7a4b-414b-9231-0c9d70bff647",
+      "name": "TriggerFailureTest",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "hibnReVZE86UULWY",
+          "name": "n8n Academy API Key"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "TriggerManual": {
+      "main": [
+        [
+          {
+            "node": "GetUnreliableData",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetUnreliableData": {
+      "main": [
+        [
+          {
+            "node": "SendRetryResult",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SendRetryResult": {
+      "main": [
+        [
+          {
+            "node": "TriggerFailureTest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": [],
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "id": "Ly6u77ch4HPNO0YU",
+      "name": "n8n103",
+      "createdAt": "2026-09-02T11:27:47.862Z",
+      "updatedAt": "2026-09-02T11:27:47.862Z"
+    }
+  ],
+  "shared": [
+    {
+      "role": "workflow:owner",
+      "workflowId": "UIHGxEgoaqITzpU3",
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-09-05T23:15:07.408Z",
+      "updatedAt": "2026-09-05T23:15:07.408Z"
+    }
+  ],
+  "activeVersion": null
+}
