@@ -971,21 +971,6 @@
       ],
       "id": "2bf6d3ee-2067-4d18-92c5-f8a5ae5ffe83",
       "name": "Merge2"
-    },
-    {
-      "parameters": {
-        "resource": "video",
-        "operation": "upload",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.youTube",
-      "typeVersion": 1,
-      "position": [
-        2152.248422304732,
-        2016
-      ],
-      "id": "21c6ce70-6ce3-43f3-86e7-0ebdb1d8a672",
-      "name": "Upload a video"
     }
   ],
   "connections": {
@@ -1376,11 +1361,6 @@
         [
           {
             "node": "Append or update row in sheet",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Upload a video",
             "type": "main",
             "index": 0
           }
