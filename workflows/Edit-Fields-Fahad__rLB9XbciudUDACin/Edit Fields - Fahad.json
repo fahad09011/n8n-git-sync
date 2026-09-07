@@ -37,13 +37,57 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        224,
+        448,
         0
       ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1D0VNQCvkPwv3DZQTZCSlmyyHOmpJYMyzVqEuc064NrM",
+          "mode": "list",
+          "cachedResultName": "n8n_practice_sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1D0VNQCvkPwv3DZQTZCSlmyyHOmpJYMyzVqEuc064NrM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1664312685,
+          "mode": "list",
+          "cachedResultName": "Sales Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1D0VNQCvkPwv3DZQTZCSlmyyHOmpJYMyzVqEuc064NrM/edit#gid=1664312685"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        0
+      ],
+      "id": "83afc9e9-062c-4cf4-bf19-1904b6a84e4a",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0WHa8kFysFFXtgzo",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "connections": {
     "Start": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
       "main": [
         [
           {
