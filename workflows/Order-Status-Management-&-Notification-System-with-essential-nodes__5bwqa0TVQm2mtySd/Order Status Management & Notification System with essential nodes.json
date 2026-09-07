@@ -46,7 +46,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $json['Order Status'] }}",
+                    "leftValue": "={{ $json.Order_Status }}",
                     "rightValue": "=Processing",
                     "operator": {
                       "type": "string",
@@ -71,7 +71,7 @@
                 "conditions": [
                   {
                     "id": "524c950b-cfd0-4761-a97c-3e73f1143960",
-                    "leftValue": "={{ $json[\"Order Status\"] }}",
+                    "leftValue": "={{ $json.Order_Status }}",
                     "rightValue": "Cancelled",
                     "operator": {
                       "type": "string",
@@ -95,7 +95,7 @@
                 "conditions": [
                   {
                     "id": "c94cc2c4-125f-4fa7-9476-1510aa6ba3ca",
-                    "leftValue": "={{ $json[\"Order Status\"] }}",
+                    "leftValue": "={{ $json.Order_Status }}",
                     "rightValue": "Delivered",
                     "operator": {
                       "type": "string",
@@ -119,7 +119,7 @@
                 "conditions": [
                   {
                     "id": "77485a29-f2b9-43eb-be47-610f536b6530",
-                    "leftValue": "={{ $json[\"Order Status\"] }}",
+                    "leftValue": "={{ $json.Order_Status }}",
                     "rightValue": "Pending",
                     "operator": {
                       "type": "string",
@@ -143,7 +143,7 @@
                 "conditions": [
                   {
                     "id": "fa02656f-636e-4881-bd63-3e23a303107c",
-                    "leftValue": "={{ $json[\"Order Status\"] }}",
+                    "leftValue": "={{ $json.Order_Status }}",
                     "rightValue": "Shipped",
                     "operator": {
                       "type": "string",
@@ -509,7 +509,7 @@
     {
       "parameters": {
         "compare": "selectedFields",
-        "fieldsToCompare": "[\"Order ID\"]",
+        "fieldsToCompare": "Order_ID",
         "options": {}
       },
       "type": "n8n-nodes-base.removeDuplicates",
@@ -524,7 +524,7 @@
     {
       "parameters": {
         "compare": "selectedFields",
-        "fieldsToCompare": "[\"Order ID\"]",
+        "fieldsToCompare": "Order_ID",
         "options": {}
       },
       "type": "n8n-nodes-base.removeDuplicates",
@@ -539,7 +539,7 @@
     {
       "parameters": {
         "compare": "selectedFields",
-        "fieldsToCompare": "[\"Order ID\"]",
+        "fieldsToCompare": "Order_ID",
         "options": {}
       },
       "type": "n8n-nodes-base.removeDuplicates",
@@ -554,7 +554,7 @@
     {
       "parameters": {
         "compare": "selectedFields",
-        "fieldsToCompare": "[\"Order ID\"]",
+        "fieldsToCompare": "Order_ID",
         "options": {}
       },
       "type": "n8n-nodes-base.removeDuplicates",
