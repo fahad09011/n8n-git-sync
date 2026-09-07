@@ -121,7 +121,7 @@
     },
     {
       "parameters": {
-        "url": "https://https://n8n.fahadwebdev119.org/webhook/course/n8n103/failure-test",
+        "url": "https://n8n.fahadwebdev119.org/webhook/course/n8n103/failure-test",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "options": {}
