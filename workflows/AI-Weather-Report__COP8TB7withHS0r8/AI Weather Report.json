@@ -1,0 +1,198 @@
+{
+  "id": "COP8TB7withHS0r8",
+  "name": "AI Weather Report",
+  "active": false,
+  "activeVersionId": null,
+  "createdAt": "2026-09-13T20:02:09.598Z",
+  "isArchived": false,
+  "triggerCount": 0,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4f203543-dc01-4c2d-aa22-44d589e2768e",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openweathermap.org/geo/1.0/direct?q=dublin",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openWeatherMapApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "5ac79231-fc73-48f3-ba7e-8b657f592e8f",
+      "name": "HTTP Request",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "8rb9M9IzNbNn10Ig",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openweathermap.org/data/2.5/weather?lat={{ $json.lat }}&lon={{ $json.lon }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openWeatherMapApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        448,
+        0
+      ],
+      "id": "aac451b9-be49-42d9-add0-9bbc1830e088",
+      "name": "HTTP Request1",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "8rb9M9IzNbNn10Ig",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.weatherData }}",
+        "options": {
+          "systemMessage": "You are a helpful assistant"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        896,
+        0
+      ],
+      "id": "8047c0f0-bc6e-40e9-933f-80f54cf6a823",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        744,
+        232
+      ],
+      "id": "98956177-1a64-4ed9-a6a9-f50901079a12",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "CXZZMJrr3TGCOeOb",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "weatherData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        672,
+        3.1190452575683594
+      ],
+      "id": "54c4c6a5-ddfd-4cb5-8c0e-7b4ad8f27af8",
+      "name": "Aggregate"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": [],
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "id": "pEZEbSL0u7CYpbGZ",
+      "name": "agent-based",
+      "createdAt": "2026-09-13T22:32:20.821Z",
+      "updatedAt": "2026-09-13T22:32:20.821Z"
+    }
+  ],
+  "shared": [
+    {
+      "role": "workflow:owner",
+      "workflowId": "COP8TB7withHS0r8",
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-09-13T20:02:09.605Z",
+      "updatedAt": "2026-09-13T20:02:09.605Z"
+    }
+  ],
+  "activeVersion": null
+}
