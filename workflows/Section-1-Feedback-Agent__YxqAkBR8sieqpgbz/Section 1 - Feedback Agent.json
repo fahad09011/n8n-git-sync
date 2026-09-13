@@ -164,8 +164,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.4,
       "position": [
-        512,
-        160
+        784,
+        176
       ],
       "id": "c615ef60-05fc-4f9a-a1ea-a1f675980099",
       "name": "Simple Memory"
