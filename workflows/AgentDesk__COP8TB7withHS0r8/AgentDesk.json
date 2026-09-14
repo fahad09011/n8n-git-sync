@@ -1,0 +1,263 @@
+{
+  "id": "COP8TB7withHS0r8",
+  "name": "AgentDesk",
+  "active": false,
+  "activeVersionId": null,
+  "createdAt": "2026-09-13T20:02:09.598Z",
+  "isArchived": false,
+  "triggerCount": 0,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are AgentDesk, a helpful AI assistant.\n\nYour goal is to understand the user's request and provide a clear,\naccurate, and concise response.\n\nRules:\n- Do not invent information.\n- If you are uncertain, say so.\n- Ask for clarification only when necessary.\n- Keep responses concise and helpful."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        288,
+        0
+      ],
+      "id": "8047c0f0-bc6e-40e9-933f-80f54cf6a823",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        240
+      ],
+      "id": "98956177-1a64-4ed9-a6a9-f50901079a12",
+      "name": "gemini-3-flash",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "CXZZMJrr3TGCOeOb",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0dc2f89a-7446-45fb-a13c-e45008c87871",
+      "name": "ChatTrigger",
+      "webhookId": "dda6b2a5-3abb-4710-94fa-c3fb7c2846e0"
+    },
+    {
+      "parameters": {
+        "description": "=Retrieves order information from the order database using an order ID. Use this tool when a customer asks about an order status, delivery date, shipping status, tracking information, or order details.",
+        "workflowId": {
+          "__rl": true,
+          "value": "qtF3S7iAtsys0gbu",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qtF3S7iAtsys0gbu",
+          "cachedResultName": "AgentDesk - Get Order Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "order_id": "={{ $fromAI('order_id', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "order_id"
+          ],
+          "schema": [
+            {
+              "id": "order_id",
+              "displayName": "order_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        368,
+        240
+      ],
+      "id": "a3aa0128-c2dd-4742-914f-f4f2c6ab4382",
+      "name": "GetOrderTool"
+    },
+    {
+      "parameters": {
+        "description": "Creates a support ticket for customer issues that cannot be resolved by providing order information. Use this tool when a customer reports a damaged product, wrong item, missing item, or another issue requiring support.",
+        "workflowId": {
+          "__rl": true,
+          "value": "U9bL9qHrcHSupMgS",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/U9bL9qHrcHSupMgS",
+          "cachedResultName": "AgentDesk - Create Support Ticket"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ticket_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('ticket_id', ``, 'string') }}",
+            "customer_name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('customer_name', ``, 'string') }}",
+            "issue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('issue', ``, 'string') }}",
+            "priority": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('priority', ``, 'string') }}",
+            "status": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('status', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ticket_id",
+              "displayName": "ticket_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "customer_name",
+              "displayName": "customer_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "issue",
+              "displayName": "issue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "priority",
+              "displayName": "priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        496,
+        240
+      ],
+      "id": "92511166-c75d-46d4-af04-53339a280db3",
+      "name": "CreateTicketTool"
+    }
+  ],
+  "connections": {
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "gemini-3-flash": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ChatTrigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetOrderTool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CreateTicketTool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": [],
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "id": "pEZEbSL0u7CYpbGZ",
+      "name": "agent-based",
+      "createdAt": "2026-09-13T22:32:20.821Z",
+      "updatedAt": "2026-09-13T22:32:20.821Z"
+    }
+  ],
+  "shared": [
+    {
+      "role": "workflow:owner",
+      "workflowId": "COP8TB7withHS0r8",
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-09-13T20:02:09.605Z",
+      "updatedAt": "2026-09-13T20:02:09.605Z"
+    }
+  ],
+  "activeVersion": null
+}
