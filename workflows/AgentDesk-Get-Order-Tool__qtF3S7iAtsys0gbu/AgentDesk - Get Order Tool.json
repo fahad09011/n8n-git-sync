@@ -1,0 +1,346 @@
+{
+  "id": "qtF3S7iAtsys0gbu",
+  "name": "AgentDesk - Get Order Tool",
+  "active": true,
+  "activeVersionId": "1f17b3c8-ecf5-4f9e-96eb-b99875a5c41e",
+  "createdAt": "2026-09-14T12:02:23.174Z",
+  "isArchived": false,
+  "triggerCount": 0,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "order_id"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cc26d1c9-d4f0-4236-b31c-afc39b7ef61d",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "iImWpttEbKMg62jy",
+          "mode": "list",
+          "cachedResultName": "orders",
+          "cachedResultUrl": "/projects/Lb300ztv9feaAJz6/datatables/iImWpttEbKMg62jy"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "order_id",
+              "keyValue": "={{ $json.order_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "a4060c5b-a897-4288-835b-6ba80f4e3788",
+      "name": "Get row(s)",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3a65b64c-fb5e-40ac-8c5d-5e7ca159776d",
+              "name": "found",
+              "value": "=false",
+              "type": "string"
+            },
+            {
+              "id": "4f21410c-64e5-4f37-af37-4f732d47468e",
+              "name": "order_id",
+              "value": "={{ $('When Executed by Another Workflow').item.json.order_id }}",
+              "type": "string"
+            },
+            {
+              "id": "0ff43854-d145-44f5-8df8-5bb442c2fea8",
+              "name": "message",
+              "value": " Order not found",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        768,
+        16
+      ],
+      "id": "5429474e-f774-4548-960a-f3c5e9c86f45",
+      "name": "DoesOrderFound"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "549ea876-b553-47a5-88e6-c19ddf1b5a30",
+              "leftValue": "={{ $json.order_id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        448,
+        0
+      ],
+      "id": "311a9d07-e34c-4c96-8cb9-0525ac2bf9ae",
+      "name": "If"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "DoesOrderFound",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": [],
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "tags": [],
+  "shared": [
+    {
+      "role": "workflow:owner",
+      "workflowId": "qtF3S7iAtsys0gbu",
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-09-14T12:02:23.179Z",
+      "updatedAt": "2026-09-14T12:02:23.179Z"
+    }
+  ],
+  "activeVersion": {
+    "versionId": "1f17b3c8-ecf5-4f9e-96eb-b99875a5c41e",
+    "workflowId": "qtF3S7iAtsys0gbu",
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "order_id"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          0,
+          0
+        ],
+        "id": "cc26d1c9-d4f0-4236-b31c-afc39b7ef61d",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "dataTableId": {
+            "__rl": true,
+            "value": "iImWpttEbKMg62jy",
+            "mode": "list",
+            "cachedResultName": "orders",
+            "cachedResultUrl": "/projects/Lb300ztv9feaAJz6/datatables/iImWpttEbKMg62jy"
+          },
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "order_id",
+                "keyValue": "={{ $json.order_id }}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.dataTable",
+        "typeVersion": 1.1,
+        "position": [
+          224,
+          0
+        ],
+        "id": "a4060c5b-a897-4288-835b-6ba80f4e3788",
+        "name": "Get row(s)",
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "3a65b64c-fb5e-40ac-8c5d-5e7ca159776d",
+                "name": "found",
+                "value": "=false",
+                "type": "string"
+              },
+              {
+                "id": "4f21410c-64e5-4f37-af37-4f732d47468e",
+                "name": "order_id",
+                "value": "={{ $('When Executed by Another Workflow').item.json.order_id }}",
+                "type": "string"
+              },
+              {
+                "id": "0ff43854-d145-44f5-8df8-5bb442c2fea8",
+                "name": "message",
+                "value": " Order not found",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.5,
+        "position": [
+          768,
+          16
+        ],
+        "id": "5429474e-f774-4548-960a-f3c5e9c86f45",
+        "name": "DoesOrderFound"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "549ea876-b553-47a5-88e6-c19ddf1b5a30",
+                "leftValue": "={{ $json.order_id }}",
+                "rightValue": 0,
+                "operator": {
+                  "type": "number",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          448,
+          0
+        ],
+        "id": "311a9d07-e34c-4c96-8cb9-0525ac2bf9ae",
+        "name": "If"
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Get row(s)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get row(s)": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [],
+          [
+            {
+              "node": "DoesOrderFound",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodeGroups": [],
+    "authors": "Muhammad fahad.webdev119@gmail.com",
+    "name": "Version 1f17b3c8",
+    "description": "",
+    "autosaved": true,
+    "createdAt": "2026-09-14T12:34:54.866Z",
+    "updatedAt": "2026-09-14T12:36:03.000Z"
+  }
+}
