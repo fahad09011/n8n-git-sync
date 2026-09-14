@@ -1,0 +1,320 @@
+{
+  "id": "U9bL9qHrcHSupMgS",
+  "name": "AgentDesk - Create Support Ticket",
+  "active": true,
+  "activeVersionId": "5e23a262-fa89-466f-b5a9-3e06bfaf633d",
+  "createdAt": "2026-09-14T12:49:08.894Z",
+  "isArchived": false,
+  "triggerCount": 0,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "ticket_id"
+            },
+            {
+              "name": "customer_name"
+            },
+            {
+              "name": "issue"
+            },
+            {
+              "name": "priority"
+            },
+            {
+              "name": "status"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "959d8d1d-170b-4e09-8936-9bcb01c94afc",
+      "name": "Executed by AgentDesk"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "62w8R2roIzpdct2f",
+          "mode": "list",
+          "cachedResultName": "support_tickets",
+          "cachedResultUrl": "/projects/Lb300ztv9feaAJz6/datatables/62w8R2roIzpdct2f"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ticket_id": "={{ $json.ticket_id }}",
+            "customer_name": "={{ $json.customer_name }}",
+            "issue": "={{ $json.issue }}",
+            "priority": "={{ $json.priority }}",
+            "status": "={{ $json.status }}",
+            "created_at": "={{ $now.format('yyyy-MM-dd HH:mm:ss') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ticket_id",
+              "displayName": "ticket_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "customer_name",
+              "displayName": "customer_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "issue",
+              "displayName": "issue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "priority",
+              "displayName": "priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "9c08c21a-e637-4081-a2a7-f5aa0a56c348",
+      "name": "Insert row"
+    }
+  ],
+  "connections": {
+    "Executed by AgentDesk": {
+      "main": [
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": [],
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "tags": [],
+  "shared": [
+    {
+      "role": "workflow:owner",
+      "workflowId": "U9bL9qHrcHSupMgS",
+      "projectId": "Lb300ztv9feaAJz6",
+      "createdAt": "2026-09-14T12:49:08.898Z",
+      "updatedAt": "2026-09-14T12:49:08.898Z"
+    }
+  ],
+  "activeVersion": {
+    "versionId": "5e23a262-fa89-466f-b5a9-3e06bfaf633d",
+    "workflowId": "U9bL9qHrcHSupMgS",
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "ticket_id"
+              },
+              {
+                "name": "customer_name"
+              },
+              {
+                "name": "issue"
+              },
+              {
+                "name": "priority"
+              },
+              {
+                "name": "status"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          0,
+          0
+        ],
+        "id": "959d8d1d-170b-4e09-8936-9bcb01c94afc",
+        "name": "Executed by AgentDesk"
+      },
+      {
+        "parameters": {
+          "dataTableId": {
+            "__rl": true,
+            "value": "62w8R2roIzpdct2f",
+            "mode": "list",
+            "cachedResultName": "support_tickets",
+            "cachedResultUrl": "/projects/Lb300ztv9feaAJz6/datatables/62w8R2roIzpdct2f"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "ticket_id": "={{ $json.ticket_id }}",
+              "customer_name": "={{ $json.customer_name }}",
+              "issue": "={{ $json.issue }}",
+              "priority": "={{ $json.priority }}",
+              "status": "={{ $json.status }}",
+              "created_at": "={{ $now.format('yyyy-MM-dd HH:mm:ss') }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "ticket_id",
+                "displayName": "ticket_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "customer_name",
+                "displayName": "customer_name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "issue",
+                "displayName": "issue",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "priority",
+                "displayName": "priority",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "status",
+                "displayName": "status",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "readOnly": false,
+                "removed": false
+              },
+              {
+                "id": "created_at",
+                "displayName": "created_at",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "readOnly": false,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.dataTable",
+        "typeVersion": 1.1,
+        "position": [
+          224,
+          0
+        ],
+        "id": "9c08c21a-e637-4081-a2a7-f5aa0a56c348",
+        "name": "Insert row"
+      }
+    ],
+    "connections": {
+      "Executed by AgentDesk": {
+        "main": [
+          [
+            {
+              "node": "Insert row",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodeGroups": [],
+    "authors": "Muhammad fahad.webdev119@gmail.com",
+    "name": "Version 5e23a262",
+    "description": "",
+    "autosaved": true,
+    "createdAt": "2026-09-14T12:53:14.740Z",
+    "updatedAt": "2026-09-14T12:56:50.000Z"
+  }
+}
