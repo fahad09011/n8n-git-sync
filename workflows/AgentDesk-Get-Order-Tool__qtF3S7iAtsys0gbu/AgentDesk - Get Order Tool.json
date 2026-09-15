@@ -2,7 +2,7 @@
   "id": "qtF3S7iAtsys0gbu",
   "name": "AgentDesk - Get Order Tool",
   "active": true,
-  "activeVersionId": "1f17b3c8-ecf5-4f9e-96eb-b99875a5c41e",
+  "activeVersionId": "7b56c889-9b98-4cb9-97af-9f680f99390c",
   "createdAt": "2026-09-14T12:02:23.174Z",
   "isArchived": false,
   "triggerCount": 0,
@@ -13,6 +13,9 @@
           "values": [
             {
               "name": "order_id"
+            },
+            {
+              "name": "authenticated_customer_id"
             }
           ]
         }
@@ -21,39 +24,10 @@
       "typeVersion": 1.2,
       "position": [
         0,
-        0
+        32
       ],
       "id": "cc26d1c9-d4f0-4236-b31c-afc39b7ef61d",
       "name": "When Executed by Another Workflow"
-    },
-    {
-      "parameters": {
-        "operation": "get",
-        "dataTableId": {
-          "__rl": true,
-          "value": "iImWpttEbKMg62jy",
-          "mode": "list",
-          "cachedResultName": "orders",
-          "cachedResultUrl": "/projects/Lb300ztv9feaAJz6/datatables/iImWpttEbKMg62jy"
-        },
-        "filters": {
-          "conditions": [
-            {
-              "keyName": "order_id",
-              "keyValue": "={{ $json.order_id }}"
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.dataTable",
-      "typeVersion": 1.1,
-      "position": [
-        224,
-        0
-      ],
-      "id": "a4060c5b-a897-4288-835b-6ba80f4e3788",
-      "name": "Get row(s)",
-      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -61,7 +35,7 @@
           "assignments": [
             {
               "id": "3a65b64c-fb5e-40ac-8c5d-5e7ca159776d",
-              "name": "found",
+              "name": "order_found",
               "value": "=false",
               "type": "string"
             },
@@ -84,11 +58,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.5,
       "position": [
-        768,
-        16
+        896,
+        128
       ],
       "id": "5429474e-f774-4548-960a-f3c5e9c86f45",
-      "name": "DoesOrderFound"
+      "name": "OrderNotFound"
     },
     {
       "parameters": {
@@ -118,11 +92,301 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        448,
-        0
+        672,
+        32
       ],
       "id": "311a9d07-e34c-4c96-8cb9-0525ac2bf9ae",
-      "name": "If"
+      "name": "ValidateOrder"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "iImWpttEbKMg62jy",
+          "mode": "list",
+          "cachedResultName": "orders",
+          "cachedResultUrl": "/projects/Lb300ztv9feaAJz6/datatables/iImWpttEbKMg62jy"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "order_id",
+              "keyValue": "={{ $json.order_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        32
+      ],
+      "id": "a4060c5b-a897-4288-835b-6ba80f4e3788",
+      "name": "GetOrder",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "PZI8CCv3ddAzskMF",
+          "mode": "list",
+          "cachedResultName": "customers",
+          "cachedResultUrl": "/projects/Lb300ztv9feaAJz6/datatables/PZI8CCv3ddAzskMF"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "customer_id",
+              "keyValue": "={{ $('When Executed by Another Workflow').item.json.authenticated_customer_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        896,
+        -64
+      ],
+      "id": "bd87b4a1-dff7-4661-8658-5b8633e181b5",
+      "name": "GetCustomer",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "549ea876-b553-47a5-88e6-c19ddf1b5a30",
+              "leftValue": "={{ $json.customer_id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "e6897922-c597-4652-a4b7-21b104cd9960",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1120,
+        -64
+      ],
+      "id": "2df82539-56f4-4fe6-9319-1b4171aaaa72",
+      "name": "ValidateCustomer"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3a65b64c-fb5e-40ac-8c5d-5e7ca159776d",
+              "name": "customer_found",
+              "value": "=false",
+              "type": "string"
+            },
+            {
+              "id": "4f21410c-64e5-4f37-af37-4f732d47468e",
+              "name": "customer_id",
+              "value": "={{ $('When Executed by Another Workflow').item.json.authenticated_customer_id }}",
+              "type": "string"
+            },
+            {
+              "id": "0ff43854-d145-44f5-8df8-5bb442c2fea8",
+              "name": "message",
+              "value": " Customer not found",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1344,
+        32
+      ],
+      "id": "97b6f130-237a-4836-b174-e481f768a63d",
+      "name": "CustomerNotFound"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "dbcb99ed-d277-4934-9218-8810e3dde911",
+              "leftValue": "={{ $json.order_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "cb09ddd9-62e1-410a-8fc9-d232af780e20",
+              "leftValue": "={{ $json.authenticated_customer_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        32
+      ],
+      "id": "5c27ce2f-9703-41a3-ac0d-a8cffcf6ba65",
+      "name": "OrderId&CustomerIdValidation"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "iImWpttEbKMg62jy",
+          "mode": "list",
+          "cachedResultName": "orders",
+          "cachedResultUrl": "/projects/Lb300ztv9feaAJz6/datatables/iImWpttEbKMg62jy"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "order_id",
+              "keyValue": "={{ $('GetOrder').item.json.order_id }}"
+            },
+            {
+              "keyName": "customer_id",
+              "keyValue": "={{ $('GetCustomer').item.json.customer_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1344,
+        -160
+      ],
+      "id": "d82c3cf1-1a89-4db9-baec-b70ba6285f44",
+      "name": "GetCustomerRelatedOrder",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4f21410c-64e5-4f37-af37-4f732d47468e",
+              "name": "customer_id",
+              "value": "={{ $('When Executed by Another Workflow').item.json.authenticated_customer_id }}",
+              "type": "string"
+            },
+            {
+              "id": "0ff43854-d145-44f5-8df8-5bb442c2fea8",
+              "name": "message",
+              "value": "Customer not authenticated",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1792,
+        -160
+      ],
+      "id": "ed6215c0-d531-44ca-b51e-9a9e2f722f8c",
+      "name": "CustomerNotAuthenticated"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "549ea876-b553-47a5-88e6-c19ddf1b5a30",
+              "leftValue": "={{ $json.customer_id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "e6897922-c597-4652-a4b7-21b104cd9960",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1568,
+        -160
+      ],
+      "id": "80900036-39a7-4e54-93a9-b4dd045f1caf",
+      "name": "AuthenticationCustomer"
     }
   ],
   "connections": {
@@ -130,30 +394,99 @@
       "main": [
         [
           {
-            "node": "Get row(s)",
+            "node": "OrderId&CustomerIdValidation",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Get row(s)": {
+    "ValidateOrder": {
       "main": [
         [
           {
-            "node": "If",
+            "node": "GetCustomer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OrderNotFound",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "If": {
+    "GetOrder": {
+      "main": [
+        [
+          {
+            "node": "ValidateOrder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetCustomer": {
+      "main": [
+        [
+          {
+            "node": "ValidateCustomer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ValidateCustomer": {
+      "main": [
+        [
+          {
+            "node": "GetCustomerRelatedOrder",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "CustomerNotFound",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OrderId&CustomerIdValidation": {
+      "main": [
+        [
+          {
+            "node": "GetOrder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GetCustomerRelatedOrder": {
+      "main": [
+        [
+          {
+            "node": "AuthenticationCustomer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AuthenticationCustomer": {
       "main": [
         [],
         [
           {
-            "node": "DoesOrderFound",
+            "node": "CustomerNotAuthenticated",
             "type": "main",
             "index": 0
           }
@@ -178,7 +511,7 @@
     }
   ],
   "activeVersion": {
-    "versionId": "1f17b3c8-ecf5-4f9e-96eb-b99875a5c41e",
+    "versionId": "7b56c889-9b98-4cb9-97af-9f680f99390c",
     "workflowId": "qtF3S7iAtsys0gbu",
     "nodes": [
       {
@@ -187,6 +520,9 @@
             "values": [
               {
                 "name": "order_id"
+              },
+              {
+                "name": "authenticated_customer_id"
               }
             ]
           }
@@ -195,39 +531,10 @@
         "typeVersion": 1.2,
         "position": [
           0,
-          0
+          32
         ],
         "id": "cc26d1c9-d4f0-4236-b31c-afc39b7ef61d",
         "name": "When Executed by Another Workflow"
-      },
-      {
-        "parameters": {
-          "operation": "get",
-          "dataTableId": {
-            "__rl": true,
-            "value": "iImWpttEbKMg62jy",
-            "mode": "list",
-            "cachedResultName": "orders",
-            "cachedResultUrl": "/projects/Lb300ztv9feaAJz6/datatables/iImWpttEbKMg62jy"
-          },
-          "filters": {
-            "conditions": [
-              {
-                "keyName": "order_id",
-                "keyValue": "={{ $json.order_id }}"
-              }
-            ]
-          }
-        },
-        "type": "n8n-nodes-base.dataTable",
-        "typeVersion": 1.1,
-        "position": [
-          224,
-          0
-        ],
-        "id": "a4060c5b-a897-4288-835b-6ba80f4e3788",
-        "name": "Get row(s)",
-        "alwaysOutputData": true
       },
       {
         "parameters": {
@@ -235,7 +542,7 @@
             "assignments": [
               {
                 "id": "3a65b64c-fb5e-40ac-8c5d-5e7ca159776d",
-                "name": "found",
+                "name": "order_found",
                 "value": "=false",
                 "type": "string"
               },
@@ -258,11 +565,11 @@
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.5,
         "position": [
-          768,
-          16
+          896,
+          128
         ],
         "id": "5429474e-f774-4548-960a-f3c5e9c86f45",
-        "name": "DoesOrderFound"
+        "name": "OrderNotFound"
       },
       {
         "parameters": {
@@ -292,11 +599,301 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.3,
         "position": [
-          448,
-          0
+          672,
+          32
         ],
         "id": "311a9d07-e34c-4c96-8cb9-0525ac2bf9ae",
-        "name": "If"
+        "name": "ValidateOrder"
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "dataTableId": {
+            "__rl": true,
+            "value": "iImWpttEbKMg62jy",
+            "mode": "list",
+            "cachedResultName": "orders",
+            "cachedResultUrl": "/projects/Lb300ztv9feaAJz6/datatables/iImWpttEbKMg62jy"
+          },
+          "matchType": "allConditions",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "order_id",
+                "keyValue": "={{ $json.order_id }}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.dataTable",
+        "typeVersion": 1.1,
+        "position": [
+          448,
+          32
+        ],
+        "id": "a4060c5b-a897-4288-835b-6ba80f4e3788",
+        "name": "GetOrder",
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "dataTableId": {
+            "__rl": true,
+            "value": "PZI8CCv3ddAzskMF",
+            "mode": "list",
+            "cachedResultName": "customers",
+            "cachedResultUrl": "/projects/Lb300ztv9feaAJz6/datatables/PZI8CCv3ddAzskMF"
+          },
+          "matchType": "allConditions",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "customer_id",
+                "keyValue": "={{ $('When Executed by Another Workflow').item.json.authenticated_customer_id }}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.dataTable",
+        "typeVersion": 1.1,
+        "position": [
+          896,
+          -64
+        ],
+        "id": "bd87b4a1-dff7-4661-8658-5b8633e181b5",
+        "name": "GetCustomer",
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "549ea876-b553-47a5-88e6-c19ddf1b5a30",
+                "leftValue": "={{ $json.customer_id }}",
+                "rightValue": 0,
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "e6897922-c597-4652-a4b7-21b104cd9960",
+                "leftValue": "",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1120,
+          -64
+        ],
+        "id": "2df82539-56f4-4fe6-9319-1b4171aaaa72",
+        "name": "ValidateCustomer"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "3a65b64c-fb5e-40ac-8c5d-5e7ca159776d",
+                "name": "customer_found",
+                "value": "=false",
+                "type": "string"
+              },
+              {
+                "id": "4f21410c-64e5-4f37-af37-4f732d47468e",
+                "name": "customer_id",
+                "value": "={{ $('When Executed by Another Workflow').item.json.authenticated_customer_id }}",
+                "type": "string"
+              },
+              {
+                "id": "0ff43854-d145-44f5-8df8-5bb442c2fea8",
+                "name": "message",
+                "value": " Customer not found",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.5,
+        "position": [
+          1344,
+          32
+        ],
+        "id": "97b6f130-237a-4836-b174-e481f768a63d",
+        "name": "CustomerNotFound"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "dbcb99ed-d277-4934-9218-8810e3dde911",
+                "leftValue": "={{ $json.order_id }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "cb09ddd9-62e1-410a-8fc9-d232af780e20",
+                "leftValue": "={{ $json.authenticated_customer_id }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          224,
+          32
+        ],
+        "id": "5c27ce2f-9703-41a3-ac0d-a8cffcf6ba65",
+        "name": "OrderId&CustomerIdValidation"
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "dataTableId": {
+            "__rl": true,
+            "value": "iImWpttEbKMg62jy",
+            "mode": "list",
+            "cachedResultName": "orders",
+            "cachedResultUrl": "/projects/Lb300ztv9feaAJz6/datatables/iImWpttEbKMg62jy"
+          },
+          "matchType": "allConditions",
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "order_id",
+                "keyValue": "={{ $('GetOrder').item.json.order_id }}"
+              },
+              {
+                "keyName": "customer_id",
+                "keyValue": "={{ $('GetCustomer').item.json.customer_id }}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.dataTable",
+        "typeVersion": 1.1,
+        "position": [
+          1344,
+          -160
+        ],
+        "id": "d82c3cf1-1a89-4db9-baec-b70ba6285f44",
+        "name": "GetCustomerRelatedOrder",
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "4f21410c-64e5-4f37-af37-4f732d47468e",
+                "name": "customer_id",
+                "value": "={{ $('When Executed by Another Workflow').item.json.authenticated_customer_id }}",
+                "type": "string"
+              },
+              {
+                "id": "0ff43854-d145-44f5-8df8-5bb442c2fea8",
+                "name": "message",
+                "value": "Customer not authenticated",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.5,
+        "position": [
+          1792,
+          -160
+        ],
+        "id": "ed6215c0-d531-44ca-b51e-9a9e2f722f8c",
+        "name": "CustomerNotAuthenticated"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "549ea876-b553-47a5-88e6-c19ddf1b5a30",
+                "leftValue": "={{ $json.customer_id }}",
+                "rightValue": 0,
+                "operator": {
+                  "type": "string",
+                  "operation": "exists",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "e6897922-c597-4652-a4b7-21b104cd9960",
+                "leftValue": "",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1568,
+          -160
+        ],
+        "id": "80900036-39a7-4e54-93a9-b4dd045f1caf",
+        "name": "AuthenticationCustomer"
       }
     ],
     "connections": {
@@ -304,30 +901,99 @@
         "main": [
           [
             {
-              "node": "Get row(s)",
+              "node": "OrderId&CustomerIdValidation",
               "type": "main",
               "index": 0
             }
           ]
         ]
       },
-      "Get row(s)": {
+      "ValidateOrder": {
         "main": [
           [
             {
-              "node": "If",
+              "node": "GetCustomer",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "OrderNotFound",
               "type": "main",
               "index": 0
             }
           ]
         ]
       },
-      "If": {
+      "GetOrder": {
+        "main": [
+          [
+            {
+              "node": "ValidateOrder",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "GetCustomer": {
+        "main": [
+          [
+            {
+              "node": "ValidateCustomer",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "ValidateCustomer": {
+        "main": [
+          [
+            {
+              "node": "GetCustomerRelatedOrder",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "CustomerNotFound",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OrderId&CustomerIdValidation": {
+        "main": [
+          [
+            {
+              "node": "GetOrder",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "GetCustomerRelatedOrder": {
+        "main": [
+          [
+            {
+              "node": "AuthenticationCustomer",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AuthenticationCustomer": {
         "main": [
           [],
           [
             {
-              "node": "DoesOrderFound",
+              "node": "CustomerNotAuthenticated",
               "type": "main",
               "index": 0
             }
@@ -337,10 +1003,10 @@
     },
     "nodeGroups": [],
     "authors": "Muhammad fahad.webdev119@gmail.com",
-    "name": "Version 1f17b3c8",
+    "name": "Version 7b56c889",
     "description": "",
     "autosaved": true,
-    "createdAt": "2026-09-14T12:34:54.866Z",
-    "updatedAt": "2026-09-14T12:36:03.000Z"
+    "createdAt": "2026-09-15T02:11:40.613Z",
+    "updatedAt": "2026-09-15T02:14:19.000Z"
   }
 }
