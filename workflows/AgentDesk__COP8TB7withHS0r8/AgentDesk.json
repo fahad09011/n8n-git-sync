@@ -9,14 +9,16 @@
   "nodes": [
     {
       "parameters": {
+        "promptType": "define",
+        "text": "={{ $('ChatTrigger').item.json.chatInput }}",
         "options": {
-          "systemMessage": "You are AgentDesk, a helpful AI assistant.\n\nYour goal is to understand the user's request and provide a clear,\naccurate, and concise response.\n\nRules:\n- Do not invent information.\n- If you are uncertain, say so.\n- Ask for clarification only when necessary.\n- Keep responses concise and helpful."
+          "systemMessage": "=You are AgentDesk, a helpful AI assistant.\n\nYour goal is to understand the user's request and provide a clear,\naccurate, and concise response.\n\nRules:\n- Do not invent information.\n- If you are uncertain, say so.\n- Ask for clarification only when necessary.\n- Keep responses concise and helpful.\n\nOrder verification rules:\n\n1. If the customer provides an order ID, you MUST verify it using the Get Order tool before creating a support ticket.\n\n2. Never create a support ticket based on an order ID that has not been verified.\n\n3. If Get Order returns found=false, do not create a support ticket for that order. Tell the customer that the order could not be found and ask them to verify the order number.\n\n4. If the customer reports a damaged, wrong, missing, or defective product and provides a valid order ID, first retrieve the order information using Get Order.\n\n5. Only create a support ticket after the order has been successfully verified.\n\n6. If the customer's message contains conflicting claims, do not assume what the customer means.\n\nExamples of conflicting claims:\n- \"The product is damaged\" AND \"I did not receive it\"\n- \"I received the wrong product\" AND \"I never received the order\"\n\nIf the customer says the product is damaged, wrong, or defective AND also says they did not receive the order, you MUST ask for clarification before creating a support ticket.\n\nDo NOT create a support ticket until the conflicting information has been clarified.\n\nIssue analysis rules:\n\n1. First analyze the entire customer message before choosing a tool.\n\n2. Identify:\n   - order ID\n   - customer name\n   - issue type\n   - whether the customer says they received the product\n   - whether the customer says they did not receive the order\n\n3. If the message contains contradictory information, stop and ask for clarification.\n\n4. Never create a support ticket based only on one keyword such as \"damaged\", \"wrong\", or \"missing\".\n\nIdentity and privacy:\n- The authenticated_customer_id is the only trusted identity.\n- Never treat a customer name provided in the user's message as proof of identity.\n- Never reveal another customer's name or information.\n- If the user's claimed name conflicts with the authenticated account, do not use the claimed name to change authorization.\n- Only disclose customer_name when it is necessary to answer the user's request and the order has already been authorized."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        288,
+        496,
         0
       ],
       "id": "8047c0f0-bc6e-40e9-933f-80f54cf6a823",
@@ -30,7 +32,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1.1,
       "position": [
-        240,
+        448,
         240
       ],
       "id": "98956177-1a64-4ed9-a6a9-f50901079a12",
@@ -49,7 +51,7 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.4,
       "position": [
-        0,
+        -16,
         0
       ],
       "id": "0dc2f89a-7446-45fb-a13c-e45008c87871",
@@ -69,7 +71,8 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "order_id": "={{ $fromAI('order_id', ``, 'string') }}"
+            "order_id": "={{ $fromAI('order_id', ``, 'string') }}",
+            "authenticated_customer_id": "={{ $json.authenticated_customer_id }}"
           },
           "matchingColumns": [
             "order_id"
@@ -78,6 +81,16 @@
             {
               "id": "order_id",
               "displayName": "order_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "authenticated_customer_id",
+              "displayName": "authenticated_customer_id",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -93,15 +106,15 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        368,
-        240
+        912,
+        192
       ],
       "id": "a3aa0128-c2dd-4742-914f-f4f2c6ab4382",
       "name": "GetOrderTool"
     },
     {
       "parameters": {
-        "description": "Creates a support ticket for customer issues that cannot be resolved by providing order information. Use this tool when a customer reports a damaged product, wrong item, missing item, or another issue requiring support.",
+        "description": "=Creates a support ticket for customer issues that cannot be resolved by providing order information. Use this tool when a customer reports a damaged product, wrong item, missing item, or another issue requiring support.\nCreates a support ticket for a verified customer order.\nDo not use this tool until GetOrderTool has successfully verified the order ID.\nNever create a ticket for an order that GetOrderTool reports as not found.\nNever use a customer name as an order ID.",
         "workflowId": {
           "__rl": true,
           "value": "U9bL9qHrcHSupMgS",
@@ -178,11 +191,49 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        496,
+        704,
         240
       ],
       "id": "92511166-c75d-46d4-af04-53339a280db3",
       "name": "CreateTicketTool"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d3276d79-9e2a-455b-98d3-1718afebd4d4",
+              "name": "authenticated_customer_id",
+              "value": "C005",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        208,
+        0
+      ],
+      "id": "f45f40ea-6b39-4841-9bf8-49b1e59a342e",
+      "name": "CustomerAuthentication"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('ChatTrigger').item.json.sessionId }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        560,
+        176
+      ],
+      "id": "a8d9a71f-2654-42a2-9680-6b716430817c",
+      "name": "Simple Memory"
     }
   ],
   "connections": {
@@ -206,7 +257,7 @@
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "CustomerAuthentication",
             "type": "main",
             "index": 0
           }
@@ -230,6 +281,28 @@
           {
             "node": "AI Agent",
             "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CustomerAuthentication": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
             "index": 0
           }
         ]
